@@ -118,7 +118,7 @@ const Projects = () => {
             )}
           </div>
           {selectedTags.length === 0 && (
-            <div className="illustration-container max-w-xl mx-auto">
+            <div className="illustration-container max-w-xl mx-auto text-center">
               <img src={oldBookImages[0]} alt="Antique illustration" className="w-full rounded-lg shadow-md" loading="eager" />
               <p className="illustration-caption">Forging code, one project at a time</p>
             </div>

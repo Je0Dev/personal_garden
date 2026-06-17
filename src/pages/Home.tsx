@@ -124,7 +124,7 @@ const Home = () => {
             </div>
             
             {/* Featured Illustration */}
-            <div className="illustration-container max-w-2xl mx-auto">
+            <div className="illustration-container max-w-2xl mx-auto text-center">
               <LightboxTrigger 
                 src="https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg"
                 alt="Perseus & the Gorgons — Walter Crane, 1892"
