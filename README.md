@@ -77,7 +77,7 @@ This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/
 - **Attribution** — You must give appropriate credit, provide a link to the original repository, and indicate if changes were made.
 - **Credit must include:**
   - A reference link to: `https://github.com/Je0Dev/personal_garden`
-  - Credit to the original author (contact: `mastrogiannis.george@protonmail.com`)
+  - Credit to the original author (contact: `giorgos_M000@hotmail.com`)
   - Credit to [Old Book Illustrations](https://www.oldbookillustrations.com) for the vintage artwork used throughout the site.
 
 ## Credits
