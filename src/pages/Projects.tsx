@@ -102,7 +102,7 @@ const Projects = () => {
         <div className="max-w-wide mx-auto">
           <div className="text-center mb-8">
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-cream">
-              Open Source <span className="text-olive-light underline-hover">Projects</span>
+              Personal <span className="text-olive-light underline-hover">Projects</span>
               {getTagsTitle()}
             </h1>
             <p className="font-sans text-base text-earth-tan max-w-2xl mx-auto">

@@ -212,8 +212,8 @@ const About = () => {
             className="space-y-16"
           >
             {/* University Badges */}
-            <section className="max-w-4xl">
-              <div className="flex flex-wrap items-center gap-4 text-sm text-earth-muted">
+            <section className="max-w-4xl text-center">
+              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-earth-muted">
                 <span className="flex items-center gap-2 px-3 py-1.5 bg-surface border-b-2 border-moss hover:border-olive-light hover:text-olive-light transition-all group">
                   <GraduationCap size={14} className="text-olive-light" />
                   <a href="https://www.uop.gr/" target="_blank" rel="noopener noreferrer" className="hover:text-olive-light transition-colors">
@@ -232,7 +232,7 @@ const About = () => {
             </section>
 
             {/* Introduction */}
-            <section className="space-y-6 text-lg md:text-xl text-earth-tan leading-relaxed max-w-4xl">
+            <section className="space-y-6 text-lg md:text-xl text-earth-tan leading-relaxed max-w-4xl text-center">
               <p>
                 I'm <strong className="text-cream font-serif">George (Je0Dev)</strong>, an Electrical & Computer Engineering student at the{' '}
                 <a href="https://www.uop.gr/" target="_blank" rel="noopener noreferrer" className="text-olive-light hover:underline hover:decoration-2 hover:decoration-olive-light hover:underline-offset-4 transition-all">
@@ -281,7 +281,7 @@ const About = () => {
             </section>
 
             {/* Stats */}
-            <section className="max-w-4xl">
+            <section className="max-w-4xl mx-auto">
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="border border-moss rounded-lg p-6 hover:border-olive-light transition-colors text-center">
                   <div className="font-serif text-3xl font-bold text-tomato mb-2">{totalArticles}</div>

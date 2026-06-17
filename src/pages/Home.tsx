@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
 import { LightboxTrigger } from '../components/Lightbox';
 import { posts } from '../data/posts';
+import { useToast } from '../components/Toast';
 
 const oldBookImages = [
   'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
@@ -57,6 +59,7 @@ const getPostForImage = (src: string) => {
 };
 
 const Home = () => {
+  const { addToast } = useToast();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -102,6 +105,21 @@ const Home = () => {
                 >
                   See the Projects
                 </Link>
+                <button
+                  onClick={() => {
+                    const a = document.createElement('a');
+                    a.href = `${import.meta.env.BASE_URL}my_cv_v1.5.pdf`;
+                    a.download = 'George_Mastrogiannis_CV.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    addToast('CV downloaded successfully!', 'success');
+                  }}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-moss text-cream font-sans font-medium rounded hover:border-olive-light hover:text-olive-light transition-colors text-sm"
+                >
+                  <Download size={16} />
+                  Download CV
+                </button>
               </div>
             </div>
             
@@ -271,7 +289,7 @@ const Home = () => {
           </section>
           
           {/* Ornament */}
-          <div className="ornament">~ fin ~</div>
+          <div className="ornament">George</div>
         </div>
       </div>
   );
