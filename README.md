@@ -84,3 +84,4 @@ This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/
 
 - Vintage illustrations from [Old Book Illustrations](https://www.oldbookillustrations.com)
 - Built with [React](https://react.dev), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com), and many other open-source tools
+
