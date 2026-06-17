@@ -1,0 +1,1133 @@
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ExternalLink, Download, BookOpen, Youtube, Globe, ChevronDown, ChevronUp, X, Play, Maximize2, Check, AlertTriangle, Sparkles, Target, Eye, FileText, Layers, Code, Clock } from 'lucide-react';
+import { videoGuides, languageResources, ankiDecks, pdfFiles, upcomingRelease, type ResourceType, type VideoGuide, type Resource, type ResourceDetails, type AnkiDeck, type PdfFile } from '../data/languageResources';
+import { languageScripts, type LanguageScript } from '../data/languageScripts';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useToast } from '../components/Toast';
+
+const bannerImages = [
+  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
+];
+
+const typeIcons: Record<ResourceType, string> = {
+  Video: '🎬',
+  Podcast: '🎙️',
+  Reading: '📖',
+  App: '📱',
+  Tools: '🔧',
+  Grammar: '📝',
+  AI: '🤖',
+  Translation: '🌐',
+};
+
+const BASE = import.meta.env.BASE_URL;
+
+const getYoutubeId = (url: string) => {
+  const match = url.match(/embed\/([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : null;
+};
+
+const getYoutubeEmbedUrl = (url: string): string | null => {
+  // Handle various YouTube URL formats
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/,
+    /^([a-zA-Z0-9_-]{11})$/, // plain video ID
+  ];
+  for (const p of patterns) {
+    const m = url.match(p);
+    if (m) return `https://www.youtube.com/embed/${m[1]}?rel=0`;
+  }
+  return null;
+};
+
+function ResourceCard({ name, desc, url, type, details, onShowDetail }: Resource & { onShowDetail: (r: Resource) => void }) {
+  const hasDetails = details && details.pros && details.pros.length > 0;
+  return (
+    <button
+      onClick={() => hasDetails ? onShowDetail({ name, desc, url, type, details }) : window.open(url, '_blank', 'noopener')}
+      className="group flex items-start gap-3 p-3 rounded-lg bg-deep-olive/50 border border-moss hover:border-olive-light hover:bg-deep-sage/50 transition-all text-left w-full"
+    >
+      <span className="text-lg flex-shrink-0 mt-0.5">{typeIcons[type]}</span>
+      <div className="flex-1 min-w-0">
+        <p className="font-sans text-sm font-medium text-cream group-hover:text-olive-light transition-colors flex items-center gap-1">
+          {name}
+          {hasDetails ? (
+            <Sparkles className="w-3 h-3 text-amber ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+          ) : (
+            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+          )}
+        </p>
+        <p className="text-xs text-earth-muted mt-0.5 line-clamp-1">{desc}</p>
+      </div>
+    </button>
+  );
+}
+
+function CountdownTimer({ targetDate }: { targetDate: string }) {
+  const target = new Date(targetDate).getTime();
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const diff = Math.max(0, target - now);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+
+  const isPast = diff === 0;
+
+  return (
+    <div className="text-center">
+      <p className="text-xs text-earth-muted font-mono uppercase tracking-wider mb-3">
+        {isPast ? 'Now available' : 'Next release in'}
+      </p>
+      {isPast ? (
+        <p className="text-xl font-bold text-amber font-serif">Check the new resources above!</p>
+      ) : (
+        <div className="flex items-center justify-center gap-4">
+          {[{ v: days, l: 'Days' }, { v: hours, l: 'Hours' }, { v: minutes, l: 'Minutes' }, { v: seconds, l: 'Seconds' }].map(u => (
+            <div key={u.l} className="text-center">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-deep-olive border border-moss rounded-lg flex items-center justify-center">
+                <span className="text-xl md:text-2xl font-bold font-mono text-amber">{String(u.v).padStart(2, '0')}</span>
+              </div>
+              <p className="text-[9px] text-earth-muted font-mono uppercase tracking-wider mt-1">{u.l}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Languages() {
+  const [expandedLang, setExpandedLang] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoGuide | null>(null);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+  const [selectedPdf, setSelectedPdf] = useState<PdfFile | null>(null);
+  const [selectedDeck, setSelectedDeck] = useState<AnkiDeck | null>(null);
+  const [selectedScript, setSelectedScript] = useState<LanguageScript | null>(null);
+  const [selectedUpcoming, setSelectedUpcoming] = useState<UpcomingItem | null>(null);
+  const [activeMaterialFilter, setActiveMaterialFilter] = useState<string>('All');
+  const { addToast } = useToast();
+  const langRefs = useRef<Record<string, HTMLDivElement | null>>({} as Record<string, HTMLDivElement | null>);
+
+  const materialLanguages = ['General', ...new Set(ankiDecks.map(d => d.lang))];
+
+  const filteredPdfs = activeMaterialFilter === 'All'
+    ? pdfFiles
+    : pdfFiles.filter(p => p.tags.some(t => t.toLowerCase().includes(activeMaterialFilter.toLowerCase())));
+
+  const filteredDecks = activeMaterialFilter === 'All'
+    ? ankiDecks
+    : ankiDecks.filter(d => d.lang === activeMaterialFilter || d.tags.some(t => t.toLowerCase().includes(activeMaterialFilter.toLowerCase())));
+
+  const handleDownload = (name: string, file: string) => {
+    const a = document.createElement('a');
+    a.href = `${BASE}${file}`;
+    a.download = file.split('/').pop() || file;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    addToast(`Downloading ${name}...`, 'success');
+  };
+
+  const closeModal = useCallback(() => setSelectedVideo(null), []);
+  const closeResourceModal = useCallback(() => setSelectedResource(null), []);
+  const closePdfModal = useCallback(() => setSelectedPdf(null), []);
+  const closeDeckModal = useCallback(() => setSelectedDeck(null), []);
+  const closeScriptModal = useCallback(() => setSelectedScript(null), []);
+  const closeUpcomingModal = useCallback(() => setSelectedUpcoming(null), []);
+
+  useEffect(() => {
+    if (!selectedVideo) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedVideo, closeModal]);
+
+  useEffect(() => {
+    if (!selectedResource) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeResourceModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedResource, closeResourceModal]);
+
+  useEffect(() => {
+    if (!selectedPdf) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closePdfModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedPdf, closePdfModal]);
+
+  useEffect(() => {
+    if (!selectedDeck) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeDeckModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedDeck, closeDeckModal]);
+
+  useEffect(() => {
+    if (!selectedScript) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeScriptModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedScript, closeScriptModal]);
+
+  useEffect(() => {
+    if (!selectedUpcoming) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeUpcomingModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedUpcoming, closeUpcomingModal]);
+
+  const handleLangToggle = (title: string) => {
+    const next = expandedLang === title ? null : title;
+    setExpandedLang(next);
+    setTimeout(() => {
+      if (next && langRefs.current[next]) {
+        langRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 150);
+  };
+  return (
+    <div className="pt-20 pb-12">
+      <div className="max-w-wide mx-auto">
+        {/* Banner */}
+        <div className="relative w-full h-48 md:h-72 overflow-hidden mb-12">
+          <div className="absolute inset-0 bg-gradient-to-t from-deep-olive via-deep-olive/60 to-transparent z-10" />
+          <img
+            src={bannerImages[0]}
+            alt=""
+            className="w-full h-full object-cover opacity-40"
+            loading="eager"
+          />
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            <div className="text-center px-6">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-cream leading-[1.1] md:leading-none font-serif"
+              >
+                <span className="relative inline-block">
+                  Languages
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-olive-light to-olive rounded-full" />
+                </span>
+                <br />
+                <span className="text-cream text-3xl md:text-4xl lg:text-5xl font-serif">Tools & resources for learners</span>
+              </motion.h1>
+            </div>
+          </div>
+        </div>
+
+        <div className="px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-16"
+          >
+            {/* Intro */}
+            <section className="max-w-4xl mx-auto">
+              <p className="text-lg md:text-xl text-earth-tan leading-relaxed">
+                A curated collection of language learning resources, video guides, and downloadable materials 
+                I've gathered on my journey learning <strong className="text-cream font-serif">German</strong>,{' '}
+                <strong className="text-cream font-serif">Spanish</strong>,{' '}
+                <strong className="text-cream font-serif">Chinese</strong>, and{' '}
+                <strong className="text-cream font-serif">English</strong>.
+              </p>
+            </section>
+
+            {/* Video Guides */}
+            <section className="max-w-6xl mx-auto">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-earth-muted mb-6 font-serif flex items-center gap-3">
+                <Youtube className="w-4 h-4 text-tomato" />
+                Video Guides
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {videoGuides.map((video, i) => {
+                  const vidId = getYoutubeId(video.videoUrl);
+                  const thumbnail = vidId ? `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg` : '';
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedVideo(video)}
+                      className="group bg-surface border border-moss rounded-lg overflow-hidden hover:border-olive-light hover:bg-deep-sage/30 transition-all text-left w-full"
+                    >
+                      <div className="relative aspect-video bg-deep-olive overflow-hidden">
+                        {thumbnail && (
+                          <img
+                            src={thumbnail}
+                            alt=""
+                            loading="lazy"
+                            className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-deep-olive/80 via-transparent to-transparent" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-14 h-14 md:w-16 md:h-16 bg-tomato/90 rounded-full flex items-center justify-center group-hover:bg-tomato group-hover:scale-110 transition-all shadow-xl">
+                            <Play className="w-6 h-6 md:w-7 md:h-7 text-cream ml-0.5" fill="currentColor" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-serif text-lg font-bold text-cream group-hover:text-olive-light transition-colors">
+                          {video.title}
+                        </h3>
+                        <p className="text-sm text-earth-muted mt-1 leading-relaxed line-clamp-2">
+                          {video.excerpt}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                          {video.tags.map(tag => (
+                            <span
+                              key={tag}
+                              className="text-[10px] font-mono px-2 py-0.5 rounded bg-olive/20 text-olive-light"
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Resources by Language */}
+            <section className="max-w-6xl mx-auto">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-earth-muted mb-6 font-serif flex items-center gap-3">
+                <BookOpen className="w-4 h-4 text-olive-light" />
+                Resources by Language
+              </h2>
+              <div className="space-y-4">
+                {languageResources.map(lang => (
+                  <div
+                    key={lang.title}
+                    ref={el => { langRefs.current[lang.title] = el; }}
+                    className="bg-surface border border-moss rounded-lg overflow-hidden"
+                  >
+                    <button
+                      onClick={() => handleLangToggle(lang.title)}
+                      className={`w-full flex items-center justify-between p-4 border-l-4 ${lang.color} hover:bg-deep-sage/50 transition-all`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{lang.flag}</span>
+                        <h3 className="font-serif text-lg font-bold text-cream">{lang.title}</h3>
+                        <span className="text-xs text-earth-muted font-mono">
+                          {lang.resources.length} resources
+                        </span>
+                      </div>
+                      {expandedLang === lang.title ? (
+                        <ChevronUp className="w-5 h-5 text-earth-muted" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-earth-muted" />
+                      )}
+                    </button>
+                    {expandedLang === lang.title && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="border-t border-moss"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-4">
+                          {lang.resources.map(r => (
+                            <ResourceCard key={r.name} {...r} onShowDetail={setSelectedResource} />
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Downloadable Materials */}
+            <section className="max-w-6xl mx-auto">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-earth-muted mb-6 font-serif flex items-center gap-3">
+                <Download className="w-4 h-4 text-amber" />
+                Downloadable Materials
+              </h2>
+
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['All', ...materialLanguages].map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveMaterialFilter(cat)}
+                    className={`px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider border transition-all ${
+                      activeMaterialFilter === cat
+                        ? 'border-amber text-amber bg-amber/10'
+                        : 'border-moss text-earth-muted hover:border-amber hover:text-amber'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* PDFs */}
+              <div className="mb-8">
+                <h3 className="font-serif text-base font-bold text-cream mb-3 flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-olive-light" />
+                  PDF Guides
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {filteredPdfs.map(pdf => (
+                    <button
+                      key={pdf.name}
+                      onClick={() => pdf.exists ? setSelectedPdf(pdf) : null}
+                      className={`group flex items-center gap-4 p-4 bg-surface border border-moss rounded-lg transition-all text-left relative ${
+                        pdf.exists ? 'hover:border-olive-light hover:bg-deep-sage/30 cursor-pointer' : 'opacity-60 cursor-default'
+                      }`}
+                    >
+                      {!pdf.exists ? (
+                        <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-amber/20 text-amber text-[9px] font-mono uppercase tracking-wider border border-amber/30 rounded">
+                          Coming Soon
+                        </span>
+                      ) : pdf.new ? (
+                        <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[9px] font-mono uppercase tracking-wider border border-emerald-500/30 rounded">
+                          NEW
+                        </span>
+                      ) : null}
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${pdf.exists ? 'bg-tomato/20' : 'bg-earth-muted/20'}`}>
+                        <Eye className={`w-5 h-5 ${pdf.exists ? 'text-tomato' : 'text-earth-muted'}`} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-sans text-sm font-medium text-cream group-hover:text-olive-light transition-colors">
+                          {pdf.name}
+                        </p>
+                        <p className="text-xs text-earth-muted">{pdf.size}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Anki Decks */}
+              <div>
+                <h3 className="font-serif text-base font-bold text-cream mb-3 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-amber" />
+                  Anki Decks
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {filteredDecks.map(deck => (
+                    <button
+                      key={deck.name}
+                      onClick={() => deck.exists ? setSelectedDeck(deck) : null}
+                      className={`group flex items-center gap-4 p-4 bg-surface border border-moss rounded-lg transition-all text-left relative ${
+                        deck.exists ? 'hover:border-olive-light hover:bg-deep-sage/30 cursor-pointer' : 'opacity-60 cursor-default'
+                      }`}
+                    >
+                      {!deck.exists ? (
+                        <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-amber/20 text-amber text-[9px] font-mono uppercase tracking-wider border border-amber/30 rounded">
+                          Coming Soon
+                        </span>
+                      ) : deck.new ? (
+                        <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[9px] font-mono uppercase tracking-wider border border-emerald-500/30 rounded">
+                          NEW
+                        </span>
+                      ) : null}
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${deck.exists ? `${deck.color.replace('border', 'bg')}/20` : 'bg-earth-muted/20'}`}>
+                        <Layers className={`w-5 h-5 ${deck.exists ? 'text-amber' : 'text-earth-muted'}`} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-sans text-sm font-medium text-cream group-hover:text-olive-light transition-colors">
+                          {deck.name}
+                        </p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-olive/20 text-olive-light">
+                            {deck.lang}
+                          </span>
+                          <span className="text-xs text-earth-muted">{deck.exists ? deck.size : '—'}</span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Scripts */}
+              <div className="mt-8">
+                <h3 className="font-serif text-base font-bold text-cream mb-3 flex items-center gap-2">
+                  <Code className="w-4 h-4 text-tomato" />
+                  Scripts & Tooling
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {languageScripts.map(script => (
+                    <button
+                      key={script.name}
+                      onClick={() => setSelectedScript(script)}
+                      className="group flex items-center gap-4 p-4 bg-surface border border-moss rounded-lg transition-all text-left hover:border-olive-light hover:bg-deep-sage/30 cursor-pointer"
+                    >
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-tomato/20">
+                        <Code className="w-5 h-5 text-tomato" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-sans text-sm font-medium text-cream group-hover:text-olive-light transition-colors truncate">
+                          {script.name}
+                        </p>
+                        <p className="text-xs text-earth-muted mt-0.5 line-clamp-1">{script.description}</p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-olive/20 text-olive-light">
+                            {script.language}
+                          </span>
+                          {script.tags.map(tag => (
+                            <span key={tag} className="text-[10px] text-earth-muted font-mono">
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Upcoming Releases */}
+            <section className="max-w-4xl mx-auto pb-8">
+              <div className="border-t border-moss pt-8">
+                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-earth-muted mb-6 font-serif flex items-center gap-3">
+                  <Clock className="w-4 h-4 text-amber" />
+                  Coming Up Next
+                </h2>
+                <div className="bg-surface border border-moss rounded-lg p-6 mb-6">
+                  <CountdownTimer targetDate={upcomingRelease.targetDate} />
+                </div>
+                <div className="space-y-3">
+                  {upcomingRelease.items.map((item, i) => {
+                    const typeIcon = item.type === 'Anki Deck' ? '🗂️' : item.type === 'PDF Guide' ? '📄' : '🐍';
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => setSelectedUpcoming(item)}
+                        className="w-full flex items-center gap-4 p-4 bg-surface border border-moss rounded-lg hover:border-amber/30 hover:bg-deep-sage/20 transition-all text-left group"
+                      >
+                        <span className="text-lg flex-shrink-0">{typeIcon}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-sans text-sm font-medium text-cream group-hover:text-amber transition-colors">{item.name}</p>
+                          <p className="text-xs text-earth-muted">{item.description}</p>
+                        </div>
+                        <span className="text-[10px] font-mono px-2 py-1 rounded bg-amber/10 text-amber border border-amber/20 flex-shrink-0">
+                          {item.type}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+            onClick={closeModal}
+          >
+            <div className="absolute inset-0 bg-deep-olive/95 backdrop-blur-md" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-5xl max-h-[90vh] bg-deep-forest border border-moss rounded-lg md:overflow-hidden overflow-y-auto shadow-2xl flex flex-col md:flex-row"
+            >
+              {/* Video column */}
+              <div className="flex flex-col md:w-3/5">
+                <div className="relative aspect-video bg-black">
+                  <iframe
+                    src={`${selectedVideo.videoUrl}?rel=0`}
+                    title={selectedVideo.title}
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                  <a
+                    href={selectedVideo.videoUrl.replace('/embed/', '/watch?v=')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-2 px-3 py-1.5 bg-deep-olive/90 text-tomato text-xs font-bold rounded hover:bg-deep-olive transition-all border border-tomato/30"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Watch on YouTube
+                  </a>
+                </div>
+                <div className="p-5 hidden md:block">
+                  <h3 className="font-serif text-lg font-bold text-cream">
+                    {selectedVideo.title}
+                  </h3>
+                  <p className="text-sm text-earth-tan mt-1 leading-relaxed">
+                    {selectedVideo.excerpt}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {selectedVideo.tags.map(tag => (
+                      <span
+                        key={tag}
+                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-olive/20 text-olive-light"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Key points sidebar */}
+              <div className="md:w-2/5 border-t md:border-t-0 md:border-l border-moss flex flex-col">
+                <div className="flex items-center justify-between p-4 border-b border-moss bg-deep-olive/50">
+                  <h4 className="font-sans text-sm font-bold text-olive-light flex items-center gap-2">
+                    <Youtube className="w-4 h-4 text-tomato" />
+                    Key Takeaways
+                  </h4>
+                  <button
+                    onClick={closeModal}
+                    className="p-1.5 text-earth-muted hover:text-cream hover:bg-deep-olive rounded transition-all"
+                    aria-label="Close video"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="md:flex-1 md:overflow-y-auto p-4 space-y-3">
+                  {selectedVideo.keyPoints && selectedVideo.keyPoints.length > 0 ? (
+                    selectedVideo.keyPoints.map((point, i) => (
+                      <div key={i} className="flex items-start gap-3 p-3 bg-deep-olive/40 border border-moss rounded group hover:border-olive-light/30 transition-all">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-olive/30 text-olive-light text-xs font-bold flex items-center justify-center font-mono">
+                          {i + 1}
+                        </span>
+                        <p className="text-sm text-earth-tan leading-relaxed">{point}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-earth-muted text-center py-8">
+                      No key points available for this video.
+                    </p>
+                  )}
+                </div>
+                <div className="p-3 border-t border-moss text-center md:hidden">
+                  <p className="text-xs text-earth-tan font-medium font-serif">{selectedVideo.title}</p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Resource Detail Modal */}
+      <AnimatePresence>
+        {selectedResource && selectedResource.details && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+            onClick={closeResourceModal}
+          >
+            <div className="absolute inset-0 bg-deep-olive/95 backdrop-blur-md" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-deep-forest border border-moss rounded-lg shadow-2xl"
+            >
+              <div className="sticky top-0 z-10 flex items-start justify-between gap-4 p-6 pb-4 bg-deep-forest border-b border-moss">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{typeIcons[selectedResource.type]}</span>
+                  <div>
+                    <h3 className="font-serif text-xl font-bold text-cream">
+                      {selectedResource.name}
+                    </h3>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-olive/20 text-olive-light mt-1 inline-block">
+                      {selectedResource.type}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={closeResourceModal}
+                  className="flex-shrink-0 p-2 text-earth-muted hover:text-cream hover:bg-deep-olive rounded transition-all"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6 space-y-6">
+                <p className="text-sm text-earth-tan leading-relaxed">
+                  {selectedResource.desc}
+                </p>
+
+                {selectedResource.type === "Video" && getYoutubeEmbedUrl(selectedResource.url) && (
+                  <div className="relative aspect-video bg-black rounded-lg overflow-hidden border border-moss">
+                    <iframe
+                      src={getYoutubeEmbedUrl(selectedResource.url)!}
+                      title={selectedResource.name}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
+                  </div>
+                )}
+
+                {selectedResource.details.why && (
+                  <div className="p-4 bg-olive/10 border-l-4 border-olive-light rounded">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles className="w-4 h-4 text-olive-light" />
+                      <span className="font-sans text-sm font-bold text-olive-light">Why this resource?</span>
+                    </div>
+                    <p className="text-sm text-earth-tan leading-relaxed">{selectedResource.details.why}</p>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-3 gap-3">
+                  {selectedResource.details.bestFor && (
+                    <div className="p-3 bg-deep-olive/50 border border-moss rounded text-center">
+                      <Target className="w-4 h-4 text-amber mx-auto mb-1" />
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-earth-muted mb-0.5">Best For</p>
+                      <p className="text-xs font-sans text-cream">{selectedResource.details.bestFor}</p>
+                    </div>
+                  )}
+                  {selectedResource.details.level && (
+                    <div className="p-3 bg-deep-olive/50 border border-moss rounded text-center">
+                      <BookOpen className="w-4 h-4 text-tomato mx-auto mb-1" />
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-earth-muted mb-0.5">Level</p>
+                      <p className="text-xs font-sans text-cream">{selectedResource.details.level}</p>
+                    </div>
+                  )}
+                  {selectedResource.details.price && (
+                    <div className="p-3 bg-deep-olive/50 border border-moss rounded text-center">
+                      <Download className="w-4 h-4 text-amber mx-auto mb-1" />
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-earth-muted mb-0.5">Price</p>
+                      <p className="text-xs font-sans text-cream">{selectedResource.details.price}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {selectedResource.details.pros && selectedResource.details.pros.length > 0 && (
+                    <div>
+                      <h4 className="font-sans text-sm font-bold text-emerald-400 mb-3 flex items-center gap-2">
+                        <Check className="w-4 h-4" />
+                        Pros
+                      </h4>
+                      <ul className="space-y-2">
+                        {selectedResource.details.pros.map((pro, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-earth-tan">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {selectedResource.details.cons && selectedResource.details.cons.length > 0 && (
+                    <div>
+                      <h4 className="font-sans text-sm font-bold text-tomato mb-3 flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4" />
+                        Cons
+                      </h4>
+                      <ul className="space-y-2">
+                        {selectedResource.details.cons.map((con, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-earth-tan">
+                            <span className="w-1.5 h-1.5 bg-tomato/60 rounded-sm mt-1.5 flex-shrink-0" />
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <a
+                  href={selectedResource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-olive-light text-deep-olive font-sans font-bold rounded hover:bg-olive transition-colors text-sm"
+                >
+                  Visit {selectedResource.name}
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* PDF Preview Modal */}
+      <AnimatePresence>
+        {selectedPdf && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            onClick={closePdfModal}
+          >
+            <div className="absolute inset-0 bg-deep-olive/95 backdrop-blur-md" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-4xl max-h-[90vh] bg-deep-forest border border-moss rounded-lg shadow-2xl flex flex-col"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-moss bg-deep-olive/50">
+                <div className="flex items-center gap-3">
+                  <FileText className="w-5 h-5 text-tomato" />
+                  <h3 className="font-serif text-lg font-bold text-cream">{selectedPdf.name}</h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleDownload(selectedPdf.name, selectedPdf.file)}
+                    className="flex items-center gap-2 px-4 py-2 bg-tomato/20 text-tomato text-sm font-bold rounded hover:bg-tomato/30 transition-all"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download PDF
+                  </button>
+                  <button
+                    onClick={closePdfModal}
+                    className="p-2 text-earth-muted hover:text-cream hover:bg-deep-olive rounded transition-all"
+                    aria-label="Close"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+              {selectedPdf.exists ? (
+                <div className="flex-1 overflow-y-auto bg-white/5 p-4 min-h-0">
+                  <object
+                    data={`${BASE}${selectedPdf.file}`}
+                    type="application/pdf"
+                    className="w-full h-full min-h-[70vh] rounded"
+                    aria-label="PDF preview"
+                  >
+                    <div className="flex flex-col items-center justify-center gap-4 p-12 text-center">
+                      <FileText className="w-16 h-16 text-earth-muted" />
+                      <p className="text-earth-tan text-sm">
+                        PDF preview not available in your browser.{' '}
+                        <button
+                          onClick={() => handleDownload(selectedPdf.name, selectedPdf.file)}
+                          className="text-olive-light hover:underline font-bold"
+                        >
+                          Download instead
+                        </button>
+                      </p>
+                    </div>
+                  </object>
+                </div>
+              ) : (
+                <div className="flex-1 flex flex-col items-center justify-center gap-5 p-12">
+                  <div className="w-16 h-16 rounded-full bg-amber/20 flex items-center justify-center">
+                    <FileText className="w-8 h-8 text-amber" />
+                  </div>
+                  <div className="text-center max-w-md">
+                    <h4 className="font-serif text-lg font-bold text-cream mb-2">Not Uploaded Yet</h4>
+                    <p className="text-sm text-earth-tan leading-relaxed">
+                      This PDF hasn't been uploaded yet. Check back later — it's being prepared.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Anki Deck Detail Modal */}
+      <AnimatePresence>
+        {selectedDeck && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            onClick={closeDeckModal}
+          >
+            <div className="absolute inset-0 bg-deep-olive/95 backdrop-blur-md" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-lg bg-deep-forest border border-moss rounded-lg shadow-2xl"
+            >
+              <div className="flex items-start justify-between gap-4 p-6 pb-4 border-b border-moss">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${selectedDeck.color.replace('border', 'bg')}/20`}>
+                    <Layers className="w-5 h-5 text-amber" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg font-bold text-cream">{selectedDeck.name}</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-olive/20 text-olive-light">{selectedDeck.lang}</span>
+                      <span className="text-xs text-earth-muted">{selectedDeck.size}</span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={closeDeckModal}
+                  className="flex-shrink-0 p-2 text-earth-muted hover:text-cream hover:bg-deep-olive rounded transition-all"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {selectedDeck.exists ? (
+                <div className="p-6 space-y-5">
+                  <p className="text-sm text-earth-tan leading-relaxed">{selectedDeck.details.description}</p>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3 bg-deep-olive/50 border border-moss rounded text-center">
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-earth-muted mb-0.5">Cards</p>
+                      <p className="text-sm font-sans text-cream font-bold">{selectedDeck.details.cardCount}</p>
+                    </div>
+                    <div className="p-3 bg-deep-olive/50 border border-moss rounded text-center">
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-earth-muted mb-0.5">Difficulty</p>
+                      <p className="text-sm font-sans text-cream font-bold">{selectedDeck.details.difficulty}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-sans text-sm font-bold text-olive-light mb-3 flex items-center gap-2">
+                      <Check className="w-4 h-4" />
+                      What's Included
+                    </h4>
+                    <ul className="space-y-2">
+                      {selectedDeck.details.includes.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-earth-tan">
+                          <span className="w-1.5 h-1.5 rounded-full bg-olive/60 mt-1.5 flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      handleDownload(selectedDeck.name, `anki/${selectedDeck.file}`);
+                      closeDeckModal();
+                    }}
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-amber/20 text-amber font-sans font-bold rounded hover:bg-amber/30 transition-all text-sm"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download {selectedDeck.name}
+                  </button>
+                </div>
+              ) : (
+                <div className="p-12 flex flex-col items-center justify-center gap-5">
+                  <div className="w-16 h-16 rounded-full bg-amber/20 flex items-center justify-center">
+                    <Layers className="w-8 h-8 text-amber" />
+                  </div>
+                  <div className="text-center max-w-md">
+                    <h4 className="font-serif text-lg font-bold text-cream mb-2">Not Uploaded Yet</h4>
+                    <p className="text-sm text-earth-tan leading-relaxed">
+                      This Anki deck hasn't been uploaded yet. Check back later — it's being prepared.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Script Detail Modal */}
+      <AnimatePresence>
+        {selectedScript && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            onClick={closeScriptModal}
+          >
+            <div className="absolute inset-0 bg-deep-olive/95 backdrop-blur-md" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-3xl max-h-[90vh] bg-deep-forest border border-moss rounded-lg shadow-2xl flex flex-col"
+            >
+              <div className="flex items-start justify-between gap-4 p-5 pb-4 border-b border-moss bg-deep-olive/50">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-tomato/20">
+                    <Code className="w-5 h-5 text-tomato" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-serif text-lg font-bold text-cream truncate">{selectedScript.name}</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-olive/20 text-olive-light">
+                        {selectedScript.language}
+                      </span>
+                      {selectedScript.tags.map(tag => (
+                        <span key={tag} className="text-[10px] text-earth-muted font-mono">#{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={closeScriptModal}
+                  className="flex-shrink-0 p-2 text-earth-muted hover:text-cream hover:bg-deep-olive rounded transition-all"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-5 border-b border-moss">
+                <p className="text-sm text-earth-tan leading-relaxed">{selectedScript.description}</p>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-5 bg-deep-olive/30">
+                <div className="rounded-lg overflow-hidden border border-moss text-xs">
+                  <SyntaxHighlighter
+                    language={selectedScript.language}
+                    style={oneDark}
+                    showLineNumbers
+                    customStyle={{
+                      margin: 0,
+                      borderRadius: 0,
+                      fontSize: '0.75rem',
+                      lineHeight: '1.5',
+                    }}
+                  >
+                    {selectedScript.codePreview}
+                  </SyntaxHighlighter>
+                </div>
+                <p className="text-[10px] text-earth-muted mt-2 font-mono text-center">
+                  Showing first {selectedScript.codePreview.split('\n').length} lines · full file available below
+                </p>
+              </div>
+
+              <div className="p-4 border-t border-moss bg-deep-olive/50 flex items-center justify-between">
+                <span className="text-xs text-earth-muted font-mono">{selectedScript.file}</span>
+                <button
+                  onClick={() => {
+                    const BASE = import.meta.env.BASE_URL;
+                    const a = document.createElement('a');
+                    a.href = `${BASE}${selectedScript.file}`;
+                    a.download = selectedScript.file.split('/').pop() || selectedScript.file;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-tomato/20 text-tomato text-sm font-bold rounded hover:bg-tomato/30 transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  Download Script
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Upcoming Item Detail Modal */}
+      <AnimatePresence>
+        {selectedUpcoming && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            onClick={closeUpcomingModal}
+          >
+            <div className="absolute inset-0 bg-deep-olive/95 backdrop-blur-md" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-lg bg-deep-forest border border-moss rounded-lg shadow-2xl overflow-hidden"
+            >
+              <div className="p-6 pb-4 border-b border-moss">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">
+                      {selectedUpcoming.type === 'Anki Deck' ? '🗂️' : selectedUpcoming.type === 'PDF Guide' ? '📄' : '🐍'}
+                    </span>
+                    <div>
+                      <h3 className="font-serif text-xl font-bold text-cream">{selectedUpcoming.name}</h3>
+                      <span className="text-[10px] font-mono px-2 py-0.5 mt-1 inline-block rounded bg-amber/10 text-amber border border-amber/20">
+                        {selectedUpcoming.type}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={closeUpcomingModal}
+                    className="flex-shrink-0 p-2 text-earth-muted hover:text-cream hover:bg-deep-olive rounded transition-all"
+                    aria-label="Close"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-5">
+                <p className="text-sm text-earth-tan leading-relaxed">{selectedUpcoming.description}</p>
+
+                <div className="flex items-center gap-3 p-4 bg-amber/5 border border-amber/20 rounded">
+                  <Clock className="w-5 h-5 text-amber flex-shrink-0" />
+                  <div>
+                    <p className="text-xs font-sans font-bold text-amber">Coming by {upcomingRelease.targetDate}</p>
+                    <p className="text-[10px] text-earth-muted mt-0.5">This item is being prepared and will be available for download soon.</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={closeUpcomingModal}
+                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-amber/20 text-amber font-sans font-bold rounded hover:bg-amber/30 transition-all text-sm"
+                >
+                  <X className="w-4 h-4" />
+                  Got it
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default Languages;

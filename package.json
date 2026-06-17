@@ -1,0 +1,45 @@
+{
+  "name": "personal-blog",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Personal Blog — Digital Garden by George Mastrogiannis",
+  "author": "George Mastrogiannis",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3001",
+    "prebuild": "tsx scripts/generate-rss.ts",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^1.29.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "date-fns": "^4.1.0",
+    "katex": "^0.16.44",
+    "lucide-react": "^0.562.0",
+    "motion": "^12.23.24",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-github-calendar": "^5.0.5",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.13.2",
+    "react-syntax-highlighter": "^16.1.1",
+    "rehype-katex": "^7.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@vitejs/plugin-react": "^5.1.1",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^8.0.16"
+  }
+}

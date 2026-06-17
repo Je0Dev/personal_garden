@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>George's Blog</title>
+    <link>https://je0dev.github.io/personal_garden</link>
+    <description>A personal blog about engineering, technology, and learning.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 17 Jun 2026 09:23:42 GMT</lastBuildDate>
+    <atom:link href="https://je0dev.github.io/personal_garden/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title><![CDATA[The Quiet Art of Building Things That Last]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/building-things-that-last</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/building-things-that-last</guid>
+      <pubDate>Sat, 14 Mar 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[On craftsmanship, patience, and why the best software is written slowly.]]></description>
+      <category><![CDATA[Craftsmanship]]></category><category><![CDATA[Software Engineering]]></category><category><![CDATA[Philosophy]]></category><category><![CDATA[TypeScript]]></category><category><![CDATA[Web Development]]></category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Why I Keep a Personal Website]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/why-personal-website</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/why-personal-website</guid>
+      <pubDate>Sat, 07 Mar 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[In an age of social media, owning your own corner of the internet matters more than ever.]]></description>
+      <category><![CDATA[IndieWeb]]></category><category><![CDATA[Personal Website]]></category><category><![CDATA[Digital Garden]]></category><category><![CDATA[Web Development]]></category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Notes on Learning Rust]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/notes-on-learning-rust</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/notes-on-learning-rust</guid>
+      <pubDate>Fri, 27 Feb 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[A JavaScript developer's honest account of learning Rust — the frustration, the breakthroughs, and why it's worth it.]]></description>
+      <category><![CDATA[Rust]]></category><category><![CDATA[Learning]]></category><category><![CDATA[Systems Programming]]></category>
+    </item>
+  
+    <item>
+      <title><![CDATA[ESP32 and the Joy of Physical Computing]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/esp32-physical-computing</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/esp32-physical-computing</guid>
+      <pubDate>Sat, 14 Feb 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[There is a special kind of satisfaction in writing code that makes something in the real world move, blink, or beep.]]></description>
+      <category><![CDATA[ESP32]]></category><category><![CDATA[Embedded]]></category><category><![CDATA[Hardware]]></category><category><![CDATA[IoT]]></category><category><![CDATA[Embedded Systems]]></category><category><![CDATA[C++]]></category>
+    </item>
+  
+    <item>
+      <title><![CDATA[The CLI Renaissance]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/cli-renaissance</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/cli-renaissance</guid>
+      <pubDate>Sat, 31 Jan 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[Why command-line tools are having a moment and what they teach us about good software design.]]></description>
+      <category><![CDATA[CLI]]></category><category><![CDATA[C]]></category><category><![CDATA[Unix]]></category><category><![CDATA[Software Design]]></category><category><![CDATA[Software]]></category>
+    </item>
+  
+    <item>
+      <title><![CDATA[On Keeping an IMDB Clone as a Learning Project]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/imdb-clone-learning</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/imdb-clone-learning</guid>
+      <pubDate>Sat, 17 Jan 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[What building an IMDB clone taught me about data modeling, APIs, and the value of copying good design.]]></description>
+      <category><![CDATA[Java]]></category><category><![CDATA[API Design]]></category><category><![CDATA[Data Modeling]]></category><category><![CDATA[Learning]]></category><category><![CDATA[Software]]></category>
+    </item>
+  
+    <item>
+      <title><![CDATA[How I Structure My Language Learning]]></title>
+      <link>https://je0dev.github.io/personal_garden/blog/language-learning-system</link>
+      <guid>https://je0dev.github.io/personal_garden/blog/language-learning-system</guid>
+      <pubDate>Mon, 09 Feb 2026 22:00:00 GMT</pubDate>
+      <description><![CDATA[A practical breakdown of the tools, habits, and routines I use to learn German, Spanish, Chinese, and English in parallel.]]></description>
+      <category><![CDATA[Language Learning]]></category><category><![CDATA[Learning]]></category><category><![CDATA[Personal Development]]></category><category><![CDATA[Productivity]]></category>
+    </item>
+  
+  </channel>
+</rss>

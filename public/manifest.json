@@ -1,0 +1,16 @@
+{
+  "name": "Digital Garden",
+  "short_name": "Garden",
+  "description": "Personal blog and digital garden",
+  "start_url": "/personal_garden/",
+  "display": "standalone",
+  "theme_color": "#141410",
+  "background_color": "#141410",
+  "icons": [
+    {
+      "src": "/personal_garden/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
