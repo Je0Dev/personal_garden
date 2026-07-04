@@ -21,13 +21,14 @@ const SOCIAL_LINKS = [
   { name: 'Lang App', url: 'https://je0dev.github.io/lang_website/', icon: Globe },
 ];
 
+const BASE = import.meta.env.BASE_URL;
 const bannerImages = [
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+  `${BASE}images/new-star.jpg`,
+  `${BASE}images/kamchatka-rose.jpg`,
+  `${BASE}images/shipwrecked-sailor.jpg`,
+  `${BASE}images/tavern-old-knew.jpg`,
+  `${BASE}images/new-star.jpg`,
+  `${BASE}images/kamchatka-rose.jpg`,
 ];
 
 const totalArticles = posts.length;

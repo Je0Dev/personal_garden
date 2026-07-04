@@ -2,7 +2,7 @@
 
 > A personal blog, portfolio, and digital garden built with React, TypeScript, and Vite.
 
-<img src="https://www.oldbookillustrations.com/site/assets/files/14486/rape-lock.jpg" alt="Old book illustration" width="100%" />
+<img src="public/images/rape-lock.jpg" alt="Old book illustration" width="100%" />
 
 ---
 
@@ -12,7 +12,6 @@
 - **Projects** — Filterable portfolio with rich detail modals
 - **Games** — Translate Mania (language learning game) + upcoming projects
 - **Languages** — Curated learning resources, downloadable Anki decks, PDF guides, Python scripts
-- **AI Recommendations** — Gemini-powered related article suggestions
 - **RSS Feed** — Auto-generated at build time
 - **Dark Theme** — Moody aesthetic with vintage old book illustrations
 
@@ -26,7 +25,6 @@
 | Animation | motion (framer-motion v12) |
 | Routing | react-router-dom v7 |
 | Syntax Highlighting | react-syntax-highlighter (Prism + oneDark) |
-| AI | Google Gemini API |
 | Math | KaTeX via rehype-katex |
 | Deployment | GitHub Pages (via GitHub Actions) |
 
@@ -49,7 +47,6 @@ src/
 ├── sections/        # Layout (Header, Footer)
 ├── data/            # Static typed content (posts, projects, games, resources)
 ├── hooks/           # Custom React hooks
-├── services/        # External API integrations (Gemini)
 ├── App.tsx          # Router + global providers
 ├── main.tsx         # Entry point
 └── index.css        # Tailwind design tokens

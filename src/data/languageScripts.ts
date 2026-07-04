@@ -15,7 +15,7 @@ export const languageScripts: LanguageScript[] = [
     description: "Combines radical list files into a unified reference with pinyin, meanings, examples, and story-based mnemonics for all 214 Kangxi radicals.",
     language: "python",
     tags: ["Chinese", "Characters", "Anki"],
-    image: "https://www.oldbookillustrations.com/site/assets/files/14478/toilet-lock.jpg",
+    image: `${import.meta.env.BASE_URL}images/toilet-lock.jpg`,
     file: "scripts/radicals_org.py",
     codePreview: `#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -51,7 +51,7 @@ MNEMONICS = {
     description: "Chinese character enricher that fetches traditional forms, radical data, and generates mnemonics from multiple sources for Anki import.",
     language: "python",
     tags: ["Chinese", "Characters", "API"],
-    image: "https://www.oldbookillustrations.com/site/assets/files/14477/barge.jpg",
+    image: `${import.meta.env.BASE_URL}images/barge.jpg`,
     file: "scripts/s1.py",
     codePreview: `import os
 import re
@@ -83,7 +83,7 @@ RADICAL_NAMES = {
     description: "Parses a multilingual vocabulary dump, auto-detects language (Spanish, Chinese, German), and outputs organized markdown files by language, level, and grammar topic.",
     language: "python",
     tags: ["Multilingual", "Parser", "CLI"],
-    image: "https://www.oldbookillustrations.com/site/assets/files/14476/billet-doux.jpg",
+    image: `${import.meta.env.BASE_URL}images/billet-doux.jpg`,
     file: "scripts/organize_vocab.py",
     codePreview: `#!/usr/bin/env python3
 """Parse All Decks.txt and organize into markdown files by language & level."""
@@ -130,7 +130,7 @@ def is_german_field(text):
     description: "Builds HSK Anki flashcard decks with TTS audio using edge-tts, organized by level. Generates professionally styled cards with Chinese, pinyin, English, and audio.",
     language: "python",
     tags: ["Anki", "Chinese", "TTS"],
-    image: "https://www.oldbookillustrations.com/site/assets/files/14474/barons-prayer.jpg",
+    image: `${import.meta.env.BASE_URL}images/barons-prayer.jpg`,
     file: "scripts/build_anki_decks.py",
     codePreview: `#!/usr/bin/env python3
 """Build HSK Anki flashcard decks with audio, organized by level."""
@@ -181,7 +181,7 @@ CARD_MODEL = genanki.Model(
     description: "HSK vocabulary extractor from PDF textbooks with OCR fallback. Extracts Chinese–English pairs, deduplicates, and sorts by character for Anki import.",
     language: "python",
     tags: ["Chinese", "PDF", "OCR"],
-    image: "https://www.oldbookillustrations.com/site/assets/files/14468/rosa-centifolia-caryophyllea.jpg",
+    image: `${import.meta.env.BASE_URL}images/rosa-centifolia-caryophyllea.jpg`,
     file: "scripts/extract_vocab.py",
     exists: false,
     codePreview: `import pdfplumber

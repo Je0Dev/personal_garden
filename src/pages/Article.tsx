@@ -9,11 +9,15 @@ import { ExternalLinks, ProjectLinks } from '../components/article/ArticleLinks'
 import { ArticleNav, RelatedPosts } from '../components/article/ArticleNav';
 import ArticleGallery from '../components/article/ArticleGallery';
 
+const BASE = import.meta.env.BASE_URL;
 const galleryImages = [
-  { src: 'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg', title: 'Perseus & the Gorgons', year: '1892' },
-  { src: 'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg', title: 'Knights in Combat', year: '1870' },
-  { src: 'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg', title: 'The Faerie Queene', year: '1896' },
-  { src: 'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg', title: 'The Arrival', year: '1885' },
+  { src: `${BASE}images/new-star.jpg` },
+  { src: `${BASE}images/came-upon-place.jpg` },
+  { src: `${BASE}images/silent-melancholy.jpg` },
+  { src: `${BASE}images/shipwrecked-sailor.jpg` },
+  { src: `${BASE}images/boyed-floating-tackle.jpg` },
+  { src: `${BASE}images/tavern-old-knew.jpg` },
+  { src: `${BASE}images/not-all-unhappy.jpg` },
 ];
 
 const Article = () => {

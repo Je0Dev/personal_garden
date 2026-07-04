@@ -2,8 +2,6 @@ import { LightboxTrigger } from '@/components/Lightbox';
 
 interface GalleryImage {
   src: string;
-  title: string;
-  year?: string;
 }
 
 interface ArticleGalleryProps {
@@ -22,15 +20,14 @@ const ArticleGallery = ({ images }: ArticleGalleryProps) => {
       <div className="grid grid-cols-2 gap-4">
         {images.map((image, index) => (
           <div key={index} className="illustration-container">
-            <LightboxTrigger src={image.src} alt={image.title} caption={image.title}>
+            <LightboxTrigger src={image.src} alt="" caption="">
               <img
                 src={image.src}
-                alt={image.title}
+                alt=""
                 className="w-full rounded-lg shadow-md cursor-zoom-in"
                 loading="lazy"
               />
             </LightboxTrigger>
-            <p className="illustration-caption">{image.title}{image.year ? ` (${image.year})` : ''}</p>
           </div>
         ))}
       </div>

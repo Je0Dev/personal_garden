@@ -4,59 +4,25 @@ import { LightboxTrigger } from '../components/Lightbox';
 import { posts } from '../data/posts';
 import { useToast } from '../components/Toast';
 
+const BASE = import.meta.env.BASE_URL;
+
 const oldBookImages = [
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
+  `${BASE}images/new-star.jpg`,
+  `${BASE}images/came-upon-place.jpg`,
+  `${BASE}images/not-all-unhappy.jpg`,
+  `${BASE}images/silent-melancholy.jpg`,
+  `${BASE}images/new-star.jpg`,
+  `${BASE}images/came-upon-place.jpg`,
+  `${BASE}images/not-all-unhappy.jpg`,
+  `${BASE}images/silent-melancholy.jpg`,
 ];
 
-interface IllustrationItem {
-  src: string;
-  title: string;
-  artist: string;
-  year: string;
-}
-
-const illustrations: IllustrationItem[] = [
-  {
-    src: 'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-    title: 'Perseus & the Gorgons',
-    artist: 'Walter Crane',
-    year: '1892',
-  },
-  {
-    src: 'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-    title: 'Knights in Combat',
-    artist: 'Thomas W. Phelan',
-    year: '1870',
-  },
-  {
-    src: 'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-    title: 'The Faerie Queene',
-    artist: 'Arthur Rackham',
-    year: '1896',
-  },
-  {
-    src: 'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
-    title: 'The Arrival',
-    artist: 'Howard Pyle',
-    year: '1885',
-  },
+const illustrations: string[] = [
+  `${BASE}images/rosa-pomponia.jpg`,
+  `${BASE}images/rosa-centifolia.jpg`,
+  `${BASE}images/rosa-foetida.jpg`,
+  `${BASE}images/rosa-stylosa-1.jpg`,
 ];
-
-const getPostForImage = (src: string) => {
-  const matchingPosts = posts.filter(p => {
-    const imgIndex = oldBookImages.indexOf(src);
-    const postIndex = posts.indexOf(p);
-    return imgIndex !== -1 && Math.floor(imgIndex % oldBookImages.length) === (postIndex % oldBookImages.length);
-  });
-  return matchingPosts.length === 1 ? matchingPosts[0] : null;
-};
 
 const Home = () => {
   const { addToast } = useToast();
@@ -65,10 +31,6 @@ const Home = () => {
   };
 
   const getIllustrationLink = (src: string) => {
-    const post = getPostForImage(src);
-    if (post) {
-      return { type: 'post' as const, href: `/blog/${post.slug}`, title: post.title };
-    }
     return { type: 'tag' as const, href: `/tags/illustration`, title: 'Browse illustrations' };
   };
 
@@ -126,18 +88,17 @@ const Home = () => {
             {/* Featured Illustration */}
             <div className="illustration-container max-w-2xl mx-auto text-center">
               <LightboxTrigger 
-                src="https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg"
-                alt="Perseus & the Gorgons — Walter Crane, 1892"
-                caption="Perseus & the Gorgons — Walter Crane, 1892"
+                src={`${import.meta.env.BASE_URL}images/new-star.jpg`}
+                alt=""
+                caption=""
               >
                 <img 
-                  src="https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg"
-                  alt="Antique illustration from Old Book Illustrations"
+                  src={`${import.meta.env.BASE_URL}images/new-star.jpg`}
+                  alt=""
                   className="w-full rounded-lg shadow-lg"
                   loading="eager"
                 />
               </LightboxTrigger>
-              <p className="illustration-caption">Perseus & the Gorgons — Walter Crane, 1892</p>
             </div>
           </section>
 
@@ -148,32 +109,22 @@ const Home = () => {
               <span className="h-px flex-1 bg-gradient-to-r from-moss to-transparent"></span>
             </h2>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {illustrations.map((illustration, index) => {
-                const link = getIllustrationLink(illustration.src);
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {illustrations.map((src, index) => {
                 return (
                   <Link
                     key={index}
-                    to={link.href}
+                    to="/tags/illustration"
                     onClick={scrollToTop}
                     className="group relative block overflow-hidden rounded-lg border border-moss hover:border-earth-tan transition-all duration-300"
                   >
                     <div className="aspect-square overflow-hidden">
                       <img 
-                        src={illustration.src}
-                        alt={illustration.title}
+                        src={src}
+                       alt=""
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         loading="lazy"
                       />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-deep-olive via-transparent to-transparent opacity-80" />
-                    <div className="absolute bottom-0 left-0 right-0 p-2">
-                      <p className="font-serif text-xs font-bold text-cream group-hover:text-tomato transition-colors line-clamp-1 underline-hover">
-                        {illustration.title}
-                      </p>
-                      <p className="font-mono text-[10px] text-earth-muted">
-                        {illustration.year}
-                      </p>
                     </div>
                   </Link>
                 );

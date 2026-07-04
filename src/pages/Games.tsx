@@ -6,11 +6,12 @@ import { GameDetailModal } from '../components/games/GameDetailModal';
 import { GameUpcomingModal } from '../components/games/GameUpcomingModal';
 import { CountdownTimer } from '../components/languages/CountdownTimer';
 
+const BASE = import.meta.env.BASE_URL;
 const bannerImages = [
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+  `${BASE}images/rosa-centifolia.jpg`,
 ];
 
-const sneakBanner = 'https://www.oldbookillustrations.com/site/assets/files/14466/rosa-stylosa-1.jpg';
+const sneakBanner = `${BASE}images/rosa-stylosa-1.jpg`;
 
 const GAMES_TARGET_DATE = upcomingGames[0]?.targetDate || '2026-09-01T00:00:00';
 

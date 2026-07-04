@@ -90,6 +90,174 @@ export const videoGuides: VideoGuide[] = [
       "Watch Little Fox Chinese stories for beginner listening practice"
     ]
   },
+  {
+    title: "German: Sprich mit uns — Vorstellen, Smalltalk & Konversation (A2–B1)",
+    excerpt: "Natural German conversation practice with a teacher and learner — introductions, questions, and small talk for everyday life.",
+    videoUrl: "https://www.youtube.com/embed/xGNs0lCEPn4",
+    tags: ["German", "Conversation", "A2", "B1"],
+    keyPoints: [
+      "Practice introducing yourself — name, origin, profession in natural German",
+      "Learn how to ask follow-up questions to keep conversations flowing",
+      "Master small talk phrases for everyday social situations",
+      "Includes free PDF vocabulary list and common mistake corrections",
+      "Dialogues combine all three topics into realistic role-play",
+      "Perfect prep for Goethe and Telc speaking exams"
+    ]
+  },
+  {
+    title: "60 Minutes of Easy German Dialogues — Real Conversations (A1–A2)",
+    excerpt: "Fifty short, practical German dialogues covering daily life: ordering food, asking directions, shopping, small talk, and more.",
+    videoUrl: "https://www.youtube.com/embed/TkXwcO747ws",
+    tags: ["German", "Conversation", "Dialogues", "A1", "A2"],
+    keyPoints: [
+      "Practice real-life scenarios: bakery, doctor, job interview, train station, and more",
+      "Learn natural conversation flow with shadow-and-repeat technique",
+      "Hear the intonation and rhythm of authentic spoken German",
+      "Covers essential phrases for travel, work, and daily errands",
+      "Ideal for building listening comprehension from A1 to A2",
+      "Use alongside Anki to memorize the most useful dialogue phrases"
+    ]
+  },
+  {
+    title: "German: 100+ Questions & Answers with Essential Verbs (A1–B1)",
+    excerpt: "Build speaking confidence with over 100 everyday questions and answers using the most important German verbs.",
+    videoUrl: "https://www.youtube.com/embed/bV2jhdkFZFc",
+    tags: ["German", "Speaking", "Vocabulary", "A1", "B1"],
+    keyPoints: [
+      "Practice responding naturally to common question words: was, wo, wann, warum, wie, welche",
+      "Focus on high-frequency verbs for daily situations and routines",
+      "Listen-repeat method builds muscle memory for pronunciation",
+      "Ideal for learners who freeze when asked questions in conversation",
+      "Covers A1 through B1 level, progressing in complexity",
+      "Use alongside Anki to cement the most useful verb-question pairs"
+    ]
+  },
+  {
+    title: "Speak English in 30 Minutes — Advanced English Lesson",
+    excerpt: "Immerse yourself in clear American English covering the top mistakes learners make and essential pronunciation secrets.",
+    videoUrl: "https://www.youtube.com/embed/Iv4F-YV0TxY",
+    tags: ["English", "Advanced", "Pronunciation", "Fluency"],
+    keyPoints: [
+      "Avoid the 5 most common grammar mistakes that even advanced learners make",
+      "Master 5 American English pronunciation secrets: linking, reductions, and rhythm",
+      "Learn 30 essential phrasal verbs for natural conversation",
+      "Free PDF worksheet included for active practice",
+      "Shadow the speaker aloud to train your mouth muscles",
+      "Ideal for B2–C1 learners aiming for native-like fluency"
+    ]
+  },
+  {
+    title: "Real English Conversation — Advanced English Lesson",
+    excerpt: "A natural, unscripted advanced English conversation covering reading habits, vocabulary acquisition, and fluency strategies.",
+    videoUrl: "https://www.youtube.com/embed/iRKGHkY-u50",
+    tags: ["English", "Advanced", "Conversation", "Fluency"],
+    keyPoints: [
+      "Hear natural back-and-forth dialogue at native speed with clear enunciation",
+      "Learn what to read to maximize vocabulary growth across different domains",
+      "Discover how to retain new words through contextual repetition",
+      "Understand the difference between active and passive vocabulary",
+      "Practice noticing discourse markers that make speech flow naturally",
+      "Transcript-style captions help you catch every word"
+    ]
+  },
+  {
+    title: "Read the News With Me — Advanced English Vocabulary & Grammar",
+    excerpt: "Read a real news article together, breaking down advanced vocabulary, grammar structures, and natural expressions.",
+    videoUrl: "https://www.youtube.com/embed/tM60VPCBAOs",
+    tags: ["English", "Advanced", "Vocabulary", "News"],
+    keyPoints: [
+      "Learn 33 advanced words and phrases from a real news article",
+      "Understand how news English differs from conversational English",
+      "Practice reading comprehension at native speed with full breakdown",
+      "Focus on collocations and fixed expressions used by journalists",
+      "Free PDF lesson guide with all vocabulary and example sentences",
+      "Build the habit of reading English news daily for natural acquisition"
+    ]
+  },
+  {
+    title: "Learn Spanish at a Real Picnic — Real-Life Comprehensible Input",
+    excerpt: "Follow along at a real outdoor picnic with slow, clear Spanish designed for beginner and intermediate comprehension.",
+    videoUrl: "https://www.youtube.com/embed/LXVj7lFo4fM",
+    tags: ["Spanish", "Comprehensible Input", "Beginner", "Intermediate"],
+    keyPoints: [
+      "Learn food, nature, and outdoor vocabulary through real visual context",
+      "Hear slow, clear Spanish spoken naturally without translation crutch",
+      "Understand without translating — the core principle of comprehensible input",
+      "Perfect bridge between classroom Spanish and real-life conversations",
+      "Practice listening to connected speech at a learner-friendly pace",
+      "Use the visual clues to infer meaning just like a child acquires language"
+    ]
+  },
+  {
+    title: "Learn Spanish While I Do My Makeup — Easy Comprehensible Input",
+    excerpt: "Relaxed intermediate Spanish lesson with real-time commentary on makeup, products, and daily routines.",
+    videoUrl: "https://www.youtube.com/embed/t0CNKRhEiag",
+    tags: ["Spanish", "Intermediate", "Comprehensible Input", "Daily Life"],
+    keyPoints: [
+      "Learn beauty and personal care vocabulary in an authentic context",
+      "Hear natural sentence flow with clear, deliberate enunciation",
+      "Understand how native speakers describe processes and sequences",
+      "Pick up everyday expressions you won't find in textbooks",
+      "Visual demonstrations make every word immediately comprehensible",
+      "Great for intermediate learners who want real, unscripted content"
+    ]
+  },
+  {
+    title: "Dreaming Spanish: Discovering Korea's Most Modern District",
+    excerpt: "Join Shel from Dreaming Spanish exploring Gangnam, Seoul — pure comprehensible input with zero English.",
+    videoUrl: "https://www.youtube.com/embed/LDYXb-3Be0s",
+    tags: ["Spanish", "Beginner", "Dreaming Spanish", "Travel"],
+    keyPoints: [
+      "100% Spanish immersion — no English, no translations, just real input",
+      "Learn technology and city vocabulary through contextual storytelling",
+      "Discover Korean culture through Spanish — two languages in one video",
+      "Beginner-friendly pace with clear visuals supporting every word",
+      "Part of Dreaming Spanish's structured roadmap with tracked watch time",
+      "Ideal for learners following the pure comprehensible input method"
+    ]
+  },
+  {
+    title: "VLOG in Chinese — Just a Random Day in My Life",
+    excerpt: "Follow Grace through a typical day in Taiwan with natural Mandarin vlogging about food, exercise, and daily routines.",
+    videoUrl: "https://www.youtube.com/embed/29P9QAv3h8Y",
+    tags: ["Chinese", "Mandarin", "VLOG", "Intermediate", "Listening"],
+    keyPoints: [
+      "Hear natural, unscripted Taiwanese Mandarin with authentic flow",
+      "Learn daily life vocabulary: food descriptions, exercise, routines",
+      "Chinese subtitles throughout — read along as you listen",
+      "Exposed to regional vocabulary differences (Taiwan vs. China)",
+      "Vlog format keeps engagement high while training your ear",
+      "Intermediate level: understand the gist first, then re-watch for detail"
+    ]
+  },
+  {
+    title: "The Pig Butchering Scam — Mandarin Chinese Podcast (Upper Intermediate)",
+    excerpt: "A deep-dive discussion about one of China's biggest modern scams, with natural unscripted Mandarin conversation.",
+    videoUrl: "https://www.youtube.com/embed/WA9CCC1Apys",
+    tags: ["Chinese", "Mandarin", "Advanced", "Podcast", "Listening"],
+    keyPoints: [
+      "Long-form unscripted conversation at natural speed with clear enunciation",
+      "Learn contemporary Chinese vocabulary around technology, crime, and society",
+      "Understand how native speakers structure arguments and opinions",
+      "Dual subtitles: Chinese characters with English translations available",
+      "Excellent for upper-intermediate learners ready for real content",
+      "Downloadable PDF transcript for deep study and shadowing practice"
+    ]
+  },
+  {
+    title: "100% Chinese Listening Challenge — Understand More Than You Expect",
+    excerpt: "Pure Chinese immersion: listen to natural speech about language learning strategies and gradually build comprehension.",
+    videoUrl: "https://www.youtube.com/embed/Q2MUzqjYZEg",
+    tags: ["Chinese", "Mandarin", "Listening", "Beginner", "Intermediate"],
+    keyPoints: [
+      "Challenge yourself to understand Chinese without pausing or translating",
+      "Covers practical language learning tips — meta-learning in Chinese",
+      "Spoken at a measured pace with clear articulation throughout",
+      "Chinese subtitles help bridge listening and reading skills",
+      "Build confidence by noticing how much you already understand",
+      "From ShuoshuoChinese — one of the most popular Mandarin channels"
+    ]
+  },
 ];
 
 export const languageResources: LanguageResources[] = [
@@ -104,7 +272,6 @@ export const languageResources: LanguageResources[] = [
       { name: "WordReference", desc: "Comprehensive bilingual dictionaries", url: "https://www.wordreference.com/", type: "Translation", details: { why: "The most reliable online dictionary — far more accurate than Google Translate for individual words.", bestFor: "Getting accurate translations with usage context", level: "All levels", price: "Free", pros: ["Detailed usage notes and examples", "Forum discussions for nuanced questions", "Conjugation tables built-in", "Fast and no-nonsense interface"], cons: ["Limited language pairs", "No full-sentence translation", "App is basic"] } },
       { name: "Reverso Context", desc: "Translations in context with real-life examples", url: "https://context.reverso.net/translation/", type: "Translation", details: { why: "Shows how words and phrases are actually used in real sentences — not just dictionary definitions.", bestFor: "Understanding usage through real examples", level: "A2–C1", price: "Free (limited) / Premium $9/mo", pros: ["Real examples from books, media, and transcripts", "Bilingual sentence pairs side by side", "Supports 15+ language pairs", "Contextual understanding beats dictionaries"], cons: ["Some examples are machine-translated", "Premium needed for offline access", "Not a complete learning tool on its own"] } },
       { name: "DeepL", desc: "World's most accurate translator", url: "https://www.deepl.com/en/translator", type: "Translation", details: { why: "Produces the most natural-sounding translations of any machine translator — often indistinguishable from human.", bestFor: "Translating full sentences and paragraphs with high accuracy", level: "All levels", price: "Free (limited) / Pro $8.99/mo", pros: ["Most natural translations of any AI translator", "Preserves formatting in documents", "Glossary feature for consistent terminology", "Supports 30+ languages"], cons: ["Limited free tier (1,500 chars per translation)", "Not all language pairs are equally good", "Requires internet connection"] } },
-      { name: "Gemini AI", desc: "Google's AI for language practice and explanations", url: "https://gemini.google.com/app", type: "AI", details: { why: "An AI conversation partner available 24/7 — great for practicing without fear of judgment.", bestFor: "Conversation practice and grammar explanations on demand", level: "B1–C2", price: "Free", pros: ["Unlimited free practice conversations", "Can explain grammar in multiple ways", "Improves with follow-up questions", "Supports voice input on mobile"], cons: ["Not a native speaker — may miss cultural nuances", "Can hallucinate or give incorrect explanations", "No structured curriculum"] } },
       { name: "NotebookLM", desc: "Google's AI notebook for organizing learning materials", url: "https://notebooklm.google.com/", type: "AI", details: { why: "Upload your textbooks, articles, or notes and get AI-powered summaries, study guides, and Q&A.", bestFor: "Processing and organizing language learning materials", level: "B1–C2", price: "Free", pros: ["Upload any PDF or text as learning source", "Generates study guides automatically", "Ask questions about your specific materials", "Sources are grounded — no hallucination"], cons: ["Limited to uploaded source material", "No direct language practice features", "Google account required"] } },
       { name: "Quizlet", desc: "Simple flashcards and study sets", url: "https://quizlet.com/", type: "App", details: { why: "Quick and easy flashcard creation with gamified study modes — great for vocabulary drilling.", bestFor: "Quick vocabulary review with gamified features", level: "All levels", price: "Free (limited) / Plus $7.99/mo", pros: ["Very easy to create study sets", "Multiple study modes (match, test, learn)", "Huge library of community sets", "Mobile apps for on-the-go study"], cons: ["Spaced repetition is behind paywall", "Less customizable than Anki", "Ads on free version"] } },
     ]
@@ -195,10 +362,10 @@ export interface AnkiDeck {
 }
 
 export const ankiDecks: AnkiDeck[] = [
-  { name: "Spanish Core 1k", file: "Spanish core 1k vocab deck.apkg", lang: "Spanish", size: "202 MB", color: "border-amber", image: "https://www.oldbookillustrations.com/site/assets/files/14486/rape-lock.jpg", tags: ["Spanish", "Vocabulary", "Anki"], exists: true, details: { description: "1000 most frequent Spanish words with example sentences, audio, and images. Based on frequency analysis of native media.", cardCount: "1,000 cards", difficulty: "Beginner–Intermediate", includes: ["Frequency-ordered vocabulary", "Native audio on every card", "Example sentences from real media", "Memory hooks and mnemonics"] } },
-  { name: "Refold Mandarin 1k", file: "Refold Mandarin 1k Simplified.apkg", lang: "Chinese", size: "102 MB", color: "border-rust", image: "https://www.oldbookillustrations.com/site/assets/files/14483/dream-lock.jpg", tags: ["Chinese", "Mandarin", "Vocabulary", "Anki"], exists: false, details: { description: "First 1000 words from the Refold Mandarin roadmap using simplified characters. Covers core vocabulary for daily life.", cardCount: "1,000 cards", difficulty: "Beginner", includes: ["Simplified Chinese characters", "Pinyin romanization on all cards", "Native speaker audio recordings", "Sentence-level context examples"] } },
-  { name: "Chinese Radicals", file: "radicals.apkg", lang: "Chinese", size: "2.7 MB", color: "border-rust", image: "https://www.oldbookillustrations.com/site/assets/files/14480/battle-beaux-belles.jpg", tags: ["Chinese", "Characters", "Anki"], exists: true, details: { description: "All 214 Kangxi radicals with meanings, examples, and stroke order — the building blocks of every Chinese character.", cardCount: "214 cards", difficulty: "Absolute Beginner", includes: ["All 214 Kangxi radicals", "Radical meanings and variations", "Stroke order diagrams", "Example characters per radical"] } },
-  { name: "Class Notes", file: "class_notes.apkg", lang: "Chinese", size: "3.4 MB", color: "border-rust", image: "https://www.oldbookillustrations.com/site/assets/files/14479/cave-spleen.jpg", tags: ["Chinese", "Class Notes", "Anki"], exists: true, new: true, details: { description: "Personal class notes from Chinese lessons — vocabulary, grammar points, and example sentences covered in tutoring sessions.", cardCount: "~150 cards", difficulty: "Beginner–Intermediate", includes: ["Personal class vocabulary", "Grammar patterns from lessons", "Example sentences from tutoring", "Custom mnemonics and notes"] } },
+  { name: "Spanish Core 1k", file: "Spanish core 1k vocab deck.apkg", lang: "Spanish", size: "202 MB", color: "border-amber", image: `${import.meta.env.BASE_URL}images/thylacine-wolf.jpg`, tags: ["Spanish", "Vocabulary", "Anki"], exists: true, details: { description: "1000 most frequent Spanish words with example sentences, audio, and images. Based on frequency analysis of native media.", cardCount: "1,000 cards", difficulty: "Beginner–Intermediate", includes: ["Frequency-ordered vocabulary", "Native audio on every card", "Example sentences from real media", "Memory hooks and mnemonics"] } },
+  { name: "Refold Mandarin 1k", file: "Refold Mandarin 1k Simplified.apkg", lang: "Chinese", size: "102 MB", color: "border-rust", image: `${import.meta.env.BASE_URL}images/alpaca-wolf.jpg`, tags: ["Chinese", "Mandarin", "Vocabulary", "Anki"], exists: false, details: { description: "First 1000 words from the Refold Mandarin roadmap using simplified characters. Covers core vocabulary for daily life.", cardCount: "1,000 cards", difficulty: "Beginner", includes: ["Simplified Chinese characters", "Pinyin romanization on all cards", "Native speaker audio recordings", "Sentence-level context examples"] } },
+  { name: "Chinese Radicals", file: "radicals.apkg", lang: "Chinese", size: "2.7 MB", color: "border-rust", image: `${import.meta.env.BASE_URL}images/battle-beaux-belles.jpg`, tags: ["Chinese", "Characters", "Anki"], exists: true, details: { description: "All 214 Kangxi radicals with meanings, examples, and stroke order — the building blocks of every Chinese character.", cardCount: "214 cards", difficulty: "Absolute Beginner", includes: ["All 214 Kangxi radicals", "Radical meanings and variations", "Stroke order diagrams", "Example characters per radical"] } },
+  { name: "Class Notes", file: "class_notes.apkg", lang: "Chinese", size: "3.4 MB", color: "border-rust", image: `${import.meta.env.BASE_URL}images/mantchurian-crane.jpg`, tags: ["Chinese", "Class Notes", "Anki"], exists: true, new: true, details: { description: "Personal class notes from Chinese lessons — vocabulary, grammar points, and example sentences covered in tutoring sessions.", cardCount: "~150 cards", difficulty: "Beginner–Intermediate", includes: ["Personal class vocabulary", "Grammar patterns from lessons", "Example sentences from tutoring", "Custom mnemonics and notes"] } },
 ];
 
 export interface PdfFile {

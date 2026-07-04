@@ -23,6 +23,7 @@ export interface Post {
   excerpt: string;
   content: string;
   date: string;
+  rawDate?: string;
   readTime: string;
   tags: string[];
   image: string;
@@ -79,7 +80,7 @@ That's the lesson. Not that speed is bad, but that slowness has its own kind of 
     date: 'Mar 15, 2026',
     readTime: '7 min',
     tags: ['Craftsmanship', 'Software Engineering', 'Philosophy', 'TypeScript', 'Web Development'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/The-old-clockmaker-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/perseus-gorgons.jpg`,
     color: '#8b5e3c',
     author: {
       name: 'Geo Mas',
@@ -176,7 +177,7 @@ The internet needs more small, careful websites. Yours could be one of them.
     date: 'Mar 8, 2026',
     readTime: '5 min',
     tags: ['IndieWeb', 'Personal Website', 'Digital Garden', 'Web Development'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2016/03/The-garden-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/fights-cymochles.jpg`,
     color: '#6b8b5e',
     author: {
       name: 'Geo Mas',
@@ -281,7 +282,7 @@ Even if you never write Rust professionally, the way it trains you to think abou
     date: 'Feb 28, 2026',
     readTime: '9 min',
     tags: ['Rust', 'Learning', 'Systems Programming'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/11/Anvil-and-forge-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/atin-cymochles.jpg`,
     color: '#dea584',
     author: {
       name: 'Geo Mas',
@@ -382,7 +383,7 @@ That's the joy of physical computing.
     date: 'Feb 15, 2026',
     readTime: '6 min',
     tags: ['ESP32', 'Embedded', 'Hardware', 'IoT', 'Embedded Systems', 'C++'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/Telegraph-instrument-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/reached-city.jpg`,
     color: '#339933',
     author: {
       name: 'Geo Mas',
@@ -481,7 +482,7 @@ The renaissance isn't about going back. It's about remembering what matters.
     date: 'Feb 1, 2026',
     readTime: '5 min',
     tags: ['CLI', 'C', 'Unix', 'Software Design', 'Software'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/Typewriter-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/rape-lock.jpg`,
     color: '#6b5540',
     author: {
       name: 'Geo Mas',
@@ -590,7 +591,7 @@ That's the secret: the project isn't the product. The learning is.
     date: 'Jan 18, 2026',
     readTime: '6 min',
     tags: ['Java', 'API Design', 'Data Modeling', 'Learning', 'Software'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/The-reading-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/cave-spleen.jpg`,
     color: '#3b82f6',
     author: {
       name: 'Geo Mas',
@@ -705,7 +706,7 @@ The system isn't perfect, but it's sustainable. And sustainability is the only t
     date: 'Feb 10, 2026',
     readTime: '8 min',
     tags: ['Language Learning', 'Learning', 'Personal Development', 'Productivity'],
-    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/The-young-scholar-01.jpg',
+    image: `${import.meta.env.BASE_URL}images/dream-lock.jpg`,
     color: '#6b7b4b',
     author: {
       name: 'Geo Mas',

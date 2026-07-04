@@ -187,7 +187,7 @@ export const games: Game[] = [
     tags: ['React', 'TypeScript', 'Language Learning'],
     new: true,
     status: 'Development',
-    image: 'https://www.oldbookillustrations.com/site/assets/files/12575/owls-poppies.jpg',
+    image: `${import.meta.env.BASE_URL}images/owls-poppies.jpg`,
     details: {
       features: [
         '5 languages: Spanish, Greek, English, German, Chinese',

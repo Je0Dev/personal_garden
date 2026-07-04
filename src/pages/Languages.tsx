@@ -13,13 +13,13 @@ import { AnkiDeckModal } from '../components/languages/AnkiDeckModal';
 import { ScriptModal } from '../components/languages/ScriptModal';
 import { UpcomingModal } from '../components/languages/UpcomingModal';
 
-const bannerImages = [
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-];
-
 const BASE = import.meta.env.BASE_URL;
+const bannerImages = [
+  `${BASE}images/rosa-pomponia.jpg`,
+  `${BASE}images/rosa-centifolia.jpg`,
+  `${BASE}images/kamchatka-rose.jpg`,
+  `${BASE}images/rosa-foetida.jpg`,
+];
 
 const getYoutubeId = (url: string) => {
   const match = url.match(/embed\/([a-zA-Z0-9_-]+)/);

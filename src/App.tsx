@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import Header from './sections/Header';
 import Footer from './sections/Footer';

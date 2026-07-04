@@ -6,15 +6,16 @@ import { getTagColor } from '../data/tag-colors';
 import PostCard from '../components/tags/PostCard';
 import TagFilter from '../components/tags/TagFilter';
 
+const BASE = import.meta.env.BASE_URL;
 const oldBookImages = [
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
+  `${BASE}images/boyed-floating-tackle.jpg`,
+  `${BASE}images/shipwrecked-sailor.jpg`,
+  `${BASE}images/kamchatka-rose.jpg`,
+  `${BASE}images/rosa-pomponia.jpg`,
+  `${BASE}images/boyed-floating-tackle.jpg`,
+  `${BASE}images/shipwrecked-sailor.jpg`,
+  `${BASE}images/kamchatka-rose.jpg`,
+  `${BASE}images/rosa-pomponia.jpg`,
 ];
 
 const Tags = () => {

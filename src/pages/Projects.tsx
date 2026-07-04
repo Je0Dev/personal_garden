@@ -7,13 +7,14 @@ import ProjectCard from '../components/projects/ProjectCard';
 import ProjectModal from '../components/projects/ProjectModal';
 import ProjectFilter from '../components/projects/ProjectFilter';
 
+const BASE = import.meta.env.BASE_URL;
 const oldBookImages = [
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
-  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+  `${BASE}images/rosa-centifolia.jpg`,
+  `${BASE}images/rosa-foetida.jpg`,
+  `${BASE}images/rosa-stylosa-1.jpg`,
+  `${BASE}images/tavern-old-knew.jpg`,
+  `${BASE}images/rosa-centifolia.jpg`,
+  `${BASE}images/rosa-foetida.jpg`,
 ];
 
 const Projects = () => {
