@@ -8,17 +8,12 @@ import BackToTop from './components/BackToTop';
 import MobileMenu from './components/MobileMenu';
 import Lightbox from './components/Lightbox';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
-import KonamiEasterEgg from './components/KonamiEasterEgg';
 import { ToastProvider } from './components/Toast';
 
 const Home = lazy(() => import('./pages/Home'));
 const Article = lazy(() => import('./pages/Article'));
-const Projects = lazy(() => import('./pages/Projects'));
 const Tags = lazy(() => import('./pages/Tags'));
 const About = lazy(() => import('./pages/About'));
-const Languages = lazy(() => import('./pages/Languages'));
-const Games = lazy(() => import('./pages/Games'));
-const GameView = lazy(() => import('./pages/GameView'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function Loader() {
@@ -50,13 +45,9 @@ function AnimatedRoutes() {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/blog/:slug" element={<Article />} />
-            <Route path="/projects" element={<Projects />} />
             <Route path="/tags" element={<Tags />} />
             <Route path="/tags/:tag" element={<Tags />} />
             <Route path="/about" element={<About />} />
-            <Route path="/languages" element={<Languages />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/games/:slug" element={<GameView />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
@@ -66,6 +57,7 @@ function AnimatedRoutes() {
 }
 
 function App() {
+
   const [isDark, setIsDark] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lightbox, setLightbox] = useState({ isOpen: false, src: '', alt: '', caption: '' });
@@ -100,7 +92,6 @@ function App() {
   return (
     <Router>
       <ReadingProgress />
-      <KonamiEasterEgg />
       <ToastProvider>
         <a
           href="#main-content"
