@@ -1,13 +1,13 @@
 {
-  "name": "personal-blog",
+  "name": "digital-garden",
   "private": true,
   "version": "1.0.0",
-  "description": "Personal Blog — Digital Garden by George Mastrogiannis",
+  "description": "George's Garden — personal blog and portfolio by George Mastrogiannis",
   "author": "George Mastrogiannis",
   "type": "module",
   "scripts": {
     "dev": "vite --port=3001",
-    "build": "npm run lint && vite build",
+    "build": "npm run lint && npm run rss && vite build",
     "rss": "tsx scripts/generate-rss.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist",
