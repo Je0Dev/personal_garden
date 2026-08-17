@@ -61,7 +61,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
             className="group p-4 bg-surface border border-moss rounded-lg hover:border-olive-light transition-colors"
           >
             <p className="font-serif text-cream group-hover:text-olive-light transition-colors mb-2">{relatedPost.title}</p>
-            <p className="text-sm text-earth-muted font-sans">{relatedPost.readTime} · {relatedPost.date}</p>
+            <p className="text-sm text-earth-muted font-sans">{relatedPost.date}</p>
           </Link>
         ))}
       </div>

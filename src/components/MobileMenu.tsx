@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, Menu } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -45,7 +45,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           </Link>
           <button
             onClick={onClose}
-            className="p-2 text-earth-tan hover:text-cream transition-colors"
+            className="p-2 text-earth-tan hover:text-tomato transition-colors"
             aria-label="Close menu"
           >
             <X className="w-6 h-6" />
@@ -56,15 +56,13 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           <ul className="space-y-6">
             {[
               { name: 'Home', path: '/' },
-              { name: 'Writing', path: '/tags' },
-              { name: 'Projects', path: '/projects' },
-              { name: 'Languages', path: '/languages' },
+              { name: 'Discover', path: '/tags' },
               { name: 'About', path: '/about' },
             ].map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`block font-serif text-3xl transition-colors ${location.pathname === item.path ? 'text-olive-light underline underline-offset-8' : 'text-cream hover:text-olive-light'}`}
+                  className={`block font-serif text-3xl transition-colors ${location.pathname === item.path ? 'text-olive-light underline underline-offset-8' : 'text-cream hover:text-tomato'}`}
                   onClick={handleNavClick}
                 >
                   {item.name}
@@ -83,15 +81,5 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
     </div>
   );
 };
-
-export const MobileMenuButton = ({ onClick }: { onClick: () => void }) => (
-  <button
-    onClick={onClick}
-    className="p-2 text-earth-tan hover:text-cream transition-colors md:hidden"
-    aria-label="Open menu"
-  >
-    <Menu className="w-6 h-6" />
-  </button>
-);
 
 export default MobileMenu;

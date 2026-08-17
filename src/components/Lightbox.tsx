@@ -42,7 +42,7 @@ const Lightbox = ({ src, alt, caption, isOpen, onClose }: LightboxProps) => {
     >
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 p-2 text-earth-tan hover:text-cream transition-colors z-10"
+        className="absolute top-4 right-4 p-2 text-earth-tan hover:text-tomato transition-colors z-10"
         aria-label="Close lightbox"
       >
         <X className="w-8 h-8" />

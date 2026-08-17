@@ -25,7 +25,7 @@ const TagFilter = ({ tags, selectedTags, onToggleTag, onClearTags }: TagFilterPr
             className={`group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-sans transition-all ${
               selectedTags.includes(tag.name)
                 ? 'bg-olive/20 border-olive-light text-olive-light'
-                : 'bg-surface border-border text-earth-muted hover:border-earth-tan hover:text-cream'
+                : 'bg-surface border-border text-earth-muted hover:border-olive-light hover:text-cream'
             }`}
             style={selectedTags.includes(tag.name) ? { borderColor: tag.color, color: tag.color } : {}}
           >

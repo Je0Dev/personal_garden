@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Clock } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import type { Post } from '@/data/posts';
 
 interface PostCardProps {
@@ -11,7 +11,7 @@ const PostCard = ({ post, imageSrc }: PostCardProps) => {
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className="group block bg-surface border border-border rounded-lg overflow-hidden hover:border-olive-light transition-all duration-200"
+      className="group block bg-surface border border-border rounded-lg overflow-hidden hover:border-olive-light transition-colors duration-200"
     >
       <div className="aspect-[16/9] overflow-hidden">
         <img
@@ -36,9 +36,6 @@ const PostCard = ({ post, imageSrc }: PostCardProps) => {
         <div className="flex items-center gap-3 text-xs text-earth-muted">
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" /> {post.date}
-          </span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" /> {post.readTime}
           </span>
         </div>
       </div>

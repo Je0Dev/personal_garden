@@ -9,7 +9,6 @@ const shortcuts = [
   { key: 'ESC', description: 'Close modal' },
   { key: 'g h', description: 'Go to home' },
   { key: 'g t', description: 'Go to tags' },
-  { key: 'g p', description: 'Go to projects' },
   { key: 'g a', description: 'Go to about' },
   { key: '?', description: 'Show shortcuts' },
 ];
