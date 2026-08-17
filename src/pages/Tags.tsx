@@ -1,27 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { posts, getPostsByTag, getAllTags } from '../data/posts';
 import { getTagColor } from '../data/tag-colors';
 import PostCard from '../components/tags/PostCard';
 import TagFilter from '../components/tags/TagFilter';
+import PageBanner from '../components/PageBanner';
 
 const BASE = import.meta.env.BASE_URL;
-const oldBookImages = [
-  `${BASE}images/boyed-floating-tackle.jpg`,
-  `${BASE}images/shipwrecked-sailor.jpg`,
-  `${BASE}images/kamchatka-rose.jpg`,
-  `${BASE}images/rosa-pomponia.jpg`,
-  `${BASE}images/boyed-floating-tackle.jpg`,
-  `${BASE}images/shipwrecked-sailor.jpg`,
-  `${BASE}images/kamchatka-rose.jpg`,
-  `${BASE}images/rosa-pomponia.jpg`,
-];
 
 const Tags = () => {
   const { tag } = useParams<{ tag: string }>();
   const navigate = useNavigate();
-  const headerRef = useRef<HTMLDivElement>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const allTags = getAllTags();
@@ -46,10 +36,6 @@ const Tags = () => {
     count: getPostsByTag(t).length,
     color: getTagColor(t),
   })).sort((a, b) => b.count - a.count);
-
-  useEffect(() => {
-    if (headerRef.current) headerRef.current.style.opacity = '1';
-  }, []);
 
   const toggleTag = (tagToToggle: string) => {
     setSelectedTags(prev =>
@@ -76,36 +62,36 @@ const Tags = () => {
 
   return (
     <div className="pt-20 pb-16">
-      <header ref={headerRef} className="pb-8 px-6 opacity-0 transition-opacity duration-500">
-        <div className="max-w-wide mx-auto">
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-center text-cream">
-            <Link to="/tags" onClick={() => setSelectedTags([])} className="text-olive-light hover:text-tomato transition-colors">Tags</Link>
-            {selectedTags.length > 0 && (
-              <><span className="text-earth-muted mx-2">/</span>{getTagsTitle()}</>
-            )}
-          </h1>
-          <p className="font-sans text-base text-earth-tan text-center max-w-2xl mx-auto mb-8">
-            {selectedTags.length > 0
-              ? `${filteredPosts.length} article${filteredPosts.length !== 1 ? 's' : ''} tagged with ${selectedTags.length === 1 ? `"${selectedTags[0]}"` : `"${selectedTags.join('" or "')}"`}`
-              : 'Explore articles organized by topic and technology. Select multiple tags to filter.'}
-          </p>
-        </div>
-      </header>
+      <PageBanner image={`${BASE}images/silent-melancholy.jpg`}>
+        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-cream">
+          <Link to="/tags" onClick={() => setSelectedTags([])} className="text-olive-light hover:text-tomato transition-colors">Tags</Link>
+          {selectedTags.length > 0 && (
+            <><span className="text-earth-muted mx-2">/</span>{getTagsTitle()}</>
+          )}
+        </h1>
+        <p className="font-sans text-base text-earth-tan max-w-2xl mx-auto">
+          {selectedTags.length > 0
+            ? `${filteredPosts.length} article${filteredPosts.length !== 1 ? 's' : ''} tagged with ${selectedTags.length === 1 ? `"${selectedTags[0]}"` : `"${selectedTags.join('" or "')}"`}`
+            : 'Explore articles organized by topic and technology. Select multiple tags to filter.'}
+        </p>
+      </PageBanner>
 
       <div className="px-6">
         <div className="max-w-wide mx-auto">
           <TagFilter tags={tagPostCounts} selectedTags={selectedTags} onToggleTag={toggleTag} onClearTags={clearTags} />
 
-          <div className="mb-6 flex items-center justify-between">
-            <p className="font-sans text-earth-muted">
+          <h2 className="font-serif text-2xl font-bold text-cream mb-6 flex items-center gap-4">
+            Posts
+            <span className="h-px flex-1 bg-gradient-to-r from-moss to-transparent"></span>
+            <span className="font-sans text-sm font-normal text-earth-muted whitespace-nowrap">
               {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''}
-              {selectedTags.length > 0 && ` matching ${selectedTags.length} tag${selectedTags.length !== 1 ? 's' : ''}`}
-            </p>
-          </div>
+              {selectedTags.length > 0 && ` · ${selectedTags.length} tag${selectedTags.length !== 1 ? 's' : ''}`}
+            </span>
+          </h2>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredPosts.map((post, index) => (
-              <PostCard key={post.id} post={post} imageSrc={oldBookImages[index % oldBookImages.length]} />
+            {filteredPosts.map((post) => (
+              <PostCard key={post.id} post={post} imageSrc={post.image} />
             ))}
           </div>
 

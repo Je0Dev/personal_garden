@@ -2,23 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { getPostBySlug, getRelatedPosts, posts } from '../data/posts';
-import Newsletter from '../components/Newsletter';
+import PageBanner from '../components/PageBanner';
 import ShareButtons from '../components/ShareButtons';
 import { renderContent, ArticleMeta } from '../components/article/ArticleContent';
-import { ExternalLinks, ProjectLinks } from '../components/article/ArticleLinks';
 import { ArticleNav, RelatedPosts } from '../components/article/ArticleNav';
-import ArticleGallery from '../components/article/ArticleGallery';
-
-const BASE = import.meta.env.BASE_URL;
-const galleryImages = [
-  { src: `${BASE}images/new-star.jpg` },
-  { src: `${BASE}images/came-upon-place.jpg` },
-  { src: `${BASE}images/silent-melancholy.jpg` },
-  { src: `${BASE}images/shipwrecked-sailor.jpg` },
-  { src: `${BASE}images/boyed-floating-tackle.jpg` },
-  { src: `${BASE}images/tavern-old-knew.jpg` },
-  { src: `${BASE}images/not-all-unhappy.jpg` },
-];
+import PostDownloads from '../components/article/PostDownloads';
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -30,7 +18,7 @@ const Article = () => {
 
   useEffect(() => {
     if (!post) return;
-    const headings = contentRef.current?.querySelectorAll('h2[id]');
+    const headings = contentRef.current?.querySelectorAll('h2[id], h3[id]');
     if (headings) {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -60,18 +48,23 @@ const Article = () => {
   }
 
   const postIndex = posts.findIndex(p => p.slug === slug);
-  const heroImage = galleryImages[postIndex % galleryImages.length].src;
   const prevPost = postIndex > 0 ? posts[postIndex - 1] : null;
   const nextPost = postIndex < posts.length - 1 ? posts[postIndex + 1] : null;
 
   return (
     <div className="pt-20 pb-16">
       <article>
+        <PageBanner image={post.image} height="h-64 md:h-[28rem]">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-cream leading-tight font-serif">
+            {post.title}
+          </h1>
+        </PageBanner>
+
         <header className="max-w-prose mx-auto px-6 mb-12">
           <nav className="flex items-center gap-2 text-sm text-earth-muted mb-6">
-            <Link to="/" className="hover:text-cream transition-colors">Home</Link>
+            <Link to="/" className="hover:text-tomato transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/tags" className="hover:text-cream transition-colors">Writing</Link>
+            <Link to="/tags" className="hover:text-tomato transition-colors">Discover</Link>
             <span>/</span>
             <span className="text-olive-light truncate max-w-[200px]">{post.title}</span>
           </nav>
@@ -82,22 +75,11 @@ const Article = () => {
             ))}
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-cream">
-            {post.title}
-          </h1>
-
           <div className="flex flex-wrap items-center justify-between gap-4">
             <ArticleMeta post={post} />
             <ShareButtons title={post.title} url={typeof window !== 'undefined' ? window.location.href : ''} />
           </div>
         </header>
-
-        <div className="max-w-prose mx-auto px-6 mb-12">
-          <div className="illustration-container">
-            <img src={heroImage} alt={post.title} className="w-full rounded-lg shadow-lg" loading="eager" />
-            <p className="illustration-caption">Illustration from Old Book Illustrations</p>
-          </div>
-        </div>
 
         <div className="max-w-wide mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
@@ -110,7 +92,7 @@ const Article = () => {
                       key={item.id}
                       href={`#${item.id}`}
                       className={`block text-sm py-1 border-l-2 pl-3 transition-colors ${
-                        activeSection === item.id ? 'border-olive-light text-cream' : 'border-moss text-earth-tan hover:text-cream hover:border-earth-tan'
+                        activeSection === item.id ? 'border-olive-light text-cream' : 'border-moss text-earth-tan hover:text-cream hover:border-olive-light'
                       }`}
                       style={{ paddingLeft: `${item.level * 8 + 12}px` }}
                     >
@@ -126,20 +108,7 @@ const Article = () => {
                 {renderContent(post.content)}
               </div>
 
-              <ExternalLinks links={post.externalLinks} />
-              <ProjectLinks links={post.projectLinks} />
-              <ArticleGallery images={galleryImages} />
-
-              <div className="mt-12 max-w-prose"><Newsletter /></div>
-
-              <div className="mt-12 pt-8 border-t border-moss max-w-prose">
-                <h3 className="font-sans text-sm font-semibold mb-3 text-earth-muted uppercase tracking-wider">Tags</h3>
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <Link key={tag} to={`/tags/${encodeURIComponent(tag)}`} className="tag-pill">#{tag}</Link>
-                  ))}
-                </div>
-              </div>
+              <PostDownloads downloads={post.downloads} />
             </div>
           </div>
         </div>
