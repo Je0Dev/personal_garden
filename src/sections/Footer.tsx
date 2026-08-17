@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Rss } from 'lucide-react';
+import { Github, Gitlab, Linkedin, Mail, Rss, Globe } from 'lucide-react';
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -10,6 +10,8 @@ const Footer = () => {
     { icon: Linkedin, href: 'https://www.linkedin.com/in/geomas/', label: 'LinkedIn' },
     { icon: Mail, href: 'mailto:george@example.com', label: 'Email' },
     { icon: Rss, href: '/rss.xml', label: 'RSS Feed' },
+    { icon: Gitlab, href: 'https://gitlab.com/mag30-admin', label: 'GitLab' },
+    { icon: Globe, href: 'https://je0dev.github.io/lang_website/', label: 'Lang App' },
   ];
 
   return (
@@ -24,7 +26,7 @@ const Footer = () => {
                 href={social.href}
                 target={social.href.startsWith('http') ? '_blank' : undefined}
                 rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="flex items-center justify-center w-10 h-10 bg-deep-forest border border-moss rounded hover:border-tomato hover:text-tomato transition-all duration-200"
+                className="flex items-center justify-center w-10 h-10 bg-deep-forest border border-moss rounded hover:border-tomato hover:text-tomato transition-colors"
                 aria-label={social.label}
               >
                 <social.icon className="w-4 h-4" />
