@@ -1,5 +1,4 @@
-# George's Garden
-
+# Cosmos
 > A personal blog, portfolio, and digital garden built with Astro, React, and Tailwind CSS.
 
 <img src="src/assets/images/shipwrecked-sailor.jpg" alt="Old book illustration" width="100%" />
