@@ -1,0 +1,47 @@
+---
+interface Props {
+  title: string;
+  url: string;
+}
+
+const { title, url } = Astro.props;
+---
+
+<div class="flex items-center gap-2">
+  <span class="text-xs text-earth-muted font-sans mr-1">Share</span>
+  <button
+    class="copy-link-btn p-2 bg-surface border border-border  hover:border-olive-light transition-colors"
+    aria-label="Copy link"
+    data-url={url}
+  >
+    <svg class="w-4 h-4 text-earth-muted hover:text-olive-light copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    </svg>
+    <svg class="w-4 h-4 text-olive-light check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-link-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const url = (btn as HTMLElement).dataset.url;
+      if (url) {
+        try {
+          await navigator.clipboard.writeText(url);
+          const copyIcon = btn.querySelector('.copy-icon');
+          const checkIcon = btn.querySelector('.check-icon');
+          copyIcon?.classList.add('hidden');
+          checkIcon?.classList.remove('hidden');
+          (window as any).addToast('Sharing is caring!', 'success');
+          setTimeout(() => {
+            copyIcon?.classList.remove('hidden');
+            checkIcon?.classList.add('hidden');
+          }, 2000);
+        } catch { /* ignore */ }
+      }
+    });
+  });
+</script>

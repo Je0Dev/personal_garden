@@ -1,0 +1,67 @@
+---
+const shortcuts = [
+  { key: '⌘K', description: 'Open search' },
+  { key: '↑↓', description: 'Navigate search results' },
+  { key: '←→', description: 'Switch search tabs' },
+  { key: '↵', description: 'Select result' },
+  { key: 'ESC', description: 'Close modal' },
+  { key: 'g h', description: 'Go to home' },
+  { key: 'g t', description: 'Go to tags' },
+  { key: 'g a', description: 'Go to about' },
+  { key: '?', description: 'Show shortcuts' },
+];
+---
+
+<div
+  id="keyboard-shortcuts"
+  class="fixed inset-0 z-[150] bg-deep-olive/95 backdrop-blur-md flex items-center justify-center p-4 hidden"
+>
+  <div
+    class="w-full max-w-md bg-deep-forest border border-moss  p-6 shadow-2xl"
+  >
+    <div class="flex items-center gap-3 mb-6">
+      <svg class="w-5 h-5 text-olive-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
+      </svg>
+      <h2 class="font-serif text-xl font-bold text-cream">Keyboard Shortcuts</h2>
+    </div>
+    
+    <div class="space-y-2">
+      {shortcuts.map(shortcut => (
+        <div class="flex items-center justify-between py-2 border-b border-moss/50 last:border-0">
+          <span class="text-earth-tan text-sm">{shortcut.description}</span>
+          <kbd class="px-2 py-1 bg-deep-olive border border-moss  text-xs font-mono text-cream">
+            {shortcut.key}
+          </kbd>
+        </div>
+      ))}
+    </div>
+    
+    <p class="mt-6 text-center text-xs text-earth-muted">
+      Press <kbd class="px-1.5 py-0.5 bg-deep-olive border border-moss  text-xs font-mono">?</kbd> to toggle this panel
+    </p>
+  </div>
+</div>
+
+<script>
+  const panel = document.getElementById('keyboard-shortcuts');
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const target = e.target as HTMLElement;
+      if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        panel?.classList.toggle('hidden');
+      }
+    }
+    if (e.key === 'Escape') {
+      panel?.classList.add('hidden');
+    }
+  });
+
+  panel?.addEventListener('click', (e) => {
+    if (e.target === panel) {
+      panel.classList.add('hidden');
+    }
+  });
+</script>

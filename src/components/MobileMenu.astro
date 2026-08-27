@@ -1,0 +1,66 @@
+---
+const navItems = [
+  { name: 'Home', path: import.meta.env.BASE_URL },
+  { name: 'Posts', path: `${import.meta.env.BASE_URL}tags/` },
+  { name: 'About', path: `${import.meta.env.BASE_URL}about/` },
+];
+---
+
+<div id="mobile-menu" class="fixed inset-0 z-[70] bg-deep-olive hidden">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-moss">
+      <a 
+        href={import.meta.env.BASE_URL}
+        class="font-serif text-xl font-semibold text-cream"
+      >
+        George
+      </a>
+      <button
+        id="close-mobile-menu"
+        class="p-2 text-text-muted hover:text-cream transition-colors"
+        aria-label="Close menu"
+      >
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <nav class="flex-1 px-6 py-8">
+      <ul class="space-y-6">
+        {navItems.map(item => (
+          <li>
+            <a
+              href={item.path}
+              class="block text-3xl transition-colors text-cream hover:text-tomato"
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    
+    <div class="px-6 py-8 border-t border-moss">
+      <p class="text-xs text-text-muted text-center">
+        A digital garden by George
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menu = document.getElementById('mobile-menu');
+  const closeBtn = document.getElementById('close-mobile-menu');
+  
+  document.addEventListener('toggle-mobile-menu', () => {
+    menu?.classList.toggle('hidden');
+    document.body.style.overflow = menu?.classList.contains('hidden') ? '' : 'hidden';
+  });
+
+  closeBtn?.addEventListener('click', () => {
+    menu?.classList.add('hidden');
+    document.body.style.overflow = '';
+  });
+</script>

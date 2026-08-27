@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { getTagColor } from '../../lib/tag-colors';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const allTags = Array.from(new Set(allPosts.flatMap(p => p.data.tags)));
+  
+  return allTags.map(tag => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const decodedTag = decodeURIComponent(tag);
+
+const allPosts = await getCollection('blog');
+const filteredPosts = allPosts
+  .filter(p => !p.data.draft && p.data.tags.some(t => t.toLowerCase() === decodedTag.toLowerCase()))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const tagColor = getTagColor(decodedTag);
+---
+
+<BaseLayout title={`${decodedTag} — George's Garden`}>
+  <div class="pt-20 pb-16">
+    <PageBanner image={`${import.meta.env.BASE_URL}images/silent-melancholy.jpg`}>
+      <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-cream heading-underline">
+        <a href={`${import.meta.env.BASE_URL}tags/`} class="text-olive-light hover:text-tomato transition-colors">Posts</a>
+        <span class="text-earth-muted mx-2">/</span>
+        <span style={`color: ${tagColor}`}>{decodedTag}</span>
+      </h1>
+      <p class="font-sans text-base text-earth-tan max-w-2xl mx-auto">
+        {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''} tagged with "{decodedTag}"
+      </p>
+    </PageBanner>
+
+    <div class="px-6">
+      <div class="max-w-wide mx-auto">
+        <h2 class="font-serif text-2xl font-bold text-cream mb-6 flex items-center gap-4 heading-underline">
+          Posts
+          <span class="h-px flex-1 border-border"></span>
+          <span class="font-sans text-sm font-normal text-earth-muted whitespace-nowrap">
+            {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''}
+          </span>
+        </h2>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredPosts.map(post => (
+            <PostCard post={post} />
+          ))}
+        </div>
+
+        {filteredPosts.length === 0 && (
+          <div class="text-center py-16">
+            <p class="text-earth-tan mb-4">No articles found with the selected tags.</p>
+            <a href={`${import.meta.env.BASE_URL}tags/`} class="inline-flex items-center gap-2 text-olive-light hover:text-tomato transition-colors">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Clear filters
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

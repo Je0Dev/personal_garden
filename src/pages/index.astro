@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection, render } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 8);
+
+const allPosts = await getCollection('blog');
+const tagCounts = allPosts.reduce((acc, post) => {
+  post.data.tags.forEach((tag: string) => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+const homeEntry = (await getCollection('pages')).find(e => e.id === 'home-page');
+const { Content: HomeContent } = homeEntry ? await render(homeEntry) : { Content: null };
+---
+
+<BaseLayout title="George's Garden">
+  <div class="pt-30 pb-12">
+    <div class="max-w-wide mx-auto px-6">
+        <PageBanner image={`${import.meta.env.BASE_URL}images/alpaca-wolf.jpg`}>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-cream heading-underline">
+          Home
+        </h1>
+        <div class="text-base text-earth-tan max-w-prose mx-auto mb-6 markdown-body">
+          {HomeContent && <HomeContent />}
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <a 
+            href={`${import.meta.env.BASE_URL}tags/`}
+            class="inline-flex items-center justify-center px-5 py-2.5 bg-tomato text-cream font-medium hover:bg-tomato-light transition-colors text-sm"
+          >
+            Read the Posts
+          </a>
+          <a
+            href={`${import.meta.env.BASE_URL}files/main.pdf`}
+            download="George_Mastrogiannis_CV.pdf"
+            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-olive-light text-olive-light font-medium hover:bg-olive-light hover:text-deep-olive transition-colors text-sm"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download CV
+          </a>
+        </div>
+      </PageBanner>
+
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-cream mb-6 flex items-center gap-4 heading-underline">
+          Recent Writing
+          <span class="h-px flex-1 border-border"></span>
+        </h2>
+        
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {posts.map(post => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      </section>
+      
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-cream mb-6 flex items-center gap-4 heading-underline">
+          Browse by Topic
+          <span class="h-px flex-1 border-border"></span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+          {Object.entries(tagCounts).map(([tag, count]) => (
+            <a
+              href={`${import.meta.env.BASE_URL}tags/${encodeURIComponent(tag)}/`}
+              class="group flex items-center justify-between p-3 bg-deep-forest border border-moss hover:border-olive-light transition-colors duration-200"
+            >
+              <span class="text-sm text-cream group-hover:text-olive-light transition-colors truncate mr-2">{tag}</span>
+              <span class="text-xs text-earth-muted flex-shrink-0">{count}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+      
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import { getTagColor } from '../../lib/tag-colors';
+import { resolveImage } from '../../lib/images';
+import { renderInlineMarkdown } from '../../lib/renderMarkdown';
+
+const allPosts = await getCollection('blog');
+const posts = allPosts.filter(p => !p.data.draft).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const allTags = Array.from(new Set(posts.flatMap(p => p.data.tags)));
+const tagPostCounts = allTags.map((tag: string) => ({
+  name: tag, count: posts.filter(p => p.data.tags.includes(tag)).length, color: getTagColor(tag),
+})).sort((a, b) => b.count - a.count);
+const postsWithImages = posts.map(p => ({ ...p, resolvedImage: resolveImage(p.data.illustration) }));
+const postEntry = (await getCollection('pages')).find(e => e.id === 'post-page');
+const { Content: PostContent } = postEntry ? await render(postEntry) : { Content: null };
+---
+
+<BaseLayout title="Posts — George's Garden">
+  <div class="pt-20 pb-16">
+    <PageBanner image={`${import.meta.env.BASE_URL}images/silent-melancholy.jpg`}>
+      <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-cream heading-underline">
+        Posts
+      </h1>
+      <div class="font-sans text-base text-earth-tan max-w-2xl mx-auto markdown-body">
+        {PostContent && <PostContent />}
+      </div>
+    </PageBanner>
+
+    <div class="px-6">
+      <div class="max-w-wide mx-auto">
+        <div id="tag-filters" class="flex flex-wrap gap-2 mb-8">
+          {tagPostCounts.map((tag) => (
+            <button
+              class="tag-filter-btn group flex items-center gap-2 px-3 py-2 bg-deep-forest border border-moss hover:border-olive-light transition-colors"
+              data-tag={tag.name}
+            >
+              <span class="w-2 h-2" style={`background-color: ${tag.color}`}></span>
+              <span class="font-sans text-sm text-cream group-hover:text-olive-light transition-colors">{tag.name}</span>
+              <span class="font-mono text-xs text-earth-muted">{tag.count}</span>
+            </button>
+          ))}
+        </div>
+
+        <div id="active-tags" class="hidden mb-4 flex items-center gap-2 flex-wrap">
+          <span class="text-xs text-earth-muted font-sans">Filtered by:</span>
+        </div>
+
+        <h2 class="font-serif text-2xl font-bold text-cream mb-6 flex items-center gap-4 heading-underline">
+          Posts
+          <span class="h-px flex-1 border-border"></span>
+          <span id="post-count" class="font-sans text-sm font-normal text-earth-muted whitespace-nowrap">
+            {posts.length} article{posts.length !== 1 ? 's' : ''}
+          </span>
+        </h2>
+
+        <div id="posts-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {postsWithImages.map((post) => (
+            <a
+              href={`${import.meta.env.BASE_URL}blog/${post.id}/`}
+              class="post-card group block h-full bg-surface border border-border overflow-hidden hover:border-olive-light transition-colors duration-200"
+              data-tags={JSON.stringify(post.data.tags)}
+            >
+              {post.resolvedImage && (
+                <div class="aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={post.resolvedImage}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    widths={[400, 800]}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
+              )}
+              <div class="p-4">
+                <div class="flex flex-wrap gap-1.5 mb-2">
+                  {post.data.tags.slice(0, 3).map((tag: string) => (
+                    <span class="post-tag text-xs font-mono px-1.5 py-0.5 bg-olive/20 text-olive-light/70 hover:text-olive-light hover:bg-olive/30 cursor-pointer transition-colors" data-tag={tag}>
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 class="font-serif font-bold text-cream group-hover:text-olive-light transition-colors mb-2 line-clamp-2 underline decoration-text-muted/30 underline-offset-2 group-hover:decoration-olive-light/50">
+                  {post.data.title}
+                </h3>
+                <div class="text-sm text-earth-muted font-sans line-clamp-2 mb-3" set:html={renderInlineMarkdown(post.data.description)} />
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div id="no-results" class="hidden text-center py-16">
+          <p class="text-earth-tan mb-4">No articles found with the selected tags.</p>
+          <button id="clear-filters" class="inline-flex items-center gap-2 text-olive-light hover:text-tomato transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Clear filters
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initTagFilters } from '../../scripts/tag-filter.js';
+  document.addEventListener('astro:page-load', initTagFilters);
+  initTagFilters();
+</script>

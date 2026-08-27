@@ -1,0 +1,38 @@
+html.light {
+  --clr-underline: #0d8ab8;
+  --clr-deep-olive: #f9f4da;
+  --clr-deep-forest: #ffffff;
+  --clr-deep-sage: #f0ebe0;
+  --clr-moss: #e0dbd4;
+  --clr-cream: #231f20;
+  --clr-tomato: #cf5c1a;
+  --clr-tomato-light: #b34f15;
+  --clr-olive-light: #c49520;
+  --clr-olive: #634d8c;
+  --clr-olive-dark: #634d8c;
+  --clr-earth-brown: #6e6560;
+  --clr-earth-tan: #231f20;
+  --clr-earth-muted: #6e6560;
+  --clr-rust: #b81d33;
+  --clr-amber: #9e8515;
+  --clr-clay: #088545;
+  --clr-sepia: #0d8ab8;
+
+  /* GitHub calendar overrides for light mode */
+  --color-calendar-graph-text: #6e6560;
+  --color-calendar-graph-default: #e8e2d6;
+}
+
+/* GitHub calendar SVG visibility in light mode */
+html.light svg text {
+  fill: #6e6560 !important;
+}
+
+html.light .react-activity-calendar rect {
+  stroke: #e0dbd4;
+  stroke-width: 1;
+}
+
+html.light .markdown-body h1 {
+  text-decoration-color: var(--clr-tomato);
+}

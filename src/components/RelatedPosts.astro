@@ -1,0 +1,31 @@
+---
+interface Props {
+  relatedPosts?: {
+    id: string;
+    title: string;
+    slug: string;
+  }[];
+}
+
+const { relatedPosts } = Astro.props;
+---
+
+{relatedPosts && relatedPosts.length > 0 && (
+  <div class="mt-16 border-t border-moss pt-8 max-w-wide mx-auto px-6">
+    <h3 class="font-serif text-2xl font-bold text-cream mb-6">
+      <span class="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-olive-light">
+        Related Reading
+      </span>
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {relatedPosts.map((related) => (
+        <a
+          href={`${import.meta.env.BASE_URL}blog/${related.slug}/`}
+          class="group p-4 bg-surface border border-moss hover:border-olive-light transition-colors"
+        >
+          <p class="font-serif text-cream group-hover:text-olive-light transition-colors mb-2">{related.title}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+)}

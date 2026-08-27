@@ -1,10 +1,20 @@
 ---
 title: How I Structure My Language Learning
-date: Feb 10, 2026
-excerpt: A practical breakdown of the tools, habits, and routines I use to learn German, Spanish, Chinese, and English in parallel.
+description: A practical breakdown of the tools, habits, and routines I use to learn German, Spanish, Chinese, and English in parallel.
+date: Aug 27, 2026
 tags:
   - Language Learning
   - Anki
+illustration: /personal_garden/images/burial-sarah-rawscan.jpg
+color: '#6b7b4b'
+author:
+  name: Geo Mas
+  avatar: https://avatars.githubusercontent.com/u/217055154?s=120&v=4
+  bio: Electrical and Computer Engineering student. Builder of things.
+relatedPosts:
+  - id: why-personal-website
+    title: Why I Keep a Personal Website
+    slug: why-personal-website
 ---
 Learning a language is a marathon, not a sprint. Learning four at once sounds insane — but with the right system, it's surprisingly manageable.
 
@@ -64,14 +74,3 @@ After two years of this system, here's what I've learned:
 - **Use dead time**. Podcasts during commute, Anki while waiting in line.
 
 The system isn't perfect, but it's sustainable. And sustainability is the only thing that matters in language learning.
-
-## Further Reading
-
-- [Dreaming Spanish](https://www.dreamingspanish.com/) — Comprehensible input-based Spanish learning platform
-- [Nicos Weg](https://learngerman.dw.com/en/nicos-weg/c-36519789) — Free German course by Deutsche Welle
-- [DuChinese](https://duchinese.net/) — Graded readers for Mandarin Chinese
-- [Anki](https://apps.ankiweb.net/) — Spaced repetition flashcard system
-
-## Related Projects
-
-- [Languages App](https://je0dev.github.io/lang_website/) — My language learning web app with resources and tools

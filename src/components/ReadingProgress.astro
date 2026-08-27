@@ -1,0 +1,27 @@
+---
+---
+
+<div id="reading-progress" class="fixed top-0 left-0 right-0 z-[60] h-1 bg-deep-forest">
+  <div
+    id="reading-progress-bar"
+    class="h-full bg-gradient-to-r from-olive-light via-tomato to-olive-light transition-all duration-150"
+    style="width: 0%"
+  />
+</div>
+
+<script>
+  const progressBar = document.getElementById('reading-progress-bar');
+  
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    const progress = Math.min(scrollProgress, 100);
+    if (progressBar) {
+      progressBar.style.width = `${progress}%`;
+    }
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>

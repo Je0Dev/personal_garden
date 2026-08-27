@@ -1,0 +1,114 @@
+---
+import CommandPalette from './CommandPalette';
+
+const navLinks = [
+  { href: `${import.meta.env.BASE_URL}tags/`, label: 'posts', class: 'hidden sm:block' },
+  { href: `${import.meta.env.BASE_URL}about/`, label: 'about', class: 'hidden sm:block' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
+  <div class="max-w-wide mx-auto px-6 py-4 flex items-center justify-between">
+    <a href={import.meta.env.BASE_URL} class="transition-colors hover:opacity-80">
+      <img
+        id="site-logo"
+        src={`${import.meta.env.BASE_URL}icon-home.png`}
+        alt="Digital Garden"
+        class="w-40 h-40 object-contain hover:scale-[1] transition-transform duration-300"
+      />
+    </a>
+    
+    <nav class="flex items-center gap-4 sm:gap-6">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class={`text-sm transition-colors px-3 py-1.5 border border-moss hover:border-olive-light ${link.class} ${
+            currentPath.includes(link.href) 
+              ? 'text-cream border-olive-light' 
+              : 'text-earth-tan hover:text-olive-light'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+
+      <a
+        href={`${import.meta.env.BASE_URL}files/main.pdf`}
+        download="George_Mastrogiannis_CV.pdf"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-moss text-earth-tan hover:border-olive-light hover:text-olive-light transition-colors text-sm"
+        aria-label="Download CV"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        CV
+      </a>
+      
+      <button
+        id="search-button"
+        class="flex items-center gap-2 px-3 py-1.5 bg-deep-forest border border-moss hover:border-olive-light transition-colors text-sm text-earth-muted hover:text-olive-light"
+        aria-label="Search"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span class="hidden sm:inline font-mono text-xs">⌘K</span>
+      </button>
+      
+      <button
+        id="theme-toggle"
+        class="p-2 border border-moss text-earth-muted hover:border-olive-light hover:text-olive-light transition-colors hidden sm:flex items-center justify-center"
+        aria-label="Toggle theme"
+      >
+        <span class="sun-icon hidden">☀</span>
+        <span class="moon-icon">☾</span>
+      </button>
+      
+      <button
+        id="mobile-menu-button"
+        class="p-2 border border-moss text-earth-muted hover:border-olive-light hover:text-olive-light transition-colors sm:hidden flex items-center justify-center"
+        aria-label="Open menu"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<CommandPalette client:load baseUrl={import.meta.env.BASE_URL} />
+
+<script>
+  const BASE = import.meta.env.BASE_URL;
+
+  function updateThemeIcon() {
+    const isLight = document.documentElement.classList.contains('light');
+    document.querySelector('#theme-toggle .sun-icon')?.classList.toggle('hidden', isLight);
+    document.querySelector('#theme-toggle .moon-icon')?.classList.toggle('hidden', !isLight);
+    const logo = document.getElementById('site-logo') as HTMLImageElement | null;
+    if (logo) logo.src = isLight ? `${BASE}icon-home-alt.png` : `${BASE}icon-home.png`;
+    const meta = document.getElementById('theme-color-meta') as HTMLMetaElement | null;
+    if (meta) meta.content = isLight ? '#f9f4da' : '#0f0d0e';
+  }
+  updateThemeIcon();
+  document.addEventListener('astro:after-swap', updateThemeIcon);
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const isLight = document.documentElement.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    updateThemeIcon();
+  });
+  document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('toggle-mobile-menu'));
+  });
+  document.getElementById('search-button')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('open-search'));
+  });
+</script>

@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import { resolveImage } from '../lib/images';
+
+interface Props {
+  image?: string;
+  height?: string;
+  title?: string;
+  description?: string;
+}
+
+const { image, height = 'h-64 md:h-96', title, description } = Astro.props;
+const resolvedImage = resolveImage(image);
+---
+
+<div class={`relative w-full ${height} overflow-hidden mb-12`}>
+  <div class="absolute inset-0 bg-gradient-to-t from-deep-olive/90 via-deep-olive/40 to-deep-olive/20 z-10" />
+  {resolvedImage ? (
+    <Image src={resolvedImage} alt="" class="w-full h-full object-cover opacity-70" loading="eager" widths={[800, 1200]} sizes="100vw" />
+  ) : image ? (
+    <img src={image} alt="" class="w-full h-full object-cover opacity-70" loading="eager" />
+  ) : null}
+  <div class="absolute inset-0 z-20 flex items-center justify-center">
+    <div class="text-center px-6">
+      {title && (
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight text-cream leading-tight font-serif">
+          {title}
+        </h1>
+      )}
+      {description && (
+        <p class="mt-4 text-lg text-earth-tan font-sans max-w-2xl mx-auto">
+          {description}
+        </p>
+      )}
+      <slot />
+    </div>
+  </div>
+</div>

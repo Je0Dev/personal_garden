@@ -1,0 +1,43 @@
+---
+interface Props {
+  prevPost?: { id: string; title: string; slug: string } | null;
+  nextPost?: { id: string; title: string; slug: string } | null;
+}
+
+const { prevPost, nextPost } = Astro.props;
+---
+
+<nav class="mt-16 border-t border-moss pt-8 max-w-wide mx-auto px-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    {prevPost ? (
+      <a
+        href={`${import.meta.env.BASE_URL}blog/${prevPost.slug}/`}
+        class="group flex items-start gap-4 p-4 bg-surface border border-moss hover:border-olive-light transition-colors"
+      >
+        <svg class="w-5 h-5 text-earth-muted group-hover:text-olive-light mt-1 flex-shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <div>
+          <p class="text-xs text-earth-muted font-sans mb-1">Previous</p>
+          <p class="font-serif text-cream group-hover:text-olive-light transition-colors">{prevPost.title}</p>
+        </div>
+      </a>
+    ) : <div />}
+    {nextPost ? (
+      <a
+        href={`${import.meta.env.BASE_URL}blog/${nextPost.slug}/`}
+        class="group flex items-start gap-4 p-4 bg-surface border border-moss hover:border-olive-light transition-colors text-right sm:text-left"
+      >
+        <div class="flex-1">
+          <p class="text-xs text-earth-muted font-sans mb-1">Next</p>
+          <p class="font-serif text-cream group-hover:text-olive-light transition-colors">{nextPost.title}</p>
+        </div>
+        <svg class="w-5 h-5 text-earth-muted group-hover:text-olive-light mt-1 flex-shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    ) : <div />}
+  </div>
+</nav>

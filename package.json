@@ -1,44 +1,43 @@
 {
   "name": "digital-garden",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "George's Garden — personal blog and portfolio by George Mastrogiannis",
   "author": "George Mastrogiannis",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3001",
-    "build": "npm run lint && npm run rss && vite build",
-    "rss": "tsx scripts/generate-rss.ts",
-    "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "dev": "astro dev --port 3001",
+    "build": "astro build",
+    "preview": "astro preview",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "^1.4.0",
-    "@tailwindcss/vite": "^4.1.14",
+    "@astrojs/markdown-remark": "^7.2.4",
+    "@astrojs/mdx": "^7.0.8",
+    "@astrojs/react": "^6.0.4",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.0.0",
+    "fuse.js": "^7.5.0",
     "katex": "^0.16.44",
     "lucide-react": "^0.562.0",
-    "motion": "^12.23.24",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-github-calendar": "^5.0.5",
-    "react-markdown": "^10.1.0",
-    "react-router-dom": "^7.13.2",
-    "react-syntax-highlighter": "^16.1.1",
     "rehype-katex": "^7.0.1",
     "rehype-raw": "^7.0.0",
-    "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "@types/react-syntax-highlighter": "^15.5.13",
-    "@vitejs/plugin-react": "^5.1.1",
-    "tailwindcss": "^4.1.14",
-    "tsx": "^4.21.0",
-    "typescript": "~5.8.2",
-    "vite": "^8.0.16"
+    "astro": "^7.2.8",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.8.2"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true,
+    "esbuild@0.28.2": true
   }
 }

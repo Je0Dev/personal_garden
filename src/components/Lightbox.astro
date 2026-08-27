@@ -1,0 +1,87 @@
+---
+---
+
+<div
+  id="lightbox"
+  class="fixed inset-0 z-[200] bg-deep-olive/98 backdrop-blur-md items-center justify-center p-4 hidden"
+>
+  <button
+    id="close-lightbox"
+    class="absolute top-4 right-4 p-2 text-earth-tan hover:text-tomato transition-colors z-10"
+    aria-label="Close lightbox"
+  >
+    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+  
+  <div 
+    id="lightbox-content"
+    class="relative max-w-5xl w-full max-h-[90vh] flex flex-col"
+  >
+    <div class="flex-1 overflow-auto flex items-center justify-center">
+      <img
+        id="lightbox-image"
+        src=""
+        alt=""
+        class="max-w-full max-h-[80vh] object-contain  shadow-2xl"
+        style="max-height: 80vh"
+      />
+    </div>
+    
+    <p id="lightbox-caption" class="text-center text-earth-muted font-sans text-sm mt-4 px-4 hidden"></p>
+    
+    <p class="text-center text-earth-muted/50 font-mono text-xs mt-2">
+      Press ESC or click outside to close
+    </p>
+  </div>
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const closeBtn = document.getElementById('close-lightbox');
+  const lightboxContent = document.getElementById('lightbox-content');
+
+  function openLightbox(src: string, alt: string, caption?: string) {
+    if (lightboxImage) {
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+    }
+    if (lightboxCaption && caption) {
+      lightboxCaption.textContent = caption;
+      lightboxCaption.classList.remove('hidden');
+    } else if (lightboxCaption) {
+      lightboxCaption.classList.add('hidden');
+    }
+    lightbox?.classList.remove('hidden');
+    lightbox?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox?.classList.add('hidden');
+    lightbox?.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('openLightbox', ((e: CustomEvent) => {
+    openLightbox(e.detail.src, e.detail.alt, e.detail.caption);
+  }) as EventListener);
+
+  closeBtn?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  lightboxContent?.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !lightbox?.classList.contains('hidden')) {
+      closeLightbox();
+    }
+  });
+</script>

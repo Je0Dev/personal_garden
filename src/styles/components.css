@@ -1,0 +1,78 @@
+.tag-pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: var(--clr-deep-sage);
+  border: 1px solid var(--clr-moss);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--clr-olive-light);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.tag-pill::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--clr-tomato);
+  transition: all 0.2s ease;
+  transform: translateX(-50%);
+}
+
+.tag-pill:hover {
+  background: var(--clr-moss);
+  border-color: var(--clr-olive-light);
+  color: var(--clr-cream);
+  text-decoration: none;
+}
+
+.tag-pill:hover::after { width: 80%; }
+
+.link-card {
+  display: block;
+  padding: 1rem 1.25rem;
+  background: var(--clr-deep-forest);
+  border: 1px solid var(--clr-moss);
+  margin-bottom: 0.75rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--clr-tomato);
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+}
+
+.link-card:hover {
+  background: var(--clr-deep-sage);
+  border-color: var(--clr-olive-light);
+  text-decoration: none;
+}
+
+.link-card:hover::before { transform: scaleY(1); }
+
+.link-card-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+  color: var(--clr-cream);
+}
+
+.link-card-desc {
+  font-size: 0.85rem;
+  color: var(--clr-earth-muted);
+}

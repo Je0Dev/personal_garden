@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+@import "./components.css";
+@import "./markdown-base.css";
+@import "./markdown-components.css";
+@import "./utilities.css";
+@import "./theme-light.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Playfair Display", Georgia, serif;
+  --width-wide: 1100px;
+
+  --color-deep-olive: var(--clr-deep-olive);
+  --color-deep-forest: var(--clr-deep-forest);
+  --color-deep-sage: var(--clr-deep-sage);
+  --color-moss: var(--clr-moss);
+  --color-cream: var(--clr-cream);
+  --color-tomato: var(--clr-tomato);
+  --color-tomato-light: var(--clr-tomato-light);
+  --color-olive-light: var(--clr-olive-light);
+  --color-olive: var(--clr-olive);
+  --color-olive-dark: var(--clr-olive-dark);
+  --color-earth-brown: var(--clr-earth-brown);
+  --color-earth-tan: var(--clr-earth-tan);
+  --color-earth-muted: var(--clr-earth-muted);
+  --color-rust: var(--clr-rust);
+  --color-amber: var(--clr-amber);
+  --color-clay: var(--clr-clay);
+  --color-sepia: var(--clr-sepia);
+  --color-bg: var(--clr-deep-olive);
+  --color-surface: var(--clr-deep-forest);
+  --color-surface-2: var(--clr-deep-sage);
+  --color-text: var(--clr-cream);
+  --color-text-muted: var(--clr-earth-muted);
+  --color-border: var(--clr-moss);
+}
+
+:root {
+  --clr-underline: #fcba28;
+  --clr-deep-olive: #0f0d0e;
+  --clr-deep-forest: #1c1a1b;
+  --clr-deep-sage: #242022;
+  --clr-moss: #262522;
+  --clr-cream: #f9f4da;
+  --clr-tomato: #fc7428;
+  --clr-tomato-light: #e86a20;
+  --clr-olive-light: #fcba28;
+  --clr-olive: #7b5ea7;
+  --clr-olive-dark: #634d8c;
+  --clr-earth-brown: #9e9590;
+  --clr-earth-tan: #e8dfd0;
+  --clr-earth-muted: #9e9590;
+  --clr-rust: #ed203d;
+  --clr-amber: #fcba28;
+  --clr-clay: #0ba95b;
+  --clr-sepia: #12b5e5;
+}
+
+html {
+  font-size: 15px;
+}
+
+html, body {
+  background-color: var(--clr-deep-olive);
+  color: var(--clr-cream);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background-color: rgba(252, 116, 40, 0.2);
+  color: #ffffff;
+}
+
+html.light ::selection {
+  background-color: rgba(252, 116, 40, 0.15);
+  color: #0f0d0e;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--clr-olive-light);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  background-color: var(--clr-deep-forest);
+  min-height: 100px;
+}

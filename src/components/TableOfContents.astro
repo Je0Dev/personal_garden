@@ -1,0 +1,41 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+---
+
+<aside class="hidden lg:block lg:col-span-1">
+  <div class="sticky top-24">
+    <h3 class="font-sans text-sm font-semibold mb-4 text-earth-muted uppercase tracking-wider">Contents</h3>
+    <nav class="space-y-2 gliding-sidebar">
+      {headings.filter(h => h.depth === 2 || h.depth === 3).map((heading) => (
+        <a
+          href={`#${heading.slug}`}
+          class="block text-sm py-1 border-l-2 pl-3 transition-colors border-moss text-earth-tan hover:text-cream hover:border-olive-light underline decoration-moss/30 underline-offset-2 decoration-dashed hover:decoration-olive-light/50"
+          style={`padding-left: ${(heading.depth - 2) * 1}rem`}
+        >
+          {heading.text}
+        </a>
+      ))}
+    </nav>
+  </div>
+</aside>
+
+<script>
+  const headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.gliding-sidebar a').forEach(a => a.classList.remove('active'));
+          const id = entry.target.id;
+          document.querySelector(`.gliding-sidebar a[href="#${id}"]`)?.classList.add('active');
+        }
+      });
+    },
+    { rootMargin: '-20% 0% -80% 0%' }
+  );
+  headings.forEach(h => observer.observe(h));
+</script>

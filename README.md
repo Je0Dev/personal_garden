@@ -1,8 +1,8 @@
-# Digital Garden
+# George's Garden
 
-> A personal blog, portfolio, and digital garden built with React, TypeScript, and Vite.
+> A personal blog, portfolio, and digital garden built with Astro, React, and Tailwind CSS.
 
-<img src="public/images/rape-lock.jpg" alt="Old book illustration" width="100%" />
+<img src="src/assets/images/shipwrecked-sailor.jpg" alt="Old book illustration" width="100%" />
 
 ---
 
@@ -10,13 +10,13 @@
 
 | Layer | Choice |
 |-------|--------|
-| Framework | React 19 + TypeScript |
-| Build | Vite 8 + rolldown |
+| Framework | Astro 7 + TypeScript |
+| Islands | React 19 (search, GitHub calendar) |
 | Styling | Tailwind CSS 4 (custom design tokens) |
-| Animation | motion (framer-motion v12) |
-| Routing | react-router-dom v7 |
-| Syntax Highlighting | react-syntax-highlighter (Prism + oneDark) |
+| Routing | Astro file-based routing |
+| Syntax Highlighting | Shiki (vitesse-dark) |
 | Math | KaTeX via rehype-katex |
+| Content | Astro content collections (Markdown) |
 | Deployment | GitHub Pages (via GitHub Actions) |
 
 ## Quick Start
@@ -29,6 +29,16 @@ npm run lint         # TypeScript type check
 npm run preview      # Preview production build
 ```
 
+## Features
+
+- Dark/light theme with persistence across navigations
+- Command palette search (⌘K) with regex support
+- Multi-select tag filtering
+- GitHub contribution calendar
+- RSS feed
+- View transitions
+- Responsive design
+- Print styles
 
 ## License
 
@@ -37,5 +47,3 @@ This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/
 ## Credits
 
 - Vintage illustrations from [Old Book Illustrations](https://www.oldbookillustrations.com)
-
-

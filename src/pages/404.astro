@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+---
+
+<BaseLayout title="404 — George's Garden">
+  <div class="pt-20 pb-16">
+    <div class="max-w-wide mx-auto">
+      <PageBanner image={`${import.meta.env.BASE_URL}images/shipwrecked-sailor.jpg`} height="h-64 md:h-[28rem]">
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-cream leading-[1.1] font-serif">
+          404
+        </h1>
+      </PageBanner>
+
+      <div class="px-6">
+        <div class="text-center max-w-2xl mx-auto">
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold mb-4 text-earth-tan">
+            Lost in the Archives
+          </h2>
+          <p class="text-earth-muted mb-8 font-sans max-w-md mx-auto">
+            The page you're looking for seems to have wandered off.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={import.meta.env.BASE_URL}
+              class="flex items-center gap-2 px-6 py-3 bg-olive-light text-deep-olive font-sans font-medium hover:bg-olive transition-colors"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              Back to Home
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}tags/`}
+              class="flex items-center gap-2 px-6 py-3 border border-moss text-cream font-sans hover:border-tomato hover:text-tomato transition-colors"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Browse Posts
+            </a>
+          </div>
+
+          <div class="divider-center mt-12"></div>
+
+          <p class="text-xs text-earth-muted mt-8 italic">
+            "Not all those who wander are lost"
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

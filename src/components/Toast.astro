@@ -1,0 +1,62 @@
+---
+---
+
+<div id="toast-container" class="fixed bottom-6 right-6 z-[200] flex flex-col gap-3 pointer-events-none">
+</div>
+
+<script>
+  let nextId = 0;
+
+  function addToast(message: string, type: 'success' | 'error' | 'info' = 'info') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const id = nextId++;
+    const toast = document.createElement('div');
+    toast.id = `toast-${id}`;
+    
+    const borderClass = {
+      success: 'border-olive-light',
+      error: 'border-tomato',
+      info: 'border-earth-tan',
+    }[type];
+
+    const textClass = {
+      success: 'text-olive-light',
+      error: 'text-tomato',
+      info: 'text-earth-tan',
+    }[type];
+
+    const iconSvg = {
+      success: '<polyline points="20 6 9 17 4 12"></polyline>',
+      error: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>',
+      info: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
+    }[type];
+
+    toast.className = `pointer-events-auto flex items-start gap-3 px-4 py-3 bg-deep-forest border ${borderClass} border-l-4  shadow-xl max-w-sm`;
+    toast.innerHTML = `
+      <svg class="w-5 h-5 flex-shrink-0 mt-0.5 ${textClass}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        ${iconSvg}
+      </svg>
+      <p class="font-sans text-sm text-cream flex-1">${message}</p>
+      <button class="text-earth-muted hover:text-tomato transition-colors flex-shrink-0">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    `;
+
+    toast.querySelector('button')?.addEventListener('click', () => {
+      toast.remove();
+    });
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.remove();
+    }, 4000);
+  }
+
+  (window as any).addToast = addToast;
+</script>
