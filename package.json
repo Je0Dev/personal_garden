@@ -18,7 +18,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@expressive-code/plugin-line-numbers": "^0.44.1",
-    "@tailwindcss/vite": "^4.0.0",
+    "@tailwindcss/vite": "^4.3.3",
     "astro-embed": "^0.14.0",
     "astro-expressive-code": "^0.44.1",
     "fuse.js": "^7.5.0",
