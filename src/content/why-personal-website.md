@@ -24,9 +24,9 @@ I didn't set out to build a personal website. It happened the way most good thin
 
 ## The Problem with Platforms
 
-Social media platforms are not your home. They are rented rooms where you can hang pictures on the wall, but the landlord can change the locks at any time. Algorithms shift. Accounts get suspended. Platforms die.
+Social media platforms are not your home. They are rented rooms where you can hang pictures on the wall, but the landlord can change the locks at any time. Algorithms shift. Accounts get suspended. Platforms die.[^1]
 
-Your own website is the one thing on the internet that is truly yours.
+Your own website is the one thing on the internet that is truly yours. The idea of :tip[SOUPS]{def="Self-Owned, Uncensorable Personal Space"} is what keeps me writing here instead of on someone else's feed.
 
 ## What I've Learned
 
@@ -36,7 +36,7 @@ Keeping a personal website has taught me more about the web than any course or t
 - How should a reader navigate my thoughts?
 - What do I want to be remembered for?
 
-These are design questions, but they're also philosophical ones.
+These are design questions, but they're also philosophical ones. Understanding :tip[HTML]{HyperText Markup Language} and :tip[CSS]{Cascading Style Sheets} at a basic level goes a long way when you own the stack.
 
 ## The Joy of Small Things
 
@@ -56,4 +56,12 @@ If you don't have a personal website, start with one page. Write about something
 
 The internet needs more small, careful websites. Yours could be one of them.
 
+If you want a concrete example of the kind of artifact I publish here, my CV is embedded below. You can read it inline or open the full :tip[PDF]{Portable Document Format} in a new tab.
+
+::pdf[/personal_garden/files/main.pdf]{height=480px}
+
+I also keep an eye on how the wider web thinks about owning your space — see this piece on [digital sovereignty](https://www.w3.org/blog/) for a related angle.
+
 ![Homer](/personal_garden/XSNt.gif)
+
+[^1]: Algorithms shift, accounts get suspended, and entire platforms have been shut down overnight. A personal website sidesteps that single point of failure.

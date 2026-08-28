@@ -74,7 +74,7 @@ export function useSearchState(baseUrl: string = '/personal_garden/') {
       tagMatches = ranked.map(r => ({
         type: 'tag' as const,
         title: r.matchedTag ?? r.item.title,
-        path: `${baseUrl}tags/${encodeURIComponent(r.matchedTag ?? r.item.title)}/`,
+        path: `${baseUrl}blog/tag/${encodeURIComponent(r.matchedTag ?? r.item.title)}/`,
       }));
     }
 

@@ -1,0 +1,34 @@
+---
+title: Phase 4 — Media Embedding (Test)
+description: "Test post for media embedding: YouTube/bare-link auto-embed, Bilibili, self-hosted video, ambient player, and subtitle mining with live transcript."
+date: Aug 28, 2026
+tags:
+  - Testing
+  - Dev
+  - Media
+illustration: /personal_garden/images/burial-sarah-rawscan.jpg
+color: '#6b8e23'
+author:
+  name: Geo Mas
+  avatar: https://avatars.githubusercontent.com/u/217055154?s=120&v=4
+  bio: Electrical and Computer Engineering student. Builder of things.
+---
+
+import SubtitlePlayer from '../components/SubtitlePlayer.tsx';
+
+This post tests **Phase 4 — Media Embedding**. Please review each block before we continue.
+
+
+##  Chinese
+
+<SubtitlePlayer client:load youtubeId="S5Q8Mb-pYCQ" subtitles="/personal_garden/subtitles/lazychinese-guess-teacher.srt" />
+
+## English
+
+<SubtitlePlayer client:load youtubeId="jNQXAC9IVRw" subtitles="/personal_garden/subtitles/english-sample.srt" />
+
+## German
+
+<SubtitlePlayer client:load youtubeId="p9OYDt7g29E" subtitles="/personal_garden/subtitles/german-sample.srt" />
+
+If everything looks right, Phase 4 is approved.

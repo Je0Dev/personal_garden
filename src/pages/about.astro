@@ -14,7 +14,7 @@ const aboutEntry = (await getCollection('pages')).find(e => e.id === 'about-page
 const { Content } = aboutEntry ? await render(aboutEntry) : { Content: null };
 ---
 
-<BaseLayout title="About — George's Garden">
+<BaseLayout title="About — Cosmos">
   <div class="pt-20 pb-12">
     <div class="max-w-wide mx-auto">
         <PageBanner image={`${import.meta.env.BASE_URL}images/alpaca-wolf.jpg`} height="h-64 md:h-[28rem]">

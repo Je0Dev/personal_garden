@@ -71,7 +71,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
       e.stopImmediatePropagation();
       const tag = target.dataset.tag || '';
       if (tag) {
-        window.location.href = `${import.meta.env.BASE_URL}tags/?tag=${encodeURIComponent(tag)}`;
+        window.location.href = `${import.meta.env.BASE_URL}blog/?tag=${encodeURIComponent(tag)}`;
       }
     }
   }, true);

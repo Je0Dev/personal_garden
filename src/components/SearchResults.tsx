@@ -36,7 +36,7 @@ function highlightMatches(text: string, query: string): React.ReactNode {
 function formatPath(path: string): string {
   const clean = path.replace(/^\/personal_garden\/?/, '/');
   if (clean.startsWith('/blog/')) return clean.replace('/blog/', '').replace(/\/$/, '') || '/';
-  if (clean.startsWith('/tags/')) return '#' + decodeURIComponent(clean.replace('/tags/', ''));
+  if (clean.startsWith('/blog/tag/')) return '#' + decodeURIComponent(clean.replace('/blog/tag/', ''));
   return clean;
 }
 

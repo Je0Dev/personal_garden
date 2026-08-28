@@ -1,0 +1,79 @@
+.markdown-body .expressive-code {
+  margin: 1.5rem 0;
+  --ec-uiFont: var(--font-mono);
+  --ec-codeFont: var(--font-mono);
+  --ec-uiTextColor: var(--clr-earth-tan);
+  --ec-uiBg: var(--clr-deep-forest);
+  --ec-uiBorderColor: var(--clr-moss);
+  --ec-frmShadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  --ec-frmBorderRadius: 0.5rem;
+  --ec-frmBorderColor: var(--clr-moss);
+  --ec-frmBg: var(--clr-deep-forest);
+  --ec-tipTextColor: var(--clr-olive-light);
+  --ec-tipBg: var(--clr-deep-sage);
+  --ec-tipBorderColor: var(--clr-olive-light);
+  --ec-selBg: rgba(252, 116, 40, 0.25);
+  --ec-codePadding: 1rem;
+}
+
+.markdown-body .expressive-code pre {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.markdown-body .expressive-code .ec-code pre {
+  background: transparent;
+}
+
+.markdown-body .expressive-code .ec-copy {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.markdown-body .expressive-code .ec-lang {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+html.light .markdown-body .expressive-code {
+  --ec-uiTextColor: #4b4231;
+  --ec-tipTextColor: #8a6d1f;
+}
+
+.markdown-body .expressive-code .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 1.5rem;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.markdown-body .expressive-code .header .title {
+  color: var(--clr-olive-light);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  word-break: break-all;
+}
+
+.markdown-body .expressive-code .ec-lang-label {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--clr-moss);
+  border-radius: 0.25rem;
+  color: var(--clr-earth-tan);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+html.light .markdown-body .expressive-code .ec-lang-label {
+  color: #6b5d3f;
+  border-color: #cbb58a;
+}

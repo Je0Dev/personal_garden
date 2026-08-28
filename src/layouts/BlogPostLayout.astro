@@ -11,11 +11,12 @@ import type { CollectionEntry } from 'astro:content';
 interface Props {
   post: CollectionEntry<'blog'>;
   headings: { depth: number; slug: string; text: string }[];
+  readingMinutes?: number;
   prevPost?: { id: string; title: string; slug: string } | null;
   nextPost?: { id: string; title: string; slug: string } | null;
 }
 
-const { post, headings, prevPost, nextPost } = Astro.props;
+const { post, headings, readingMinutes, prevPost, nextPost } = Astro.props;
 const { title, description, date, tags, illustration, author, relatedPosts, downloads } = post.data;
 
 const formattedDate = new Intl.DateTimeFormat('en-US', {
@@ -37,14 +38,14 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
       <nav class="flex items-center gap-2 text-sm text-text-muted mb-6 border border-moss rounded px-3 py-1.5 w-fit">
         <a href={import.meta.env.BASE_URL} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">Home</a>
         <span class="text-earth-muted/40">/</span>
-        <a href={`${import.meta.env.BASE_URL}tags/`} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">Posts</a>
+        <a href={`${import.meta.env.BASE_URL}blog/`} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">Blog</a>
         <span class="text-earth-muted/40">/</span>
         <span class="text-earth-tan truncate max-w-[200px]">{title}</span>
       </nav>
 
       <div class="flex flex-wrap gap-2 mb-6">
         {tags.map((tag) => (
-          <a href={`${import.meta.env.BASE_URL}tags/${encodeURIComponent(tag)}/`} class="tag-pill">#{tag}</a>
+          <a href={`${import.meta.env.BASE_URL}blog/tag/${encodeURIComponent(tag)}/`} class="tag-pill">#{tag}</a>
         ))}
       </div>
 
@@ -57,9 +58,18 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
-            {formattedDate}
-          </span>
-        </div>
+             {formattedDate}
+           </span>
+           {readingMinutes && (
+             <span class="flex items-center gap-1.5">
+               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <circle cx="12" cy="12" r="10"></circle>
+                 <polyline points="12 6 12 12 16 14"></polyline>
+               </svg>
+               {readingMinutes} min read
+             </span>
+           )}
+         </div>
         <ShareButtons title={title} url={Astro.url.href} />
       </div>
     </header>
@@ -86,4 +96,5 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 
 <script>
   import '../scripts/blog-post.js';
+  import '../scripts/linkcard-modal.js';
 </script>
