@@ -76,7 +76,7 @@ export default function SubtitlePlayer({ videoSrc, youtubeId, subtitles, poster 
 
   function mine(text: string) { if (!text) return; navigator.clipboard.writeText(text).catch(() => {}); setMined((m) => [...m, text]); setToast(`Mined: ${text.slice(0, 40)}…`); setTimeout(() => setToast(''), 1600); }
 
-  function mineSelection() { const s = window.getSelection(); const t = s?.toString().trim() || ''; if (t && trRef.current?.contains(s.anchorNode)) mine(t); }
+  function mineSelection() { const s = window.getSelection(); const t = s?.toString().trim() || ''; if (t && s && trRef.current?.contains(s.anchorNode)) mine(t); }
 
   function seek(i: number, j = -1) { const c = cues[i]; if (!c) return; let t = c.start; if (j >= 0 && tokens[i]?.length) { const toks = tokens[i]; const total = toks.reduce((s, x) => s + x.word.length, 0) || 1; let acc = 0; for (let k = 0; k <= j; k++) acc += toks[k].word.length; t = c.start + ((acc - toks[j].word.length / 2) / total) * (c.end - c.start); } if (videoRef.current) { videoRef.current.currentTime = t; videoRef.current.play().catch(() => {}); } else if (ytRef.current?.seekTo) { ytRef.current.seekTo(t, true); ytRef.current.playVideo?.(); } }
 

@@ -1,4 +1,5 @@
-import { segment, convert } from 'pinyin-pro';
+import { segment, OutputFormat } from 'pinyin-pro';
+import { TRAD_MAP } from './traditional-map';
 
 export type Lang = 'zh' | 'eu';
 
@@ -13,12 +14,14 @@ export function detectLang(text: string): Lang {
 }
 
 export function toTraditional(text: string): string {
-  return convert(text, { to: 'trad' });
+  let out = '';
+  for (const ch of text) out += TRAD_MAP[ch] ?? ch;
+  return out;
 }
 
 export function tokenize(text: string): Token[] {
   if (detectLang(text) === 'zh') {
-    const segs = segment(text, { json: true }) as { origin: string; result: string }[];
+    const segs = segment(text, { format: OutputFormat.AllSegment }) as { origin: string; result: string }[];
     return segs
       .map((s) => {
         const word = s.origin.trim();
