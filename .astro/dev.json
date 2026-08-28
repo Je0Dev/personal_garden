@@ -1,14 +1,14 @@
 {
-	"pid": 130297,
-	"port": 3001,
-	"url": "http://localhost:3001",
+	"pid": 122258,
+	"port": 3003,
+	"url": "http://localhost:3003",
 	"urls": {
 		"local": [
-			"http://localhost:3001/"
+			"http://localhost:3003/"
 		],
 		"network": [],
 		"networkInterfaceNames": []
 	},
-	"background": false,
-	"startedAt": "2026-08-27T14:21:52.683Z"
+	"background": true,
+	"startedAt": "2026-08-28T12:47:31.208Z"
 }

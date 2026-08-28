@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageBanner from '../../components/PageBanner.astro';
-import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageBanner from '../../../components/PageBanner.astro';
+import PostCard from '../../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
-import { getTagColor } from '../../lib/tag-colors';
+import { getTagColor } from '../../../lib/tag-colors';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -26,11 +26,11 @@ const filteredPosts = allPosts
 const tagColor = getTagColor(decodedTag);
 ---
 
-<BaseLayout title={`${decodedTag} — George's Garden`}>
+<BaseLayout title={`${decodedTag} — Cosmos`}>
   <div class="pt-20 pb-16">
     <PageBanner image={`${import.meta.env.BASE_URL}images/silent-melancholy.jpg`}>
       <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-cream heading-underline">
-        <a href={`${import.meta.env.BASE_URL}tags/`} class="text-olive-light hover:text-tomato transition-colors">Posts</a>
+        <a href={`${import.meta.env.BASE_URL}blog/`} class="text-olive-light hover:text-tomato transition-colors">Blog</a>
         <span class="text-earth-muted mx-2">/</span>
         <span style={`color: ${tagColor}`}>{decodedTag}</span>
       </h1>
@@ -58,7 +58,7 @@ const tagColor = getTagColor(decodedTag);
         {filteredPosts.length === 0 && (
           <div class="text-center py-16">
             <p class="text-earth-tan mb-4">No articles found with the selected tags.</p>
-            <a href={`${import.meta.env.BASE_URL}tags/`} class="inline-flex items-center gap-2 text-olive-light hover:text-tomato transition-colors">
+            <a href={`${import.meta.env.BASE_URL}blog/`} class="inline-flex items-center gap-2 text-olive-light hover:text-tomato transition-colors">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>

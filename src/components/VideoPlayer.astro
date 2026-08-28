@@ -1,0 +1,25 @@
+---
+interface Props {
+  src: string;
+  poster?: string;
+  type?: string;
+  caption?: string;
+}
+const { src, poster, type, caption } = Astro.props;
+const mime = type ?? (src.endsWith('.webm') ? 'video/webm' : 'video/mp4');
+---
+
+<figure class="my-8 not-prose">
+  <video
+    class="w-full rounded-xl border border-border bg-black"
+    controls
+    preload="metadata"
+    poster={poster}
+  >
+    <source src={src} type={mime} />
+    Your browser does not support the video tag.
+  </video>
+  {caption && (
+    <figcaption class="mt-2 text-center text-sm text-text-muted">{caption}</figcaption>
+  )}
+</figure>

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+if (import.meta.env.PROD) {
+  return Astro.redirect(`${import.meta.env.BASE_URL}blog/`);
+}
+
+const allPosts = await getCollection('blog');
+const drafts = allPosts
+  .filter((p) => p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Drafts — Cosmos">
+  <div class="pt-20 pb-16 px-6">
+    <div class="max-w-wide mx-auto">
+      <h1 class="font-serif text-3xl font-bold text-cream mb-2 heading-underline">Draft Preview</h1>
+      <p class="text-earth-tan mb-8 font-sans">
+        Dev-only view. {drafts.length} draft{drafts.length === 1 ? '' : 's'} not shown publicly.
+      </p>
+
+      {drafts.length === 0 && (
+        <p class="text-earth-muted">No drafts right now. Add <code>draft: true</code> to a post's frontmatter.</p>
+      )}
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {drafts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

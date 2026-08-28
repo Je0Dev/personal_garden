@@ -1,0 +1,15 @@
+---
+interface Props {
+  src: string;
+  height?: string;
+  title?: string;
+}
+
+const { src, height = '500px', title = 'PDF preview' } = Astro.props;
+const resolved = src.startsWith('http') ? src : `${import.meta.env.BASE_URL}files/${src}`;
+---
+
+<div class="pdf-embed">
+  <iframe class="pdf-embed-frame" src={resolved} style={`height:${height}`} title={title} loading="lazy"></iframe>
+  <a class="pdf-embed-link" href={resolved} target="_blank" rel="noopener">Open in new tab ↗</a>
+</div>

@@ -1,0 +1,19 @@
+1
+00:00:01,000 --> 00:00:04,500
+Welcome to the subtitle demo. This line is highlighted as it plays.
+
+2
+00:00:04,500 --> 00:00:08,000
+Click any line to mine it — the text is copied and selected.
+
+3
+00:00:08,000 --> 00:00:12,000
+Works with self-hosted video or a YouTube clip.
+
+4
+00:00:12,000 --> 00:00:16,000
+Import your own .srt or .vtt to study any language.
+
+5
+00:00:16,000 --> 00:00:20,000
+The transcript scrolls automatically to follow the audio.

@@ -1,0 +1,27 @@
+---
+interface Props {
+  bvid?: string;
+  aid?: string;
+  page?: number;
+  caption?: string;
+}
+const { bvid, aid, page = 1, caption } = Astro.props;
+const params = bvid ? `bvid=${bvid}` : `aid=${aid}`;
+const src = `https://player.bilibili.com/player.html?${params}&page=${page}&high_quality=1&danmaku=0`;
+---
+
+<figure class="my-8 not-prose">
+  <div class="relative w-full rounded-xl border border-border overflow-hidden bg-black" style="padding-top: 56.25%">
+    <iframe
+      class="absolute inset-0 h-full w-full"
+      src={src}
+      allowfullscreen
+      scrolling="no"
+      frameborder="0"
+      title="Bilibili video"
+    ></iframe>
+  </div>
+  {caption && (
+    <figcaption class="mt-2 text-center text-sm text-text-muted">{caption}</figcaption>
+  )}
+</figure>

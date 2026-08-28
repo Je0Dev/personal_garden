@@ -21,7 +21,7 @@ const homeEntry = (await getCollection('pages')).find(e => e.id === 'home-page')
 const { Content: HomeContent } = homeEntry ? await render(homeEntry) : { Content: null };
 ---
 
-<BaseLayout title="George's Garden">
+<BaseLayout title="Cosmos">
   <div class="pt-30 pb-12">
     <div class="max-w-wide mx-auto px-6">
         <PageBanner image={`${import.meta.env.BASE_URL}images/alpaca-wolf.jpg`}>
@@ -33,7 +33,7 @@ const { Content: HomeContent } = homeEntry ? await render(homeEntry) : { Content
         </div>
         <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
           <a 
-            href={`${import.meta.env.BASE_URL}tags/`}
+            href={`${import.meta.env.BASE_URL}blog/`}
             class="inline-flex items-center justify-center px-5 py-2.5 bg-tomato text-cream font-medium hover:bg-tomato-light transition-colors text-sm"
           >
             Read the Posts
@@ -75,7 +75,7 @@ const { Content: HomeContent } = homeEntry ? await render(homeEntry) : { Content
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
           {Object.entries(tagCounts).map(([tag, count]) => (
             <a
-              href={`${import.meta.env.BASE_URL}tags/${encodeURIComponent(tag)}/`}
+              href={`${import.meta.env.BASE_URL}blog/tag/${encodeURIComponent(tag)}/`}
               class="group flex items-center justify-between p-3 bg-deep-forest border border-moss hover:border-olive-light transition-colors duration-200"
             >
               <span class="text-sm text-cream group-hover:text-olive-light transition-colors truncate mr-2">{tag}</span>

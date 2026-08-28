@@ -1,0 +1,50 @@
+/* Phase 6 — Dynamic GIF hover preview */
+.gif-hover-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  max-width: 280px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  border: 1px solid var(--clr-moss);
+  border-radius: 6px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  background: var(--clr-deep-forest);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  object-fit: contain;
+}
+
+.gif-hover-preview.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gif-hover-preview:not(.is-loaded) {
+  min-width: 120px;
+  min-height: 80px;
+}
+
+/* Transparent GIFs: drop the background and border so the animation shows through */
+.gif-hover-preview.is-transparent {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gif-hover-preview {
+    transition: opacity 0.15s ease;
+    transform: none;
+  }
+  .gif-hover-preview.is-visible { transform: none; }
+}
+
+/* CV / action buttons that trigger a GIF preview */
+[data-gif].gif-trigger {
+  position: relative;
+}

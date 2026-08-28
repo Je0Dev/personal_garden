@@ -1,7 +1,7 @@
 {
-  "name": "George's Garden",
-  "short_name": "Garden",
-  "description": "A personal digital garden by George Mastrogiannis",
+  "name": "Cosmos",
+  "short_name": "Cosmos",
+  "description": "The personal blog and digital garden of George Mastrogiannis",
   "start_url": "/personal_garden/",
   "display": "standalone",
   "background_color": "#141410",
