@@ -22,7 +22,7 @@
     "astro-embed": "^0.14.0",
     "astro-expressive-code": "^0.44.1",
     "fuse.js": "^7.5.0",
-    "katex": "^0.16.44",
+    "katex": "^0.18.4",
     "lucide-react": "^0.562.0",
     "pinyin-pro": "^3.29.3",
     "react": "^19.2.0",
