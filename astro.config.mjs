@@ -27,7 +27,7 @@ export default defineConfig({
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'de', 'zh'],
-    prefixDefaultLocale: false,
+    prefixDefaultLocale: true,
   },
   integrations: [react(), expressiveCode(ecConfig), mdx(), sitemap()],
   vite: {

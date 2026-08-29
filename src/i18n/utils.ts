@@ -1,8 +1,10 @@
 import { ui, defaultLocale, type Locale } from './ui';
 
 export function getLangFromUrl(url: URL): Locale {
-  const [, lang] = url.pathname.split('/');
-  if (lang in ui) return lang as Locale;
+  const segments = url.pathname.split('/').filter(Boolean);
+  for (const segment of segments) {
+    if (segment in ui) return segment as Locale;
+  }
   return defaultLocale;
 }
 
