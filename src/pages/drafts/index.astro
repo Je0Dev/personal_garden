@@ -2,9 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 if (import.meta.env.PROD) {
-  return Astro.redirect(`${import.meta.env.BASE_URL}blog/`);
+  return Astro.redirect(`${import.meta.env.BASE_URL}en/blog/`);
 }
 
 const allPosts = await getCollection('blog');

@@ -1,10 +1,19 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
+const lang = locale;
+const t = useTranslations(lang);
 ---
 
 <button
   id="back-to-top"
   class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-deep-forest border border-moss text-olive-light  shadow-lg hover:bg-deep-sage hover:border-tomato hover:text-tomato transition-colors flex items-center justify-center group hidden"
-  aria-label="Back to top"
+  aria-label={t('ui.backToTop')}
 >
   <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <polyline points="18 15 12 9 6 15"></polyline>

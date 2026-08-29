@@ -7,6 +7,10 @@ export function initTagFilters() {
   const postCount = document.getElementById('post-count');
   const clearBtn = document.getElementById('clear-filters');
 
+  const filteredByText = activeTagsEl?.getAttribute('data-filtered-by') || 'Filtered by:';
+  const articleText = postCount?.getAttribute('data-article-text') || 'article';
+  const articlesText = postCount?.getAttribute('data-articles-text') || 'articles';
+
   function updateFilter() {
     let visible = 0;
     postCards.forEach(card => {
@@ -24,14 +28,14 @@ export function initTagFilters() {
 
     activeTagsEl?.classList.toggle('hidden', selectedTags.size === 0);
     if (activeTagsEl) {
-      activeTagsEl.innerHTML = '<span class="text-xs text-earth-muted font-sans">Filtered by:</span>';
+      activeTagsEl.innerHTML = `<span class="text-xs text-earth-muted font-sans">${filteredByText}</span>`;
       selectedTags.forEach(tag => {
         activeTagsEl.innerHTML += `<button class="active-tag text-xs font-mono px-2 py-1 bg-olive/20 text-olive-light hover:bg-tomato/20 hover:text-tomato transition-colors" data-tag="${tag}">#${tag} ×</button>`;
       });
     }
 
     noResults?.classList.toggle('hidden', visible > 0);
-    if (postCount) postCount.textContent = `${visible} article${visible !== 1 ? 's' : ''}`;
+    if (postCount) postCount.textContent = `${visible} ${visible !== 1 ? articlesText : articleText}`;
 
     const params = new URLSearchParams(window.location.search);
     params.delete('tag');

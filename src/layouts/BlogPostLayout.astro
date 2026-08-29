@@ -7,6 +7,8 @@ import PostDownloads from '../components/PostDownloads.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import type { CollectionEntry } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getTranslatedTag } from '../i18n/tags';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -14,12 +16,15 @@ interface Props {
   readingMinutes?: number;
   prevPost?: { id: string; title: string; slug: string } | null;
   nextPost?: { id: string; title: string; slug: string } | null;
+  locale?: string;
 }
 
-const { post, headings, readingMinutes, prevPost, nextPost } = Astro.props;
+const { post, headings, readingMinutes, prevPost, nextPost, locale = 'en' } = Astro.props;
 const { title, description, date, tags, illustration, author, relatedPosts, downloads } = post.data;
+const lang = locale;
+const t = useTranslations(lang);
 
-const formattedDate = new Intl.DateTimeFormat('en-US', {
+const formattedDate = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : lang === 'de' ? 'de-DE' : 'en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -36,16 +41,16 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 
     <header class="max-w-prose mx-auto px-6 mb-12">
       <nav class="flex items-center gap-2 text-sm text-text-muted mb-6 border border-moss rounded px-3 py-1.5 w-fit">
-        <a href={import.meta.env.BASE_URL} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">Home</a>
+        <a href={`${import.meta.env.BASE_URL}${lang}/`} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">{t('nav.home')}</a>
         <span class="text-earth-muted/40">/</span>
-        <a href={`${import.meta.env.BASE_URL}blog/`} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">Blog</a>
+        <a href={`${import.meta.env.BASE_URL}${lang}/blog/`} class="text-olive-light underline underline-offset-2 decoration-olive-light/50 hover:text-tomato hover:decoration-tomato transition-colors">{t('nav.blog')}</a>
         <span class="text-earth-muted/40">/</span>
         <span class="text-earth-tan truncate max-w-[200px]">{title}</span>
       </nav>
 
       <div class="flex flex-wrap gap-2 mb-6">
         {tags.map((tag) => (
-          <a href={`${import.meta.env.BASE_URL}blog/tag/${encodeURIComponent(tag)}/`} class="tag-pill">#{tag}</a>
+          <a href={`${import.meta.env.BASE_URL}${lang}/blog/tag/${encodeURIComponent(getTranslatedTag(tag, lang))}/`} class="tag-pill">#{getTranslatedTag(tag, lang)}</a>
         ))}
       </div>
 
@@ -66,31 +71,31 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
                  <circle cx="12" cy="12" r="10"></circle>
                  <polyline points="12 6 12 12 16 14"></polyline>
                </svg>
-               {readingMinutes} min read
+               {readingMinutes} {t('blog.minRead')}
              </span>
            )}
          </div>
-        <ShareButtons title={title} url={Astro.url.href} />
+        <ShareButtons title={title} url={Astro.url.href} locale={lang} />
       </div>
     </header>
 
     <div class="max-w-wide mx-auto px-6">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
-        <TableOfContents headings={headings} />
+        <TableOfContents headings={headings} locale={lang} />
 
         <div class="lg:col-span-3">
           <div class="prose max-w-prose markdown-body">
             <slot />
           </div>
 
-          <PostDownloads downloads={downloads} />
+          <PostDownloads downloads={downloads} locale={lang} />
         </div>
       </div>
     </div>
 
-    <RelatedPosts relatedPosts={relatedPosts} />
+    <RelatedPosts relatedPosts={relatedPosts} locale={lang} />
 
-    <ArticleNav prevPost={prevPost} nextPost={nextPost} />
+    <ArticleNav prevPost={prevPost} nextPost={nextPost} locale={lang} />
   </article>
 </BaseLayout>
 

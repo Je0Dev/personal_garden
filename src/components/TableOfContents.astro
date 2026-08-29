@@ -1,14 +1,18 @@
 ---
 interface Props {
   headings: { depth: number; slug: string; text: string }[];
+  locale?: string;
 }
 
-const { headings } = Astro.props;
+const { headings, locale = 'en' } = Astro.props;
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = locale;
+const t = useTranslations(lang);
 ---
 
 <aside class="hidden lg:block lg:col-span-1">
   <div class="sticky top-24">
-    <h3 class="font-sans text-sm font-semibold mb-4 text-earth-muted uppercase tracking-wider">Contents</h3>
+    <h3 class="font-sans text-sm font-semibold mb-4 text-earth-muted uppercase tracking-wider">{t('blog.contents')}</h3>
     <nav class="space-y-2 gliding-sidebar">
       {headings.filter(h => h.depth === 2 || h.depth === 3).map((heading) => (
         <a

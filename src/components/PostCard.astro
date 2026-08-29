@@ -6,14 +6,15 @@ import { renderInlineMarkdown } from '../lib/renderMarkdown';
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  locale?: string;
 }
 
-const { post } = Astro.props;
+const { post, locale = 'en' } = Astro.props;
 const { title, description, date, tags, illustration } = post.data;
 const resolvedImage = resolveImage(illustration);
 const renderedDescription = renderInlineMarkdown(description);
 
-const formattedDate = new Intl.DateTimeFormat('en-US', {
+const formattedDate = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-CN' : locale === 'de' ? 'de-DE' : 'en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -21,7 +22,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 ---
 
 <a
-  href={`${import.meta.env.BASE_URL}blog/${post.id}/`}
+  href={`${import.meta.env.BASE_URL}${locale}/blog/${post.id.split('/').slice(2).join('/')}/`}
   class="group block h-full bg-surface border border-border overflow-hidden hover:border-text-muted transition-colors duration-200"
 >
   {resolvedImage && (
@@ -71,7 +72,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
       e.stopImmediatePropagation();
       const tag = target.dataset.tag || '';
       if (tag) {
-        window.location.href = `${import.meta.env.BASE_URL}blog/?tag=${encodeURIComponent(tag)}`;
+        window.location.href = `${import.meta.env.BASE_URL}${locale}/blog/?tag=${encodeURIComponent(tag)}`;
       }
     }
   }, true);

@@ -1,15 +1,21 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
 interface Props {
   src: string;
   height?: string;
   title?: string;
+  locale?: string;
 }
 
-const { src, height = '500px', title = 'PDF preview' } = Astro.props;
+const { src, height = '500px', title, locale } = Astro.props;
+const lang = locale || getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const resolved = src.startsWith('http') ? src : `${import.meta.env.BASE_URL}files/${src}`;
+const frameTitle = title || t('ui.visitedSite');
 ---
 
 <div class="pdf-embed">
-  <iframe class="pdf-embed-frame" src={resolved} style={`height:${height}`} title={title} loading="lazy"></iframe>
-  <a class="pdf-embed-link" href={resolved} target="_blank" rel="noopener">Open in new tab ↗</a>
+  <iframe class="pdf-embed-frame" src={resolved} style={`height:${height}`} title={frameTitle} loading="lazy"></iframe>
+  <a class="pdf-embed-link" href={resolved} target="_blank" rel="noopener">{t('ui.visitedSite')}</a>
 </div>

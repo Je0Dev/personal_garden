@@ -1,0 +1,48 @@
+---
+interface Props {
+  baseUrl: string;
+}
+const { baseUrl } = Astro.props;
+---
+
+<script define:vars={{ baseUrl }}>
+  function updateThemeIcon() {
+    const isLight = document.documentElement.classList.contains('light');
+    document.querySelector('#theme-toggle .sun-icon')?.classList.toggle('hidden', isLight);
+    document.querySelector('#theme-toggle .moon-icon')?.classList.toggle('hidden', !isLight);
+    const logo = document.getElementById('site-logo');
+    if (logo) logo.src = isLight ? `${baseUrl}icon-home-alt.png` : `${baseUrl}icon-home.png`;
+    const meta = document.getElementById('theme-color-meta');
+    if (meta) meta.content = isLight ? '#f9f4da' : '#0f0d0e';
+  }
+  updateThemeIcon();
+  document.addEventListener('astro:after-swap', updateThemeIcon);
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const isLight = document.documentElement.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    updateThemeIcon();
+  });
+  document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('toggle-mobile-menu'));
+  });
+  document.getElementById('search-button')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('open-search'));
+  });
+
+  const codeSelect = document.getElementById('code-theme-select');
+  function applyCodeTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('code-theme', theme);
+    if (codeSelect) codeSelect.value = theme;
+  }
+  function initCodeTheme() {
+    const saved = localStorage.getItem('code-theme');
+    if (saved) { applyCodeTheme(saved); return; }
+    const isLight = document.documentElement.classList.contains('light');
+    applyCodeTheme(isLight ? 'github-light' : 'vitesse-dark');
+  }
+  initCodeTheme();
+  document.addEventListener('astro:after-swap', initCodeTheme);
+  codeSelect?.addEventListener('change', () => applyCodeTheme(codeSelect.value));
+</script>

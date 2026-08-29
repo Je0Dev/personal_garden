@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
+import { ui, type Locale } from '../i18n/ui';
 
 const GITHUB_USERNAME = 'Je0Dev';
 const GITHUB_API = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}`;
 const GITHUB_USER_API = `https://api.github.com/users/${GITHUB_USERNAME}`;
 
-export default function GitHubCalendarComponent() {
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
+}
+
+interface Props {
+  locale?: Locale;
+}
+
+export default function GitHubCalendarComponent({ locale = 'en' }: Props) {
+  const t = getT(locale);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [years, setYears] = useState<number[]>([]);
   const [totals, setTotals] = useState<Record<number, number>>({});
@@ -33,7 +43,7 @@ export default function GitHubCalendarComponent() {
         }
       })
       .catch(() => {
-        if (!cancelled) setError('Could not load GitHub contribution data.');
+        if (!cancelled) setError(t('github.error'));
       });
     return () => { cancelled = true; };
   }, []);
@@ -50,16 +60,16 @@ export default function GitHubCalendarComponent() {
     return (
       <div className="text-center py-8">
         <div className="w-6 h-6 border-2 border-olive-light border-t-transparent animate-spin mx-auto mb-2" />
-        <p className="text-earth-muted font-sans text-xs">Loading contributions...</p>
+        <p className="text-earth-muted font-sans text-xs">{t('github.loading')}</p>
       </div>
     );
   }
 
   const stats = [
-    { label: 'Contributions', value: selectedYear !== null ? (totals[selectedYear] ?? 0) : 0 },
-    { label: 'Public Repos', value: profile?.public_repos ?? '—' },
-    { label: 'Followers', value: profile?.followers ?? '—' },
-    { label: 'Following', value: profile?.following ?? '—' },
+    { label: t('github.contributions'), value: selectedYear !== null ? (totals[selectedYear] ?? 0) : 0 },
+    { label: t('github.publicRepos'), value: profile?.public_repos ?? '—' },
+    { label: t('github.followers'), value: profile?.followers ?? '—' },
+    { label: t('github.following'), value: profile?.following ?? '—' },
   ];
 
   return (
@@ -88,25 +98,14 @@ export default function GitHubCalendarComponent() {
         ))}
       </div>
       <div className=" bg-surface border border-moss overflow-x-auto p-4">
-        <GitHubCalendar
-          username={GITHUB_USERNAME}
-          year={selectedYear ?? undefined}
-          blockSize={12}
-          blockMargin={4}
-          fontSize={12}
-          showWeekdayLabels={['mon', 'wed', 'fri']}
-          showMonthLabels={true}
-          showTotalCount={true}
-          labels={{ totalCount: '{{count}} contributions in {{year}}' }}
-          tooltips={{
-            activity: {
-              text: (activity: { date: string; count: number }) => {
-                const date = new Date(`${activity.date}T00:00:00`);
-                const label = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-                return `${activity.count} ${activity.count === 1 ? 'contribution' : 'contributions'} on ${label}`;
-              },
-            },
-          }}
+        <GitHubCalendar username={GITHUB_USERNAME} year={selectedYear ?? undefined}
+          blockSize={12} blockMargin={4} fontSize={12} showWeekdayLabels={['mon', 'wed', 'fri']}
+          showMonthLabels={true} showTotalCount={true} labels={{ totalCount: '{{count}} contributions in {{year}}' }}
+          tooltips={{ activity: { text: (activity: { date: string; count: number }) => {
+            const date = new Date(`${activity.date}T00:00:00`);
+            const label = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+            return `${activity.count} ${activity.count === 1 ? 'contribution' : 'contributions'} on ${label}`;
+          } } }}
         />
       </div>
     </div>

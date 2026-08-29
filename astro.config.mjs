@@ -15,6 +15,7 @@ import { remarkCodeMeta } from './src/lib/remark-code-meta.mjs';
 import { remarkLinkcard } from './src/lib/remark-linkcard.mjs';
 import { rehypeOgPreview } from './src/lib/rehype-og-preview.mjs';
 import { rehypeLinkcard } from './src/lib/rehype-linkcard.mjs';
+import { remarkRuby } from './src/lib/remark-ruby.mjs';
 import { unified } from '@astrojs/markdown-remark';
 import ecConfig from './ec.config.mjs';
 
@@ -23,13 +24,18 @@ export default defineConfig({
   base: '/personal_garden/',
   trailingSlash: 'always',
   devToolbar: { enabled: false },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'de', 'zh'],
+    prefixDefaultLocale: true,
+  },
   integrations: [react(), expressiveCode(ecConfig), mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkMath, remarkGfm, [remarkEmoji, { accessible: true }], remarkDirective, remarkTooltip, remarkCodeMeta, remarkLinkcard],
+      remarkPlugins: [remarkMath, remarkGfm, [remarkEmoji, { accessible: true }], remarkDirective, remarkTooltip, remarkCodeMeta, remarkLinkcard, remarkRuby],
       rehypePlugins: [rehypeKatex, rehypeRaw, rehypeLinkcard, rehypeOgPreview],
     }),
   },

@@ -1,22 +1,29 @@
 import type { FilterType } from '../lib/useSearchState';
+import { ui, type Locale } from '../i18n/ui';
 
 interface SearchTypeFilterProps {
   filterType: FilterType;
   onFilterChange: (type: FilterType) => void;
   resultCount: number;
+  locale?: Locale;
 }
 
-const filters: { key: FilterType; label: string }[] = [
-  { key: 'all', label: 'All' },
-  { key: 'posts', label: 'Posts' },
-  { key: 'tags', label: 'Tags' },
-];
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
+}
 
 export default function SearchTypeFilter({
   filterType,
   onFilterChange,
   resultCount,
+  locale = 'en',
 }: SearchTypeFilterProps) {
+  const t = getT(locale);
+  const filters: { key: FilterType; label: string }[] = [
+    { key: 'all', label: t('search.all') },
+    { key: 'posts', label: t('search.posts') },
+    { key: 'tags', label: t('search.tags') },
+  ];
   return (
     <div className="px-5 py-2 border-b border-moss/50 flex items-center justify-between">
       <div className="flex items-center gap-1">
@@ -35,7 +42,7 @@ export default function SearchTypeFilter({
         ))}
       </div>
       <span className="text-xs font-mono text-earth-muted/60">
-        {resultCount} {resultCount === 1 ? 'result' : 'results'}
+        {resultCount} {resultCount === 1 ? t('search.result') : t('search.resultsPlural')}
       </span>
     </div>
   );

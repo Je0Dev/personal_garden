@@ -1,4 +1,5 @@
 import { type Token, toTraditional } from '../lib/transcript';
+import { ui, type Locale } from '../i18n/ui';
 
 interface Props {
   cues: Token[][];
@@ -13,11 +14,17 @@ interface Props {
   focus: boolean;
   uid: string;
   onSeek: (i: number, j?: number) => void;
+  locale?: Locale;
+}
+
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
 }
 
 export default function Transcript({
-  cues, active, activeToken, showPinyin, showLevels, fontSize, fontFamily, isZh, showTrad, focus, uid, onSeek,
+  cues, active, activeToken, showPinyin, showLevels, fontSize, fontFamily, isZh, showTrad, focus, uid, onSeek, locale = 'en',
 }: Props) {
+  const t = getT(locale);
   return (
     <div
       className="mt-3 max-h-72 space-y-1 overflow-y-auto pr-2 text-base leading-relaxed"
@@ -32,27 +39,27 @@ export default function Transcript({
             i === active ? 'bg-olive-light/10' : 'text-earth-tan'
           } ${focus && i !== active ? 'blur-[2px] opacity-40' : ''}`}
         >
-          {tokens.map((t, j) => (
+          {tokens.map((tk, j) => (
             <span
               key={j}
               onClick={(e) => { e.stopPropagation(); onSeek(i, j); }}
               className={`rounded px-0.5 transition-colors ${
                 i === active && j === activeToken ? 'tok-active' : ''
-              } ${showLevels ? `lvl-${t.level}` : ''}`}
+              } ${showLevels ? `lvl-${tk.level}` : ''}`}
             >
               {showPinyin ? (
                 <ruby>
-                  {showTrad ? toTraditional(t.word) : t.word}
-                  <rt className="ruby-py">{t.py}</rt>
+                  {showTrad ? toTraditional(tk.word) : tk.word}
+                  <rt className="ruby-py">{tk.py}</rt>
                 </ruby>
               ) : (
-                showTrad ? toTraditional(t.word) : t.word
+                showTrad ? toTraditional(tk.word) : tk.word
               )}{!isZh ? ' ' : ''}
             </span>
           ))}
         </p>
       ))}
-      {!cues.length && <p className="text-text-muted">No subtitles loaded.</p>}
+      {!cues.length && <p className="text-text-muted">{t('player.noSubtitles')}</p>}
     </div>
   );
 }

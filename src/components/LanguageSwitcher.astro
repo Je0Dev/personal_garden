@@ -1,0 +1,43 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { locales } from '../i18n/ui';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const languageLabels: Record<string, string> = {
+  en: 'EN',
+  de: 'DE',
+  zh: '中文',
+};
+
+const currentPath = Astro.url.pathname;
+---
+
+<div class:list={['flex items-center gap-1', className]}>
+  {locales.map((locale) => {
+    const isActive = locale === lang;
+    const path = currentPath.replace(`/${lang}/`, `/${locale}/`);
+    return (
+      <a
+        href={path}
+        class:list={[
+          'px-2 py-1 text-sm rounded transition-colors',
+          isActive
+            ? 'bg-neutral-200 dark:bg-neutral-700 font-medium'
+            : 'hover:bg-neutral-100 dark:hover:bg-neutral-800',
+        ]}
+        aria-label={`Switch to ${languageLabels[locale]}`}
+        aria-current={isActive ? 'page' : undefined}
+      >
+        {languageLabels[locale]}
+      </a>
+    );
+  })}
+</div>

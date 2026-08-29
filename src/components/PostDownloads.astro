@@ -5,16 +5,20 @@ interface Props {
     file: string;
     description: string;
   }[];
+  locale?: string;
 }
 
-const { downloads } = Astro.props;
+const { downloads, locale = 'en' } = Astro.props;
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = locale;
+const t = useTranslations(lang);
 ---
 
 {downloads && downloads.length > 0 && (
   <div class="mt-10 max-w-prose">
     <h3 class="font-serif text-xl font-bold text-cream mb-4">
       <span class="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-olive-light">
-        Downloads
+        {t('blog.downloads')}
       </span>
     </h3>
     <div class="space-y-3">

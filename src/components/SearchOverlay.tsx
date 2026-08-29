@@ -6,17 +6,25 @@ import SearchSuggestions from './SearchSuggestions';
 import SearchTypeFilter from './SearchTypeFilter';
 import SearchSkeleton from './SearchSkeleton';
 import { useSearchState } from '../lib/useSearchState';
+import { ui, type Locale } from '../i18n/ui';
 
 interface SearchOverlayProps {
   isOpen: boolean;
   onClose: () => void;
   baseUrl: string;
+  locale?: string;
 }
 
 const POPULAR_TAGS = ['TypeScript', 'Web Development', 'Language Learning', 'Anki'];
 
-export default function SearchOverlay({ isOpen, onClose, baseUrl }: SearchOverlayProps) {
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
+}
+
+export default function SearchOverlay({ isOpen, onClose, baseUrl, locale = 'en' }: SearchOverlayProps) {
   const [error, setError] = useState(false);
+  const lang = locale as Locale;
+  const t = getT(lang);
   const state = useSearchState(baseUrl);
   const {
     query, setQuery, selectedIndex, setSelectedIndex,
@@ -58,7 +66,7 @@ export default function SearchOverlay({ isOpen, onClose, baseUrl }: SearchOverla
         onClick={e => e.stopPropagation()}
       >
         <SearchInput query={query} onQueryChange={setQuery} resultCount={resultCount}
-          isLoading={isLoading} inputRef={inputRef}
+          isLoading={isLoading} inputRef={inputRef} locale={lang}
           onKeyDown={e => {
             if (e.key === 'ArrowDown') { e.preventDefault(); setSelectedIndex(i => Math.min(i + 1, results.length - 1)); }
             else if (e.key === 'ArrowUp') { e.preventDefault(); setSelectedIndex(i => Math.max(i - 1, 0)); }
@@ -68,7 +76,7 @@ export default function SearchOverlay({ isOpen, onClose, baseUrl }: SearchOverla
         <div ref={listRef} className="max-h-[400px] overflow-y-auto">
           {error ? (
             <div className="px-5 py-12 text-center">
-              <p className="text-tomato font-sans text-sm mb-2">Search unavailable — try refreshing.</p>
+              <p className="text-tomato font-sans text-sm mb-2">{t('search.unavailable')}</p>
             </div>
           ) : isLoading ? (
             <SearchSkeleton />
@@ -79,6 +87,7 @@ export default function SearchOverlay({ isOpen, onClose, baseUrl }: SearchOverla
               onDeleteRecent={removeRecent}
               popularTags={POPULAR_TAGS}
               onTagClick={setQuery}
+              locale={lang}
             />
           ) : results.length > 0 ? (
             <>
@@ -86,6 +95,7 @@ export default function SearchOverlay({ isOpen, onClose, baseUrl }: SearchOverla
                 filterType={filterType}
                 onFilterChange={setFilterType}
                 resultCount={resultCount}
+                locale={lang}
               />
               <SearchResults
                 results={results}
@@ -96,17 +106,11 @@ export default function SearchOverlay({ isOpen, onClose, baseUrl }: SearchOverla
               />
             </>
           ) : (
-            <SearchResults
-              results={[]}
-              selectedIndex={-1}
-              onSelect={handleSelect}
-              onHover={setSelectedIndex}
-              query={query}
-            />
+            <SearchResults results={[]} selectedIndex={-1} onSelect={handleSelect} onHover={setSelectedIndex} query={query} />
           )}
         </div>
 
-        <SearchFooter resultCount={resultCount} />
+        <SearchFooter resultCount={resultCount} locale={lang} />
       </div>
     </div>
   );
