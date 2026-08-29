@@ -1,10 +1,16 @@
 ---
 import CommandPalette from './CommandPalette';
 import { CODE_THEMES } from '../../ec.config.mjs';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import HeaderScripts from './HeaderScripts.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const navLinks = [
-  { href: `${import.meta.env.BASE_URL}blog/`, label: 'blog', class: 'hidden sm:block' },
-  { href: `${import.meta.env.BASE_URL}about/`, label: 'about', class: 'hidden sm:block' },
+  { href: `${import.meta.env.BASE_URL}${lang}/blog/`, label: t('nav.blog'), class: 'hidden sm:block' },
+  { href: `${import.meta.env.BASE_URL}${lang}/about/`, label: t('nav.about'), class: 'hidden sm:block' },
 ];
 const currentPath = Astro.url.pathname;
 ---
@@ -39,20 +45,20 @@ const currentPath = Astro.url.pathname;
         download="George_Mastrogiannis_CV.pdf"
         data-gif={`${import.meta.env.BASE_URL}gifs/cv.gif`}
         class="gif-trigger hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-moss text-earth-tan hover:border-olive-light hover:text-olive-light transition-colors text-sm"
-        aria-label="Download CV"
+        aria-label={t('home.downloadCv')}
       >
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
-        CV
+        {t('nav.cv')}
       </a>
       
       <button
         id="search-button"
         class="flex items-center gap-2 px-3 py-1.5 bg-deep-forest border border-moss hover:border-olive-light transition-colors text-sm text-earth-muted hover:text-olive-light"
-        aria-label="Search"
+        aria-label={t('nav.search')}
       >
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
@@ -64,7 +70,7 @@ const currentPath = Astro.url.pathname;
       <button
         id="theme-toggle"
         class="p-2 border border-moss text-earth-muted hover:border-olive-light hover:text-olive-light transition-colors hidden sm:flex items-center justify-center"
-        aria-label="Toggle theme"
+        aria-label={t('ui.toggleTheme')}
       >
         <span class="sun-icon hidden">☀</span>
         <span class="moon-icon">☾</span>
@@ -73,7 +79,7 @@ const currentPath = Astro.url.pathname;
       <label
         id="code-theme-picker"
         class="hidden md:flex items-center gap-1.5 px-2 py-1 border border-moss text-earth-muted hover:border-olive-light transition-colors text-sm"
-        title="Code block theme"
+        title={t('ui.codeTheme')}
       >
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="16 18 22 12 16 6"></polyline>
@@ -82,10 +88,10 @@ const currentPath = Astro.url.pathname;
         <select
           id="code-theme-select"
           class="bg-transparent text-earth-tan text-sm outline-none cursor-pointer [&>option]:text-black"
-          aria-label="Code block theme"
+          aria-label={t('ui.codeTheme')}
         >
-          {CODE_THEMES.map((t) => (
-            <option value={t.id}>{t.label}</option>
+          {CODE_THEMES.map((theme) => (
+            <option value={theme.id}>{theme.label}</option>
           ))}
         </select>
       </label>
@@ -93,7 +99,7 @@ const currentPath = Astro.url.pathname;
       <button
         id="mobile-menu-button"
         class="p-2 border border-moss text-earth-muted hover:border-olive-light hover:text-olive-light transition-colors sm:hidden flex items-center justify-center"
-        aria-label="Open menu"
+        aria-label={t('ui.openMenu')}
       >
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -101,52 +107,11 @@ const currentPath = Astro.url.pathname;
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </button>
+      <LanguageSwitcher class="hidden sm:flex" />
     </nav>
   </div>
 </header>
 
-<CommandPalette client:load baseUrl={import.meta.env.BASE_URL} />
+<CommandPalette client:load baseUrl={import.meta.env.BASE_URL} locale={lang} />
 
-<script>
-  const BASE = import.meta.env.BASE_URL;
-
-  function updateThemeIcon() {
-    const isLight = document.documentElement.classList.contains('light');
-    document.querySelector('#theme-toggle .sun-icon')?.classList.toggle('hidden', isLight);
-    document.querySelector('#theme-toggle .moon-icon')?.classList.toggle('hidden', !isLight);
-    const logo = document.getElementById('site-logo') as HTMLImageElement | null;
-    if (logo) logo.src = isLight ? `${BASE}icon-home-alt.png` : `${BASE}icon-home.png`;
-    const meta = document.getElementById('theme-color-meta') as HTMLMetaElement | null;
-    if (meta) meta.content = isLight ? '#f9f4da' : '#0f0d0e';
-  }
-  updateThemeIcon();
-  document.addEventListener('astro:after-swap', updateThemeIcon);
-
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
-    const isLight = document.documentElement.classList.toggle('light');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    updateThemeIcon();
-  });
-  document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('toggle-mobile-menu'));
-  });
-  document.getElementById('search-button')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('open-search'));
-  });
-
-  const codeSelect = document.getElementById('code-theme-select') as HTMLSelectElement | null;
-  function applyCodeTheme(theme: string) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('code-theme', theme);
-    if (codeSelect) codeSelect.value = theme;
-  }
-  function initCodeTheme() {
-    const saved = localStorage.getItem('code-theme');
-    if (saved) { applyCodeTheme(saved); return; }
-    const isLight = document.documentElement.classList.contains('light');
-    applyCodeTheme(isLight ? 'github-light' : 'vitesse-dark');
-  }
-  initCodeTheme();
-  document.addEventListener('astro:after-swap', initCodeTheme);
-  codeSelect?.addEventListener('change', () => applyCodeTheme(codeSelect.value));
-</script>
+<HeaderScripts baseUrl={import.meta.env.BASE_URL} />

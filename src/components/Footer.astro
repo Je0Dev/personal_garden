@@ -1,4 +1,9 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/Je0Dev', icon: 'github', color: '#f9f4da' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/geomas/', icon: 'linkedin', color: '#0077b5' },
@@ -33,7 +38,7 @@ const socialLinks = [
       </div>
 
       <p class="text-xs text-text-muted/60 -mt-2">
-        © {new Date().getFullYear()} <a href={import.meta.env.BASE_URL} class="text-text-muted hover:text-cream transition-colors">George</a>. All rights reserved.
+        © {new Date().getFullYear()} <a href={import.meta.env.BASE_URL} class="text-text-muted hover:text-cream transition-colors">George</a>. {t('footer.copyright').replace('© 2024 George Mastrogiannis. ', '')}
       </p>
     </div>
   </div>

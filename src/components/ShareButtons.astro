@@ -2,9 +2,13 @@
 interface Props {
   title: string;
   url: string;
+  locale?: string;
 }
 
-const { title, url } = Astro.props;
+const { title, url, locale = 'en' } = Astro.props;
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = locale;
+const t = useTranslations(lang);
 const encodedUrl = encodeURIComponent(url);
 const encodedTitle = encodeURIComponent(title);
 const xShare = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
@@ -12,12 +16,12 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
 ---
 
 <div class="flex items-center gap-2">
-  <span class="text-xs text-earth-muted font-sans mr-1">Share</span>
+  <span class="text-xs text-earth-muted font-sans mr-1">{t('blog.share')}</span>
   <a
     href={xShare}
     target="_blank"
     rel="noopener"
-    aria-label="Share on X"
+    aria-label={t('blog.shareOnX')}
     class="p-2 bg-surface border border-border hover:border-olive-light transition-colors text-earth-muted hover:text-olive-light"
   >
     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -28,7 +32,7 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
     href={linkedinShare}
     target="_blank"
     rel="noopener"
-    aria-label="Share on LinkedIn"
+    aria-label={t('blog.shareOnLinkedIn')}
     class="p-2 bg-surface border border-border hover:border-olive-light transition-colors text-earth-muted hover:text-olive-light"
   >
     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -37,8 +41,9 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
   </a>
   <button
     class="copy-link-btn p-2 bg-surface border border-border  hover:border-olive-light transition-colors"
-    aria-label="Copy link"
+    aria-label={t('blog.copyLink')}
     data-url={url}
+    data-toast={t('toast.sharing')}
   >
     <svg class="w-4 h-4 text-earth-muted hover:text-olive-light copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -61,7 +66,8 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
           const checkIcon = btn.querySelector('.check-icon');
           copyIcon?.classList.add('hidden');
           checkIcon?.classList.remove('hidden');
-          (window as any).addToast('Sharing is caring!', 'success');
+          const toastMsg = btn.getAttribute('data-toast') || 'Sharing is caring!';
+          (window as any).addToast(toastMsg, 'success');
           setTimeout(() => {
             copyIcon?.classList.remove('hidden');
             checkIcon?.classList.add('hidden');

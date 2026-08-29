@@ -1,4 +1,13 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
+const lang = locale;
+const t = useTranslations(lang);
 ---
 
 <div
@@ -8,7 +17,7 @@
   <button
     id="close-lightbox"
     class="absolute top-4 right-4 p-2 text-earth-tan hover:text-tomato transition-colors z-10"
-    aria-label="Close lightbox"
+    aria-label={t('ui.closeLightbox')}
   >
     <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -33,7 +42,7 @@
     <p id="lightbox-caption" class="text-center text-earth-muted font-sans text-sm mt-4 px-4 hidden"></p>
     
     <p class="text-center text-earth-muted/50 font-mono text-xs mt-2">
-      Press ESC or click outside to close
+      {t('ui.lightboxHint')}
     </p>
   </div>
 </div>

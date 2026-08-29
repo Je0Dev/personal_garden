@@ -1,8 +1,13 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const navItems = [
-  { name: 'Home', path: import.meta.env.BASE_URL },
-  { name: 'Blog', path: `${import.meta.env.BASE_URL}blog/` },
-  { name: 'About', path: `${import.meta.env.BASE_URL}about/` },
+  { name: t('nav.home'), path: `${import.meta.env.BASE_URL}${lang}/` },
+  { name: t('nav.blog'), path: `${import.meta.env.BASE_URL}${lang}/blog/` },
+  { name: t('nav.about'), path: `${import.meta.env.BASE_URL}${lang}/about/` },
 ];
 ---
 
@@ -18,7 +23,7 @@ const navItems = [
       <button
         id="close-mobile-menu"
         class="p-2 text-text-muted hover:text-cream transition-colors"
-        aria-label="Close menu"
+        aria-label={t('ui.closeMenu')}
       >
         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>

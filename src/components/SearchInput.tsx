@@ -1,4 +1,5 @@
 import { Search, X } from 'lucide-react';
+import { ui, type Locale } from '../i18n/ui';
 
 interface SearchInputProps {
   query: string;
@@ -7,6 +8,11 @@ interface SearchInputProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
   resultCount?: number;
   isLoading?: boolean;
+  locale?: Locale;
+}
+
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
 }
 
 export default function SearchInput({
@@ -16,7 +22,9 @@ export default function SearchInput({
   inputRef,
   resultCount,
   isLoading,
+  locale = 'en',
 }: SearchInputProps) {
+  const t = getT(locale);
   return (
     <div className="flex items-center gap-3 px-5 py-4 border-b border-moss">
       <Search className="w-5 h-5 text-olive-light flex-shrink-0" />
@@ -26,11 +34,11 @@ export default function SearchInput({
         value={query}
         onChange={e => onQueryChange(e.target.value)}
         onKeyDown={onKeyDown}
-        placeholder="Search posts and tags…"
+        placeholder={t('search.placeholder')}
         className="flex-1 bg-transparent text-cream placeholder:text-earth-muted font-serif text-lg focus:outline-none"
       />
       {isLoading && (
-        <span className="text-xs font-mono text-earth-muted/60 animate-pulse">Loading…</span>
+        <span className="text-xs font-mono text-earth-muted/60 animate-pulse">{t('search.loading')}</span>
       )}
       {!isLoading && query && resultCount !== undefined && (
         <span className="text-xs font-mono text-earth-muted/60">
@@ -41,7 +49,7 @@ export default function SearchInput({
         <button
           onClick={() => onQueryChange('')}
           className="p-1 text-earth-muted hover:text-tomato transition-colors"
-          aria-label="Clear search"
+          aria-label={t('search.clear')}
         >
           <X className="w-4 h-4" />
         </button>

@@ -1,4 +1,5 @@
 import { Clock, Hash, X } from 'lucide-react';
+import { ui, type Locale } from '../i18n/ui';
 
 interface SearchSuggestionsProps {
   recentSearches: string[];
@@ -6,6 +7,11 @@ interface SearchSuggestionsProps {
   onDeleteRecent: (query: string) => void;
   popularTags: string[];
   onTagClick: (tag: string) => void;
+  locale?: Locale;
+}
+
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
 }
 
 export default function SearchSuggestions({
@@ -14,13 +20,15 @@ export default function SearchSuggestions({
   onDeleteRecent,
   popularTags,
   onTagClick,
+  locale = 'en',
 }: SearchSuggestionsProps) {
+  const t = getT(locale);
   return (
     <div className="px-5 py-6 space-y-6">
       {recentSearches.length > 0 && (
         <div>
           <h3 className="text-xs font-mono text-earth-muted/60 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Clock className="w-3 h-3" /> Recent
+            <Clock className="w-3 h-3" /> {t('search.recent')}
           </h3>
           <div className="flex flex-wrap gap-2">
             {recentSearches.map(q => (
@@ -46,7 +54,7 @@ export default function SearchSuggestions({
       {popularTags.length > 0 && (
         <div>
           <h3 className="text-xs font-mono text-earth-muted/60 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Hash className="w-3 h-3" /> Tags
+            <Hash className="w-3 h-3" /> {t('search.tags')}
           </h3>
           <div className="flex flex-wrap gap-2">
             {popularTags.map(tag => (
@@ -64,7 +72,7 @@ export default function SearchSuggestions({
       )}
 
       <p className="text-earth-muted/50 font-mono text-xs">
-        Regex supported — try <span className="text-olive-light">cli.*</span> or <span className="text-olive-light">^rust</span>
+        {t('search.regexHint')} <span className="text-olive-light">cli.*</span> or <span className="text-olive-light">^rust</span>
       </p>
     </div>
   );

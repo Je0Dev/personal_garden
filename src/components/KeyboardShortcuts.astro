@@ -1,4 +1,14 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
+const lang = locale;
+const t = useTranslations(lang);
+
 const shortcuts = [
   { key: '⌘K', description: 'Open search' },
   { key: '↑↓', description: 'Navigate search results' },
@@ -23,7 +33,7 @@ const shortcuts = [
       <svg class="w-5 h-5 text-olive-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
       </svg>
-      <h2 class="font-serif text-xl font-bold text-cream">Keyboard Shortcuts</h2>
+      <h2 class="font-serif text-xl font-bold text-cream">{t('ui.keyboardShortcuts')}</h2>
     </div>
     
     <div class="space-y-2">
@@ -38,7 +48,7 @@ const shortcuts = [
     </div>
     
     <p class="mt-6 text-center text-xs text-earth-muted">
-      Press <kbd class="px-1.5 py-0.5 bg-deep-olive border border-moss  text-xs font-mono">?</kbd> to toggle this panel
+      {t('ui.press')} <kbd class="px-1.5 py-0.5 bg-deep-olive border border-moss  text-xs font-mono">?</kbd> {t('ui.toToggle')}
     </p>
   </div>
 </div>

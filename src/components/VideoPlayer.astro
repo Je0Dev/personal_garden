@@ -1,11 +1,16 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
 interface Props {
   src: string;
   poster?: string;
   type?: string;
   caption?: string;
+  locale?: string;
 }
-const { src, poster, type, caption } = Astro.props;
+const { src, poster, type, caption, locale } = Astro.props;
+const lang = locale || getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const mime = type ?? (src.endsWith('.webm') ? 'video/webm' : 'video/mp4');
 ---
 
@@ -17,7 +22,7 @@ const mime = type ?? (src.endsWith('.webm') ? 'video/webm' : 'video/mp4');
     poster={poster}
   >
     <source src={src} type={mime} />
-    Your browser does not support the video tag.
+    {t('player.noSubtitles')}
   </video>
   {caption && (
     <figcaption class="mt-2 text-center text-sm text-text-muted">{caption}</figcaption>

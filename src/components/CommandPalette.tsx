@@ -3,9 +3,10 @@ import SearchOverlay from './SearchOverlay';
 
 interface CommandPaletteProps {
   baseUrl: string;
+  locale?: string;
 }
 
-export default function CommandPalette({ baseUrl }: CommandPaletteProps) {
+export default function CommandPalette({ baseUrl, locale = 'en' }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,6 @@ export default function CommandPalette({ baseUrl }: CommandPaletteProps) {
   }, []);
 
   return (
-    <SearchOverlay isOpen={isOpen} onClose={() => setIsOpen(false)} baseUrl={baseUrl} />
+    <SearchOverlay isOpen={isOpen} onClose={() => setIsOpen(false)} baseUrl={baseUrl} locale={locale} />
   );
 }

@@ -8,7 +8,9 @@ import MobileMenu from '../components/MobileMenu.astro';
 import KeyboardShortcuts from '../components/KeyboardShortcuts.astro';
 import Lightbox from '../components/Lightbox.astro';
 import Toast from '../components/Toast.astro';
+import HeadScripts from '../components/HeadScripts.astro';
 import { ClientRouter } from 'astro:transitions';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 interface Props {
   title?: string;
@@ -17,6 +19,8 @@ interface Props {
 }
 
 const { title = "Cosmos", description = "Cosmos — the personal blog and digital garden of George Mastrogiannis", image } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = image
   ? new URL(image, Astro.site).href
@@ -24,7 +28,7 @@ const ogImageUrl = image
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,71 +37,25 @@ const ogImageUrl = image
     <meta name="author" content="George Mastrogiannis" />
     <meta id="theme-color-meta" name="theme-color" content="#0f0d0e" />
     <meta name="robots" content="index, follow" />
-
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:image" content={ogImageUrl} />
-
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
-
     <link rel="icon" type="image/x-icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
     <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.json`} />
     <link rel="alternate" type="application/rss+xml" title="Cosmos" href={`${import.meta.env.BASE_URL}rss.xml`} />
-
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
-
     <ClientRouter />
     <title>{title}</title>
-
     {import.meta.env.PUBLIC_ANALYTICS_SRC && import.meta.env.PUBLIC_ANALYTICS_DOMAIN && (
-      <script
-        is:inline
-        defer
-        data-domain={import.meta.env.PUBLIC_ANALYTICS_DOMAIN}
-        src={import.meta.env.PUBLIC_ANALYTICS_SRC}
-      ></script>
+      <script is:inline defer data-domain={import.meta.env.PUBLIC_ANALYTICS_DOMAIN} src={import.meta.env.PUBLIC_ANALYTICS_SRC}></script>
     )}
-    <script is:inline>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {});
-        });
-      }
-    </script>
-
-    <script is:inline>
-      (function () {
-        var saved = localStorage.getItem('code-theme');
-        var theme = saved || (document.documentElement.classList.contains('light') ? 'github-light' : 'vitesse-dark');
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
-
-    <script is:inline>
-      function enhanceCodeHeaders() {
-        document.querySelectorAll('.expressive-code .frame').forEach((frame) => {
-          if (frame.dataset.langEnhanced) return;
-          const pre = frame.querySelector('pre[data-language]');
-          const header = frame.querySelector('.header');
-          if (!pre || !header) return;
-          const lang = pre.getAttribute('data-language');
-          if (lang) {
-            const span = document.createElement('span');
-            span.className = 'ec-lang-label';
-            span.textContent = lang;
-            header.appendChild(span);
-          }
-          frame.dataset.langEnhanced = 'true';
-        });
-      }
-      enhanceCodeHeaders();
-      document.addEventListener('astro:page-load', enhanceCodeHeaders);
-    </script>
+    <HeadScripts baseUrl={import.meta.env.BASE_URL} />
   </head>
   <body>
     <script is:inline>
@@ -113,15 +71,15 @@ const ogImageUrl = image
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-olive-light focus:text-white  focus:font-bold"
     >
-      Skip to main content
+      {t('ui.skipToContent')}
     </a>
 
     <ReadingProgress />
     <Header />
     <MobileMenu />
-    <BackToTop />
-    <KeyboardShortcuts />
-    <Lightbox />
+    <BackToTop locale={lang} />
+    <KeyboardShortcuts locale={lang} />
+    <Lightbox locale={lang} />
     <Toast />
 
     <main id="main-content" class="min-h-screen">

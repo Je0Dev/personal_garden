@@ -1,4 +1,5 @@
 import { FileText, Hash, ArrowRight } from 'lucide-react';
+import { ui, type Locale } from '../i18n/ui';
 
 interface SearchResult {
   type: 'post' | 'tag';
@@ -13,6 +14,11 @@ interface SearchResultsProps {
   onSelect: (path: string) => void;
   onHover: (index: number) => void;
   query: string;
+  locale?: Locale;
+}
+
+function getT(lang: Locale) {
+  return (key: string) => (ui[lang] as Record<string, string>)[key] || (ui.en as Record<string, string>)[key] || key;
 }
 
 function highlightMatches(text: string, query: string): React.ReactNode {
@@ -46,11 +52,13 @@ export default function SearchResults({
   onSelect,
   onHover,
   query,
+  locale = 'en',
 }: SearchResultsProps) {
+  const t = getT(locale);
   if (results.length === 0) {
     return (
       <div className="px-5 py-12 text-center">
-        <p className="text-earth-muted font-sans text-sm">No results found</p>
+        <p className="text-earth-muted font-sans text-sm">{t('search.noResults')}</p>
       </div>
     );
   }

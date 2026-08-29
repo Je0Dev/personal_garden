@@ -1,0 +1,42 @@
+---
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => {
+    const [lang, , ...slugParts] = post.id.split('/');
+    const slug = slugParts.join('/');
+    return {
+      params: { lang, slug },
+      props: { post, lang },
+    };
+  });
+}
+
+const { post, lang } = Astro.props;
+const { Content, headings } = await render(post);
+
+const words = (post.body || '').replace(/```[\s\S]*?```/g, ' ').replace(/[#>*_`~\-]/g, ' ').split(/\s+/).filter(Boolean).length;
+const readingMinutes = Math.max(1, Math.round(words / 200));
+
+// Get all posts for navigation (same locale)
+const allPosts = await getCollection('blog');
+const localePosts = allPosts.filter(p => p.id.startsWith(`${lang}/`));
+const sortedPosts = localePosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
+const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+---
+
+<BlogPostLayout 
+  post={post} 
+  headings={headings}
+  readingMinutes={readingMinutes}
+  prevPost={prevPost ? { id: prevPost.id, title: prevPost.data.title, slug: prevPost.id.split('/').slice(2).join('/') } : null}
+  nextPost={nextPost ? { id: nextPost.id, title: nextPost.data.title, slug: nextPost.id.split('/').slice(2).join('/') } : null}
+  locale={lang}
+>
+  <Content />
+</BlogPostLayout>
