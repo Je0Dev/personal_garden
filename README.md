@@ -13,7 +13,7 @@
 | Framework | Astro 7 + TypeScript |
 | Islands | React 19 (search, GitHub calendar) |
 | Styling | Tailwind CSS 4 (custom design tokens) |
-| Routing | Astro file-based routing |
+| Routing | Astro file-based routing + i18n (`/en/`, `/de/`, `/zh/`) |
 | Syntax Highlighting | Expressive Code (4 user-selectable themes) |
 | Math | KaTeX via rehype-katex |
 | Content | Astro content collections (Markdown/MDX) |
@@ -72,8 +72,16 @@ npm run preview      # Preview production build
 - URL→GIF map in `rehype-og-preview.mjs`
 - Re-binds on `astro:page-load` for View Transitions; preloads on `mouseenter`
 
+### Phase 5 — Internationalization (i18n)
+- Full EN/DE/ZH localization of UI, content, search, tags, and player
+- `prefixDefaultLocale: true` with `[lang]` dynamic routes
+- `getLangFromUrl()` with base-path-aware locale detection
+- Language switcher with active locale highlighting
+- Locale-filtered blog posts and content collections
+- Translated dictionaries (`en.ts`, `de.ts`, `zh.ts`) and tag translations
+
 ### Upcoming
-- **Phase 5 — i18n + Pinyin Ruby** (planned): full EN/DE/ZH localization of UI, content, search, tags, and player; `:zh[...]{pinyin="..."}` ruby annotations. See [`PHASE-5-I18N-PLAN.md`](./PHASE-5-I18N-PLAN.md).
+- **Phase 7** (planned): TBD
 
 ## License
 
