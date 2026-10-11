@@ -41,7 +41,7 @@
     "@types/react-dom": "^19.2.3",
     "astro": "^7.2.8",
     "tailwindcss": "^4.0.0",
-    "typescript": "~5.8.2"
+    "typescript": "~7.0.2"
   },
   "allowScripts": {
     "sharp@0.34.5": true,
