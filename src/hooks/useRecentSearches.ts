@@ -1,3 +1,4 @@
+// React hook managing recent search queries persisted in localStorage.
 import { useState, useCallback, useEffect } from 'react';
 import {
   getSearchHistory,

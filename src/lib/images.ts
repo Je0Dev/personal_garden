@@ -1,3 +1,4 @@
+// Resolves image paths to Vite-processed ImageMetadata.
 const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpg,png,gif}', { eager: true });
 
 const pathMap: Record<string, ImageMetadata> = {};

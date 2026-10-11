@@ -1,5 +1,6 @@
-const CACHE = 'garden-v1';
-const BASE = '/personal_garden/';
+// Service worker: caches core pages and assets for offline access, with network-first strategy for navigation requests.
+const CACHE = 'digital-garden';
+const BASE = '/personal_garden/en/';
 const CORE = [
   BASE,
   BASE + 'blog/',

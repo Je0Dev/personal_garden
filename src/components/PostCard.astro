@@ -21,6 +21,8 @@ const formattedDate = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-CN' : locale
 }).format(date);
 ---
 
+<!-- Blog post preview card with image, tags, title, and date -->
+
 <a
   href={`${import.meta.env.BASE_URL}${locale}/blog/${post.id.split('/').slice(2).join('/')}/`}
   class="group block h-full bg-surface border border-border overflow-hidden hover:border-text-muted transition-colors duration-200"

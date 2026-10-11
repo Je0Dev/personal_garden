@@ -1,3 +1,4 @@
+// Remark plugin converting ::linkcard directives to OG card wrapper divs.
 import { visit } from 'unist-util-visit';
 
 function isDirective(node) {

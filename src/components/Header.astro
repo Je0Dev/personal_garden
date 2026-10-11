@@ -1,6 +1,5 @@
 ---
 import CommandPalette from './CommandPalette';
-import { CODE_THEMES } from '../../ec.config.mjs';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import HeaderScripts from './HeaderScripts.astro';
@@ -15,14 +14,16 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
+<!-- Site header with navigation, logo, search, theme toggle, and mobile menu button -->
+
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-bg/50 backdrop-blur-sm border-b border-border">
   <div class="max-w-wide mx-auto px-6 py-4 flex items-center justify-between">
-    <a href={import.meta.env.BASE_URL} class="transition-colors hover:opacity-80">
+    <a href={import.meta.env.BASE_URL} class="transition-colors hover:opacity-90">
       <img
         id="site-logo"
-        src={`${import.meta.env.BASE_URL}icon-home.png`}
-        alt="Cosmos"
-        class="w-40 h-40 object-contain hover:scale-[1] transition-transform duration-300"
+        src={`${import.meta.env.BASE_URL}home1.jpg`}
+        alt="home"
+        class="w-30 h-40 object-fill  transition-transform duration-300 mix-blend-screen"
       />
     </a>
     
@@ -41,10 +42,9 @@ const currentPath = Astro.url.pathname;
       ))}
 
       <a
-        href={`${import.meta.env.BASE_URL}files/main.pdf`}
-        download="George_Mastrogiannis_CV.pdf"
-        data-gif={`${import.meta.env.BASE_URL}gifs/cv.gif`}
-        class="gif-trigger hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-moss text-earth-tan hover:border-olive-light hover:text-olive-light transition-colors text-sm"
+        href={`${import.meta.env.BASE_URL}files/resume.pdf`}
+        download="George_Mastrogiannis_Resume_En.pdf"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-moss text-earth-tan hover:border-olive-light hover:text-olive-light transition-colors text-sm"
         aria-label={t('home.downloadCv')}
       >
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -68,40 +68,11 @@ const currentPath = Astro.url.pathname;
       </button>
       
       <button
-        id="theme-toggle"
-        class="p-2 border border-moss text-earth-muted hover:border-olive-light hover:text-olive-light transition-colors hidden sm:flex items-center justify-center"
-        aria-label={t('ui.toggleTheme')}
-      >
-        <span class="sun-icon hidden">☀</span>
-        <span class="moon-icon">☾</span>
-      </button>
-
-      <label
-        id="code-theme-picker"
-        class="hidden md:flex items-center gap-1.5 px-2 py-1 border border-moss text-earth-muted hover:border-olive-light transition-colors text-sm"
-        title={t('ui.codeTheme')}
-      >
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
-        </svg>
-        <select
-          id="code-theme-select"
-          class="bg-transparent text-earth-tan text-sm outline-none cursor-pointer [&>option]:text-black"
-          aria-label={t('ui.codeTheme')}
-        >
-          {CODE_THEMES.map((theme) => (
-            <option value={theme.id}>{theme.label}</option>
-          ))}
-        </select>
-      </label>
-      
-      <button
         id="mobile-menu-button"
         class="p-2 border border-moss text-earth-muted hover:border-olive-light hover:text-olive-light transition-colors sm:hidden flex items-center justify-center"
         aria-label={t('ui.openMenu')}
       >
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="w-1 h-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>

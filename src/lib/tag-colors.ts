@@ -1,3 +1,4 @@
+// Provides consistent color mapping for blog tags.
 const tagColorMap: Record<string, string> = {
   'TypeScript': '#3178c6',
   'Anki': '#4eaa25',

@@ -1,3 +1,4 @@
+// React hook managing search query, results, and filter state.
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 import { useRecentSearches } from '../hooks/useRecentSearches';

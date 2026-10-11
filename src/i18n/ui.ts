@@ -1,3 +1,4 @@
+// Aggregates locale translations and exports locale configuration.
 import { en } from './en';
 import { de } from './de';
 import { zh } from './zh';

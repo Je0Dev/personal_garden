@@ -1,3 +1,4 @@
+// Command palette wrapper triggered by Cmd+K
 import { useState, useEffect } from 'react';
 import SearchOverlay from './SearchOverlay';
 

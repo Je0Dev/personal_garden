@@ -1,3 +1,4 @@
+// Filter tabs for all/posts/tags search results
 import type { FilterType } from '../lib/useSearchState';
 import { ui, type Locale } from '../i18n/ui';
 

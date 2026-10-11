@@ -1,3 +1,4 @@
+// Remark plugin converting ::zh directives to HTML ruby annotations.
 import { visit } from 'unist-util-visit';
 
 export function remarkRuby() {

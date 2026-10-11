@@ -1,3 +1,4 @@
+// Rehype plugin fetching and injecting Open Graph preview data into links.
 import { visit } from 'unist-util-visit';
 
 const cache = new Map();

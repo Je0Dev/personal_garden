@@ -1,3 +1,4 @@
+/* Utility classes, animations, print styles, and reduced-motion support. */
 .divider {
   width: 60px;
   height: 1px;
@@ -46,10 +47,6 @@
   text-underline-offset: 4px;
   text-decoration-thickness: 2px;
   text-decoration-color: var(--clr-rust);
-}
-
-html.light .heading-underline {
-  text-decoration-color: var(--clr-tomato);
 }
 
 .search-highlight {

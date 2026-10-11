@@ -2,10 +2,10 @@
   "name": "digital-garden",
   "private": true,
   "version": "2.0.0",
-  "description": "George's Garden — personal blog and portfolio by George Mastrogiannis",
-  "author": "George Mastrogiannis",
+  "description": "come and find out what this garden really hides behind the leaves",
+  "author": "Je0Dev",
   "type": "module",
-  "scripts": {
+  "scripts": { 
     "dev": "astro dev --port 3001",
     "build": "astro build",
     "preview": "astro preview",
@@ -22,7 +22,7 @@
     "astro-embed": "^0.14.0",
     "astro-expressive-code": "^0.44.1",
     "fuse.js": "^7.5.0",
-    "katex": "^0.16.44",
+    "katex": "^0.19.0",
     "lucide-react": "^0.562.0",
     "pinyin-pro": "^3.29.3",
     "react": "^19.2.0",
@@ -46,5 +46,9 @@
   "allowScripts": {
     "sharp@0.34.5": true,
     "esbuild@0.28.2": true
+  },
+  "overrides": {
+    "katex": "^0.19.0",
+    "postcss-selector-parser": "^7.1.6"
   }
 }

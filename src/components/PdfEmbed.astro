@@ -15,6 +15,8 @@ const resolved = src.startsWith('http') ? src : `${import.meta.env.BASE_URL}file
 const frameTitle = title || t('ui.visitedSite');
 ---
 
+<!-- PDF embed iframe with external link -->
+
 <div class="pdf-embed">
   <iframe class="pdf-embed-frame" src={resolved} style={`height:${height}`} title={frameTitle} loading="lazy"></iframe>
   <a class="pdf-embed-link" href={resolved} target="_blank" rel="noopener">{t('ui.visitedSite')}</a>

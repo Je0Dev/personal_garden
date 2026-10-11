@@ -1,3 +1,4 @@
+// Initializes blog post enhancements: heading anchors, external link previews, image lightbox, and tooltips.
 function slugify(text) {
   return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
 }

@@ -1,14 +1,14 @@
 {
-  "name": "Cosmos",
+  "name": "digital garden for the people that still believe in blogging",
   "short_name": "Cosmos",
-  "description": "The personal blog and digital garden of George Mastrogiannis",
-  "start_url": "/personal_garden/",
+  "description": "a place to explore anything really",
+  "start_url": "/personal_garden/en/",
   "display": "standalone",
   "background_color": "#141410",
   "theme_color": "#141410",
   "icons": [
     {
-      "src": "/personal_garden/favicon.ico",
+      "src": "/personal_garden/en/favicon.ico",
       "sizes": "any",
       "type": "image/x-icon"
     }

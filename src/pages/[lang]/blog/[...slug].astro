@@ -29,6 +29,7 @@ const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
 const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
 ---
+<!-- Dynamic route rendering a single blog post by language and slug. -->
 
 <BlogPostLayout 
   post={post} 

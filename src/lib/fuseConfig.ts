@@ -1,3 +1,4 @@
+// Configures Fuse.js fuzzy search instances for posts and tags.
 import Fuse from 'fuse.js';
 
 export interface SearchIndexItem {

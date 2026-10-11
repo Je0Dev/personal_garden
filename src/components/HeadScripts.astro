@@ -6,6 +6,8 @@ interface Props {
 const { baseUrl } = Astro.props;
 ---
 
+<!-- Head scripts for service worker registration, theme initialization, and code block language labels -->
+
 <script is:inline>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -15,11 +17,7 @@ const { baseUrl } = Astro.props;
 </script>
 
 <script is:inline>
-  (function () {
-    var saved = localStorage.getItem('code-theme');
-    var theme = saved || (document.documentElement.classList.contains('light') ? 'github-light' : 'vitesse-dark');
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
+  document.documentElement.setAttribute('data-theme', 'vitesse-dark');
 </script>
 
 <script is:inline>

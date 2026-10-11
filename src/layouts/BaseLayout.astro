@@ -18,7 +18,7 @@ interface Props {
   image?: string;
 }
 
-const { title = "Cosmos", description = "Cosmos — the personal blog and digital garden of George Mastrogiannis", image } = Astro.props;
+const { title = "Cosmos", description = "a place where thoughts are depicted througj", image } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -26,6 +26,7 @@ const ogImageUrl = image
   ? new URL(image, Astro.site).href
   : new URL(`${import.meta.env.BASE_URL}og-default.jpg`, Astro.site).href;
 ---
+<!-- Base layout wrapper providing the HTML shell, header, footer, and shared UI components for all pages. -->
 
 <!DOCTYPE html>
 <html lang={lang}>
@@ -58,15 +59,6 @@ const ogImageUrl = image
     <HeadScripts baseUrl={import.meta.env.BASE_URL} />
   </head>
   <body>
-    <script is:inline>
-      function applyTheme() {
-        const theme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.classList.toggle('light', theme === 'light');
-      }
-      document.addEventListener('astro:after-swap', applyTheme);
-      applyTheme();
-    </script>
-
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-olive-light focus:text-white  focus:font-bold"
@@ -88,8 +80,5 @@ const ogImageUrl = image
 
     <Footer />
 
-    <script>
-      import '../scripts/gif-hover.js';
-    </script>
   </body>
 </html>

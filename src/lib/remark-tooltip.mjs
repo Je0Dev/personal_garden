@@ -1,3 +1,4 @@
+// Remark plugin converting ::tip directives to glossary tooltips and ::pdf to embeds.
 import { visit } from 'unist-util-visit';
 
 function resolveDefinition(attrs) {

@@ -1,3 +1,4 @@
+// localStorage-backed search history management.
 const STORAGE_KEY = 'search-history';
 const MAX_ITEMS = 10;
 

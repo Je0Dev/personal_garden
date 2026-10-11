@@ -1,3 +1,4 @@
+// Handles tag-based filtering of blog posts with URL sync.
 export function initTagFilters() {
   const selectedTags = new Set();
   const tagBtns = document.querySelectorAll('.tag-filter-btn');

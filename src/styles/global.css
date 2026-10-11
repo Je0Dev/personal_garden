@@ -1,14 +1,8 @@
+/* Global styles, CSS variables, and base element styling. */
 @import "tailwindcss";
-@import "katex/dist/katex.min.css";
+@import "./posts.css";
 @import "./components.css";
-@import "./markdown-base.css";
-@import "./markdown-components.css";
-@import "./markdown-extras.css";
-@import "./gif-hover.css";
-@import "./link-card-modal.css";
-@import "./code-theme.css";
 @import "./utilities.css";
-@import "./theme-light.css";
 
 html {
   scroll-behavior: smooth;
@@ -87,11 +81,6 @@ html, body {
   color: #ffffff;
 }
 
-html.light ::selection {
-  background-color: rgba(252, 116, 40, 0.15);
-  color: #0f0d0e;
-}
-
 *:focus-visible {
   outline: 2px solid var(--clr-olive-light);
   outline-offset: 2px;
@@ -109,9 +98,3 @@ img {
   background-color: var(--clr-deep-forest);
   min-height: 100px;
 }
-
-.tok-active { background: var(--clr-olive-light); color: var(--clr-cream); border-radius: 4px; }
-.ruby-py { font-size: 0.55em; opacity: 0.7; user-select: none; }
-.lvl-1 { text-decoration: underline; text-decoration-color: #6cc24a; text-underline-offset: 3px; }
-.lvl-2 { text-decoration: underline; text-decoration-color: #e0a458; text-underline-offset: 3px; }
-.lvl-3 { text-decoration: underline; text-decoration-color: #d96c6c; text-underline-offset: 3px; }

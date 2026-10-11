@@ -1,3 +1,4 @@
+// Search modal footer with keyboard hints and result count
 import { ui, type Locale } from '../i18n/ui';
 
 interface SearchFooterProps {

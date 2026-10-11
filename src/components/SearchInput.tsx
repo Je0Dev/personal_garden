@@ -1,3 +1,4 @@
+// Search input field with loading indicator and clear button
 import { Search, X } from 'lucide-react';
 import { ui, type Locale } from '../i18n/ui';
 

@@ -1,3 +1,4 @@
+// Recent searches and popular tags suggestions
 import { Clock, Hash, X } from 'lucide-react';
 import { ui, type Locale } from '../i18n/ui';
 

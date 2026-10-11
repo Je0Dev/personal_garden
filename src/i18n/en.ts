@@ -1,3 +1,4 @@
+// English translation strings.
 export const en = {
   'nav.home': 'Home', 'nav.blog': 'blog', 'nav.about': 'about', 'nav.cv': 'CV', 'nav.search': 'Search',
   'home.title': 'Home', 'home.readPosts': 'Read the Posts', 'home.downloadCv': 'Download CV',
@@ -17,11 +18,7 @@ export const en = {
   'search.open': '↵ open', 'search.close': 'esc close', 'search.results': 'results',
   'search.regexFuzzy': 'regex + fuzzy', 'search.all': 'All', 'search.posts': 'Posts',
   'search.result': 'result', 'search.resultsPlural': 'results',
-  'player.pinyin': 'Pinyin', 'player.wordByWord': 'Word-by-word', 'player.traditional': 'Traditional',
-  'player.levels': 'Levels', 'player.focus': 'Focus', 'player.jumpToCurrent': 'Jump to current',
-  'player.importSubtitles': 'Import .srt/.vtt', 'player.fontSize': 'Font size',
-  'player.mined': 'Mined', 'player.copyAll': 'Copy all', 'player.clear': 'Clear',
-  'player.remove': 'Remove', 'player.noSubtitles': 'No subtitles loaded.',
+  'player.noSubtitles': 'No subtitles loaded.',
   'github.contributions': 'Contributions', 'github.publicRepos': 'Public Repos',
   'github.followers': 'Followers', 'github.following': 'Following',
   'github.loading': 'Loading contributions...', 'github.error': 'Could not load GitHub contribution data.',
@@ -29,7 +26,7 @@ export const en = {
   'error.backHome': 'Back to Home', 'error.browsePosts': 'Browse Posts',
   'error.quote': 'Not all those who wander are lost',
   'ui.skipToContent': 'Skip to main content', 'ui.close': 'Close', 'ui.closeMenu': 'Close menu',
-  'ui.openMenu': 'Open menu', 'ui.toggleTheme': 'Toggle theme', 'ui.codeTheme': 'Code block theme',
+  'ui.openMenu': 'Open menu',
   'ui.backToTop': 'Back to top', 'ui.closeLightbox': 'Close lightbox',
   'ui.lightboxHint': 'Press ESC or click outside to close', 'ui.keyboardShortcuts': 'Keyboard Shortcuts',
   'ui.press': 'Press', 'ui.toToggle': 'to toggle this panel', 'ui.visitedSite': 'Visit site ↗',

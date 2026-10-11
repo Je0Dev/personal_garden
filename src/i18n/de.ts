@@ -1,3 +1,4 @@
+// German translation strings.
 export const de = {
   // Navigation
   'nav.home': 'Startseite',
@@ -56,21 +57,6 @@ export const de = {
   'search.result': 'Ergebnis',
   'search.resultsPlural': 'Ergebnisse',
 
-  // Player
-  'player.pinyin': 'Pinyin',
-  'player.wordByWord': 'Wort für Wort',
-  'player.traditional': 'Traditionell',
-  'player.levels': 'Stufen',
-  'player.focus': 'Fokus',
-  'player.jumpToCurrent': 'Zum aktuellen springen',
-  'player.importSubtitles': 'SRT/VTT importieren',
-  'player.fontSize': 'Schriftgröße',
-  'player.mined': 'Gefördert',
-  'player.copyAll': 'Alle kopieren',
-  'player.clear': 'Löschen',
-  'player.remove': 'Entfernen',
-  'player.noSubtitles': 'Keine Untertitel geladen.',
-
   // GitHub
   'github.contributions': 'Beiträge',
   'github.publicRepos': 'Öffentliche Repos',
@@ -91,8 +77,8 @@ export const de = {
   'ui.close': 'Schließen',
   'ui.closeMenu': 'Menü schließen',
   'ui.openMenu': 'Menü öffnen',
-  'ui.toggleTheme': 'Design umschalten',
-  'ui.codeTheme': 'Code-Block-Design',
+
+
   'ui.backToTop': 'Nach oben',
   'ui.closeLightbox': 'Lightbox schließen',
   'ui.lightboxHint': 'ESC drücken oder außerhalb klicken zum Schließen',

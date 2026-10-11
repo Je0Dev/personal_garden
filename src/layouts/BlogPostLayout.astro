@@ -30,6 +30,7 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : lang ===
   day: 'numeric',
 }).format(date);
 ---
+<!-- Layout for individual blog post pages, rendering the article with TOC, share buttons, and related posts. -->
 
 <BaseLayout title={title} description={description} image={illustration}>
   <article class="pt-20 pb-16">

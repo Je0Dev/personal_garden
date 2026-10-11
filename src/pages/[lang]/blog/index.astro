@@ -24,6 +24,7 @@ const postsWithImages = posts.map(p => ({ ...p, resolvedImage: resolveImage(p.da
 const postEntry = (await getCollection('pages')).find(e => e.id === `${lang}/pages/post-page`);
 const { Content: PostContent } = postEntry ? await render(postEntry) : { Content: null };
 ---
+<!-- Localized blog listing page with tag filtering and post cards. -->
 
 <BaseLayout title={`${t('blog.title')} — Cosmos`}>
   <div class="pt-20 pb-16">

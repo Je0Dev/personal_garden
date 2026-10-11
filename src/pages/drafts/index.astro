@@ -13,6 +13,7 @@ const drafts = allPosts
   .filter((p) => p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
+<!-- Dev-only preview page for draft posts; redirects to the blog in production. -->
 
 <BaseLayout title="Drafts — Cosmos">
   <div class="pt-20 pb-16 px-6">

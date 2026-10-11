@@ -1,3 +1,4 @@
+// Search results list with highlighted matches
 import { FileText, Hash, ArrowRight } from 'lucide-react';
 import { ui, type Locale } from '../i18n/ui';
 

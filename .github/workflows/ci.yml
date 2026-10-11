@@ -1,4 +1,4 @@
-name: CI
+name: CI to remain relevant
 
 on:
   push:

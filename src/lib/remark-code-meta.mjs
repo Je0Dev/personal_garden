@@ -1,3 +1,4 @@
+// Remark plugin passing code block meta strings to hast properties.
 import { visit } from 'unist-util-visit';
 
 export function remarkCodeMeta() {

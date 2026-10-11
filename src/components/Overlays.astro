@@ -1,0 +1,249 @@
+---
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
+const lang = locale;
+const t = useTranslations(lang);
+
+const shortcuts = [
+  { key: '⌘K', description: 'Open search' },
+  { key: '↑↓', description: 'Navigate search results' },
+  { key: '←→', description: 'Switch search tabs' },
+  { key: '↵', description: 'Select result' },
+  { key: 'ESC', description: 'Close modal' },
+  { key: 'g h', description: 'Go to home' },
+  { key: 'g t', description: 'Go to tags' },
+  { key: 'g a', description: 'Go to about' },
+  { key: '?', description: 'Show shortcuts' },
+];
+---
+
+<!-- BackToTop: floating button that appears after scrolling to return to top of page -->
+
+<button
+  id="back-to-top"
+  class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-deep-forest border border-moss text-olive-light shadow-lg hover:bg-deep-sage hover:border-tomato hover:text-tomato transition-colors flex items-center justify-center group hidden"
+  aria-label={t('ui.backToTop')}
+>
+  <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<!-- KeyboardShortcuts: modal panel listing available keyboard shortcuts, toggled with '?' key -->
+
+<div
+  id="keyboard-shortcuts"
+  class="fixed inset-0 z-[150] bg-deep-olive/95 backdrop-blur-md flex items-center justify-center p-4 hidden"
+>
+  <div class="w-full max-w-md bg-deep-forest border border-moss p-6 shadow-2xl">
+    <div class="flex items-center gap-3 mb-6">
+      <svg class="w-5 h-5 text-olive-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
+      </svg>
+      <h2 class="font-serif text-xl font-bold text-cream">{t('ui.keyboardShortcuts')}</h2>
+    </div>
+
+    <div class="space-y-2">
+      {shortcuts.map(shortcut => (
+        <div class="flex items-center justify-between py-2 border-b border-moss/50 last:border-0">
+          <span class="text-earth-tan text-sm">{shortcut.description}</span>
+          <kbd class="px-2 py-1 bg-deep-olive border border-moss text-xs font-mono text-cream">
+            {shortcut.key}
+          </kbd>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-6 text-center text-xs text-earth-muted">
+      {t('ui.press')} <kbd class="px-1.5 py-0.5 bg-deep-olive border border-moss text-xs font-mono">?</kbd> {t('ui.toToggle')}
+    </p>
+  </div>
+</div>
+
+<!-- Toast: notification system for displaying temporary success/error/info messages -->
+
+<div id="toast-container" class="fixed bottom-6 right-6 z-[200] flex flex-col gap-3 pointer-events-none">
+</div>
+
+<!-- Lightbox: full-screen modal for viewing images with caption and keyboard navigation -->
+
+<div
+  id="lightbox"
+  class="fixed inset-0 z-[200] bg-deep-olive/98 backdrop-blur-md items-center justify-center p-4 hidden"
+>
+  <button
+    id="close-lightbox"
+    class="absolute top-4 right-4 p-2 text-earth-tan hover:text-tomato transition-colors z-10"
+    aria-label={t('ui.closeLightbox')}
+  >
+    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <div id="lightbox-content" class="relative max-w-5xl w-full max-h-[90vh] flex flex-col">
+    <div class="flex-1 overflow-auto flex items-center justify-center">
+      <img
+        id="lightbox-image"
+        src=""
+        alt=""
+        class="max-w-full max-h-[80vh] object-contain shadow-2xl"
+        style="max-height: 80vh"
+      />
+    </div>
+
+    <p id="lightbox-caption" class="text-center text-earth-muted font-sans text-sm mt-4 px-4 hidden"></p>
+
+    <p class="text-center text-earth-muted/50 font-mono text-xs mt-2">
+      {t('ui.lightboxHint')}
+    </p>
+  </div>
+</div>
+
+<script>
+{
+  const btn = document.getElementById('back-to-top');
+
+  window.addEventListener('scroll', () => {
+    btn?.classList.toggle('hidden', window.scrollY <= 400);
+  }, { passive: true });
+
+  btn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+{
+  const panel = document.getElementById('keyboard-shortcuts');
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const target = e.target as HTMLElement;
+      if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        panel?.classList.toggle('hidden');
+      }
+    }
+    if (e.key === 'Escape') {
+      panel?.classList.add('hidden');
+    }
+  });
+
+  panel?.addEventListener('click', (e) => {
+    if (e.target === panel) {
+      panel.classList.add('hidden');
+    }
+  });
+}
+
+{
+  let nextId = 0;
+
+  function addToast(message: string, type: 'success' | 'error' | 'info' = 'info') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const id = nextId++;
+    const toast = document.createElement('div');
+    toast.id = `toast-${id}`;
+
+    const borderClass = {
+      success: 'border-olive-light',
+      error: 'border-tomato',
+      info: 'border-earth-tan',
+    }[type];
+
+    const textClass = {
+      success: 'text-olive-light',
+      error: 'text-tomato',
+      info: 'text-earth-tan',
+    }[type];
+
+    const iconSvg = {
+      success: '<polyline points="20 6 9 17 4 12"></polyline>',
+      error: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>',
+      info: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
+    }[type];
+
+    toast.className = `pointer-events-auto flex items-start gap-3 px-4 py-3 bg-deep-forest border ${borderClass} border-l-4 shadow-xl max-w-sm`;
+    toast.innerHTML = `
+      <svg class="w-5 h-5 flex-shrink-0 mt-0.5 ${textClass}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        ${iconSvg}
+      </svg>
+      <p class="font-sans text-sm text-cream flex-1">${message}</p>
+      <button class="text-earth-muted hover:text-tomato transition-colors flex-shrink-0">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    `;
+
+    toast.querySelector('button')?.addEventListener('click', () => {
+      toast.remove();
+    });
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.remove();
+    }, 4000);
+  }
+
+  (window as any).addToast = addToast;
+}
+
+{
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const closeBtn = document.getElementById('close-lightbox');
+  const lightboxContent = document.getElementById('lightbox-content');
+
+  function openLightbox(src: string, alt: string, caption?: string) {
+    if (lightboxImage) {
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+    }
+    if (lightboxCaption && caption) {
+      lightboxCaption.textContent = caption;
+      lightboxCaption.classList.remove('hidden');
+    } else if (lightboxCaption) {
+      lightboxCaption.classList.add('hidden');
+    }
+    lightbox?.classList.remove('hidden');
+    lightbox?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox?.classList.add('hidden');
+    lightbox?.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('openLightbox', ((e: CustomEvent) => {
+    openLightbox(e.detail.src, e.detail.alt, e.detail.caption);
+  }) as EventListener);
+
+  closeBtn?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  lightboxContent?.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !lightbox?.classList.contains('hidden')) {
+      closeLightbox();
+    }
+  });
+}
+</script>

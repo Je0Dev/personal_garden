@@ -31,6 +31,7 @@ const tagCounts = allPosts.reduce((acc, post) => {
 const homeEntry = (await getCollection('pages')).find(e => e.id === `${lang}/pages/home-page`);
 const { Content: HomeContent } = homeEntry ? await render(homeEntry) : { Content: null };
 ---
+<!-- Localized home page showing recent posts, tag cloud, and a content banner. -->
 
 <BaseLayout title={t('home.title')}>
   <div class="pt-30 pb-12">

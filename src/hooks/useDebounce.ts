@@ -1,3 +1,4 @@
+// React hook debouncing a value by a specified delay.
 import { useState, useEffect } from 'react';
 
 export function useDebounce<T>(value: T, delay: number = 150): T {

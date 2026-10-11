@@ -1,3 +1,4 @@
+// GitHub contribution calendar with year selector and stats
 import { useState, useEffect } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
 import { ui, type Locale } from '../i18n/ui';

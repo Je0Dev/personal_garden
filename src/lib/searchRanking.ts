@@ -1,3 +1,4 @@
+// Ranking algorithms for search results based on title, tag, description, and body matches.
 interface SearchItem {
   id: string;
   title: string;

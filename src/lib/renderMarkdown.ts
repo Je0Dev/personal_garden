@@ -1,3 +1,4 @@
+// Renders inline markdown to HTML using unified/remark/rehype.
 import { unified, type Processor } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';

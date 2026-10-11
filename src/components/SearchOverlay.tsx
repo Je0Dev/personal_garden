@@ -1,3 +1,4 @@
+// Full search modal overlay with results, suggestions, and filters
 import { useEffect, useState } from 'react';
 import SearchInput from './SearchInput';
 import SearchResults from './SearchResults';

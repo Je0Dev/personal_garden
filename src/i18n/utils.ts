@@ -1,3 +1,4 @@
+// i18n utility functions for locale detection and translation.
 import { ui, defaultLocale, type Locale } from './ui';
 
 export function getLangFromUrl(url: URL): Locale {

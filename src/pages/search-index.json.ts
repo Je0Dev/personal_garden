@@ -1,3 +1,4 @@
+// Serves a JSON search index of all blog posts for client-side search.
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 

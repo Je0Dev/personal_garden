@@ -20,6 +20,8 @@ const languageLabels: Record<string, string> = {
 const currentPath = Astro.url.pathname;
 ---
 
+<!-- Language switcher component for EN/DE/ZH locales -->
+
 <div class:list={['flex items-center gap-1', className]}>
   {locales.map((locale) => {
     const isActive = locale === lang;

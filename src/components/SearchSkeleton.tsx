@@ -1,3 +1,4 @@
+// Loading skeleton for search results
 export default function SearchSkeleton() {
   return (
     <div className="py-2 animate-pulse">

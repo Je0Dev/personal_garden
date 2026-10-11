@@ -1,3 +1,4 @@
+// Manages the link card modal dialog for displaying OG preview details.
 function ensureModal() {
   let el = document.getElementById('linkcard-modal');
   if (el) return el;

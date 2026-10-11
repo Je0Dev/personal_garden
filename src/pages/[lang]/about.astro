@@ -16,12 +16,13 @@ const t = useTranslations(lang);
 const allPosts = await getCollection('blog');
 const totalArticles = allPosts.filter(p => p.id.startsWith(`${lang}/`)).length;
 
-const languages = ['German', 'Spanish', 'Chinese', 'English'];
+const languages = ['German', 'Chinese', 'English'];
 const languageCount = languages.length;
 
 const aboutEntry = (await getCollection('pages')).find(e => e.id === `${lang}/pages/about-page`);
 const { Content } = aboutEntry ? await render(aboutEntry) : { Content: null };
 ---
+<!-- Localized about page with bio content, stats, and GitHub activity calendar. -->
 
 <BaseLayout title={`${t('about.title')} — Cosmos`}>
   <div class="pt-20 pb-12">

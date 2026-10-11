@@ -1,3 +1,4 @@
+// Defines the content collections (blog posts, pages) and their schemas.
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';

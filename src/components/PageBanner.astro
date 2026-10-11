@@ -13,12 +13,14 @@ const { image, height = 'h-64 md:h-96', title, description } = Astro.props;
 const resolvedImage = resolveImage(image);
 ---
 
+<!-- Hero banner with background image, title, and description -->
+
 <div class={`relative w-full ${height} overflow-hidden mb-12`}>
   <div class="absolute inset-0 bg-gradient-to-t from-deep-olive/90 via-deep-olive/40 to-deep-olive/20 z-10" />
   {resolvedImage ? (
-    <Image src={resolvedImage} alt="" class="w-full h-full object-cover opacity-70" loading="eager" widths={[800, 1200]} sizes="100vw" />
+    <Image src={resolvedImage} alt="image" class="w-full h-full object-cover opacity-70" loading="eager" widths={[400, 900]} sizes="100vw" />
   ) : image ? (
-    <img src={image} alt="" class="w-full h-full object-cover opacity-70" loading="eager" />
+    <img src={image} alt="there should be an image here" class="w-full h-full object-cover opacity-70" loading="eager" />
   ) : null}
   <div class="absolute inset-0 z-20 flex items-center justify-center">
     <div class="text-center px-6">

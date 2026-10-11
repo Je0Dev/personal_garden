@@ -1,3 +1,4 @@
+// Rehype plugin building rich OG card elements from linkcard directives.
 import { visit } from 'unist-util-visit';
 import { fetchOg, safeUrl } from './rehype-og-preview.mjs';
 
